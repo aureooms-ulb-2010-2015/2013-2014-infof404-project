@@ -82,7 +82,7 @@ int main(){
 		os::task_system_t task_system;
 		std::cout << task_system << std::endl;
 
-		std::ifstream ifs("system/0", std::ifstream::in);
+		std::ifstream ifs("system/1", std::ifstream::in);
 		os::parse_task_system_stream(ifs, task_system);
 		ifs.close();
 		
