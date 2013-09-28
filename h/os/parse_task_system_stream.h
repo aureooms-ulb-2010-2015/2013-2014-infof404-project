@@ -7,7 +7,7 @@ namespace os{
 		char pt;
 		size_t i = 0;
 		bool skip = true;
-		size_t current[4] = {};
+		uint current[4] = {};
 		while(true){
 			stream.get(pt);
 			if(!stream.good()) break;
