@@ -4,6 +4,7 @@
 #include "os/task_t.h"
 #include "os/task_system_t.h"
 #include "os/parse.h"
+#include "os/generator.h"
 #include "lib/io.h"
 
 int main(){
