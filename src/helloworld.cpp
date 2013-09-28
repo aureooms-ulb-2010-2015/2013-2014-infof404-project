@@ -9,6 +9,7 @@
 #include "os/generator.h"
 #include "os/scheduler.h"
 #include "lib/io.h"
+#include "lib/num.h"
 
 int main(){
 	std::cout << "Hello world!" << std::endl;
