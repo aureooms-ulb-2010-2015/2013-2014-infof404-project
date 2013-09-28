@@ -33,7 +33,7 @@ namespace os{
 					if(!skip){
 						++i;
 						if(i == 4){
-							system.add(current);
+							system.emplace_back(current);
 							i = 0;
 							skip = true;
 							current = {};
@@ -42,7 +42,7 @@ namespace os{
 				}
 			}
 		}
-		if(!skip) system.add(current);
+		if(!skip) system.emplace_back(current);
 	}
 }
 

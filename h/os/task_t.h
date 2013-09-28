@@ -3,10 +3,10 @@
 
 namespace os{
 	typedef struct task_t{
-		uint offset
-		uint period
-		uint deadline
-		uint wcet
+		uint offset;
+		uint period;
+		uint deadline;
+		uint wcet;
 	} task_t;
 }
 
