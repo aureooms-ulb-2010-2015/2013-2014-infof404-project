@@ -10,7 +10,7 @@ namespace os{
 			U left = usage;
 			N i = 0;
 			while(i < n-1){
-				U u = distribution(generator) % left + 1 - (n-i);
+				U u = distribution(generator) % (left - n + i + 1);
 				left -= u;
 				uint offset = 0;
 				uint period = 100;
