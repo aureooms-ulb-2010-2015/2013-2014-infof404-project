@@ -37,7 +37,7 @@ namespace os{
 							task_system.emplace_back(current);
 							i = 0;
 							skip = true;
-							std::fill_n(current, 0, 4);
+							std::fill_n(current, 4, 0);
 						}
 					}
 				}
