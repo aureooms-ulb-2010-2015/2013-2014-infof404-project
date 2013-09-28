@@ -60,6 +60,7 @@ int main(){
 		for(auto task : task_system){
 			u += task.wcet;
 		}
+		
 		std::cout << u << std::endl;
 	}
 	return 0;
