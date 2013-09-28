@@ -6,10 +6,11 @@
 #include <iostream>
 
 namespace os{
-	template<typename S, typename T>
+	template<typename S>
 	class llf_scheduler{
 	private:
-		typedef std::multimap<uint, T*> queue_t;
+		typedef typename S::value_type task_t;
+		typedef std::multimap<uint, task_t*> queue_t;
 		typedef typename queue_t::iterator queue_iterator;
 		typedef typename queue_t::const_iterator queue_const_iterator;
 		queue_t queue;
@@ -29,7 +30,7 @@ namespace os{
 		void run(uint delta, uint lcm){
 			for(uint i = 0; i < lcm; ++i){
 				if(i % delta == 0){
-					for(T& task : task_system){
+					for(task_t& task : task_system){
 						if(i > task.offset && (i - task.offset) % task.period == 0){
 							queue.emplace(i + task.deadline - task.wcet, &task);
 						}

@@ -87,6 +87,14 @@ int main(){
 		ifs.close();
 		
 		std::cout << task_system << std::endl;
+
+
+
+
+
+
+
+		
 		std::cout << std::endl;
 	}
 	return 0;
