@@ -12,18 +12,19 @@
 #include "lib/num.h"
 
 int main(){
-	std::cout << "Hello world!" << std::endl;
 
 	{
 		std::cout << "TASK PRINT TEST" << std::endl;
 		os::task_t task;
 		std::cout << task << std::endl;
+		std::cout << std::endl;
 	}
 
 	{
 		std::cout << "TASK SYSTEM PRINT TEST" << std::endl;
 		os::task_system_t task_system(5);
 		std::cout << task_system << std::endl;
+		std::cout << std::endl;
 	}
 
 	{
@@ -36,6 +37,7 @@ int main(){
 		}
 		ifs.close();
 		std::cout << '\n';
+		std::cout << std::endl;
 	}
 
 	{
@@ -48,6 +50,7 @@ int main(){
 		ifs.close();
 		
 		std::cout << task_system << std::endl;
+		std::cout << std::endl;
 	}
 
 	{
@@ -69,12 +72,13 @@ int main(){
 		}
 		
 		std::cout << u << std::endl;
+		std::cout << std::endl;
 	}
 
 
 	{
 		std::cout << "SCHEDULER TEST" << std::endl;
-		
+
 		os::task_system_t task_system;
 		std::cout << task_system << std::endl;
 
@@ -83,6 +87,7 @@ int main(){
 		ifs.close();
 		
 		std::cout << task_system << std::endl;
+		std::cout << std::endl;
 	}
 	return 0;
 }
