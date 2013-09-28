@@ -8,6 +8,8 @@ namespace os{
 		uint deadline;
 		uint wcet;
 
+		task_t(){}
+		task_t(uint array[4]):offset(array[0]), period(array[1]), deadline(array[2]), wcet(array[3]){}
 		template<typename O>
 		friend O& operator<< (O &out, const task_t& task) {
 			out << '['

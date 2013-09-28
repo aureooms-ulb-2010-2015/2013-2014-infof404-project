@@ -1,9 +1,11 @@
 #ifndef OS_PARSE_TASK_SYSTEM_STREAM_H
 #define OS_PARSE_TASK_SYSTEM_STREAM_H
 
+#include <algorithm>
+
 namespace os{
 	template<typename I, typename S>
-	void parse_task_system_stream(I& stream, S& system){
+	void parse_task_system_stream(I& stream, S& task_system){
 		char pt;
 		size_t i = 0;
 		bool skip = true;
@@ -32,16 +34,16 @@ namespace os{
 					if(!skip){
 						++i;
 						if(i == 4){
-							system.emplace_back(current);
+							task_system.emplace_back(current);
 							i = 0;
 							skip = true;
-							current = {};
+							std::fill_n(current, 0, 4);
 						}
 					}
 				}
 			}
 		}
-		if(!skip) system.emplace_back(current);
+		if(!skip) task_system.emplace_back(current);
 	}
 }
 
