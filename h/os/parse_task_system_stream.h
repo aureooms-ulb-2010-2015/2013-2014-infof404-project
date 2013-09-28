@@ -25,11 +25,10 @@ namespace os{
 					skip = false;
 					current[i] *= 10;
 					current[i] += (pt - '0');
+					break;
 				}
 
-				case ' ' :
-				case '\t':
-				case '\n':{
+				default:{
 					if(!skip){
 						++i;
 						if(i == 4){
