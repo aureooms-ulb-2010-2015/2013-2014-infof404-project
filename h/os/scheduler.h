@@ -10,11 +10,12 @@ namespace os{
 	class llf_scheduler{
 	private:
 		typedef typename S::value_type task_t;
+		typedef std::pair<uint, task_t*> node_t;
 		typedef std::multimap<uint, task_t*> queue_t;
 		typedef typename queue_t::iterator queue_iterator;
 		typedef typename queue_t::const_iterator queue_const_iterator;
 		queue_t queue;
-		queue_const_iterator current;
+		queue_iterator current;
 		S* task_system;
 		uint idle = 0, preempted = 0;
 
@@ -32,27 +33,27 @@ namespace os{
 				if(i % delta == 0){
 					for(task_t& task : *task_system){
 						if(i > task.offset && (i - task.offset) % task.period == 0){
-							queue.emplace(i + task.deadline - task.wcet, &task);
+							queue.insert(node_t(i + task.deadline - task.wcet, &task));
 						}
 					}
 
-					current = queue.cbegin();
+					current = queue.begin();
 				}
 
-				if(current != queue.cend()){
+				if(current != queue.end()){
 					if(i > current->first){
 						std::cout << "error" << std::endl;
 						break;
 					}
 					else if(i + current->second->deadline - current->first > 1){
-						queue_iterator it = queue.emplace(current->first + 1, nullptr);
+						queue_iterator it = queue.insert(node_t(current->first + 1, nullptr));
 						std::swap(it->second, current->second);
 						queue.erase(current);
 						current = it;
 					}
 					else{
 						queue.erase(current);
-						current = queue.cbegin();
+						current = queue.begin();
 					}
 				}
 				else{

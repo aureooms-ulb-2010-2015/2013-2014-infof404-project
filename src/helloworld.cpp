@@ -91,6 +91,7 @@ int main(){
 		os::llf_scheduler<os::task_system_t> scheduler;
 		scheduler.reset();
 		scheduler.init(task_system);
+		scheduler.run(10u, 800u);
 
 
 
