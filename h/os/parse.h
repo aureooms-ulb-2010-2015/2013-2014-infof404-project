@@ -1,5 +1,5 @@
-#ifndef OS_PARSE_TASK_SYSTEM_STREAM_H
-#define OS_PARSE_TASK_SYSTEM_STREAM_H
+#ifndef OS_PARSE_H
+#define OS_PARSE_H
 
 #include <algorithm>
 
@@ -48,4 +48,4 @@ namespace os{
 }
 
 
-#endif // OS_PARSE_TASK_SYSTEM_STREAM_H
+#endif // OS_PARSE_H
