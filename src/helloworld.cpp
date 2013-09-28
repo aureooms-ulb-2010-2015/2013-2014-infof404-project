@@ -82,7 +82,7 @@ int main(){
 		os::task_system_t task_system;
 		std::cout << task_system << std::endl;
 
-		std::ifstream ifs("system/2", std::ifstream::in);
+		std::ifstream ifs("system/1", std::ifstream::in);
 		os::parse_task_system_stream(ifs, task_system);
 		ifs.close();
 		
@@ -91,7 +91,7 @@ int main(){
 		os::llf_scheduler<os::task_system_t> scheduler;
 		scheduler.reset();
 		scheduler.init(task_system);
-		scheduler.run(10u, 50u);
+		scheduler.run(10u, 100u);
 
 
 

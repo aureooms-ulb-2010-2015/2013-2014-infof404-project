@@ -42,7 +42,7 @@ namespace os{
 
 					if(current != queue.begin() && current != queue.end()){
 						++preempted;
-						std::cout << "preempted" << std::endl;
+						std::cout << "preempted, ";
 					}
 					current = queue.begin();
 
