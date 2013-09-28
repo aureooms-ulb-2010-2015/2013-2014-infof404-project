@@ -3,6 +3,7 @@
 #include <chrono>
 #include <random>
 
+#include "os/job_t.h"
 #include "os/task_t.h"
 #include "os/task_system_t.h"
 #include "os/parse.h"
@@ -88,7 +89,7 @@ int main(){
 		
 		std::cout << task_system << std::endl;
 
-		os::llf_scheduler<os::task_system_t> scheduler;
+		os::llf_scheduler<os::task_system_t, os::job_t> scheduler;
 		scheduler.reset();
 		scheduler.init(task_system);
 		scheduler.run(10u, 100u);

@@ -4,14 +4,15 @@
 #include <algorithm>
 #include <map>
 #include <iostream>
+#include "lib/io.h"
 
 namespace os{
-	template<typename S>
+	template<typename S, typename J>
 	class llf_scheduler{
 	private:
 		typedef typename S::value_type task_t;
-		typedef std::pair<uint, task_t*> node_t;
-		typedef std::multimap<uint, task_t*> queue_t;
+		typedef std::pair<uint, J> node_t;
+		typedef std::multimap<uint, J> queue_t;
 		typedef typename queue_t::iterator queue_iterator;
 		typedef typename queue_t::const_iterator queue_const_iterator;
 		queue_t queue;
@@ -31,11 +32,12 @@ namespace os{
 		}
 		void run(uint delta, uint lcm){
 			for(uint i = 0; i < lcm; ++i){
+				::operator<<(std::cout << "queue -> ", queue) << std::endl;
 				std::cout << i << " -> ";
 				if(i % delta == 0){
 					for(task_t& task : *task_system){
 						if(i >= task.offset && (i - task.offset) % task.period == 0){
-							queue.insert(node_t(i + task.deadline - task.wcet, &task));
+							queue.insert(node_t(i + task.deadline - task.wcet, J(i, task.wcet, i + task.deadline)));
 							std::cout << "new job, ";
 						}
 					}
@@ -53,9 +55,8 @@ namespace os{
 						std::cout << "error" << std::endl;
 						break;
 					}
-					else if(i + current->second->deadline - current->first > 1){
-						queue_iterator it = queue.insert(node_t(current->first + 1, nullptr));
-						std::swap(it->second, current->second);
+					else if(current->second.d - current->first > 1){
+						queue_iterator it = queue.insert(node_t(current->first + 1, current->second));
 						queue.erase(current);
 						current = it;
 						std::cout << "work" << std::endl;

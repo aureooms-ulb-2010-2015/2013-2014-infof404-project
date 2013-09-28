@@ -71,5 +71,24 @@ std::ostream& operator<<(std::ostream& out, const std::map<Key,T>& map){
 	return out;
 }
 
+template<typename Key, typename T>
+std::ostream& operator<<(std::ostream& out, const std::multimap<Key,T>& map){
+	out << "{";
+	if (map.size() > 0){
+		typename std::multimap<Key,T>::const_iterator it, pen = --map.end();
+		for(it = map.begin(); it != pen; ++it){
+			out << it->first;
+			out << " : ";
+			out << it->second;
+			out << ", ";
+		}
+		out << it->first;
+		out << " : ";
+		out << it->second;
+	}
+	out << "}";
+	return out;
+}
+
 
 #endif //LIB_IO_H
