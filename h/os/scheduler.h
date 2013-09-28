@@ -22,6 +22,7 @@ namespace os{
 	public:
 		void reset(){
 			queue.clear();
+			current = queue.begin();
 			idle = 0;
 			preempted = 0;
 		}
@@ -37,7 +38,12 @@ namespace os{
 						}
 					}
 
+					if(current != queue.begin() && current != queue.end()){
+						++preempted;
+						std::cout << "preempted" << std::endl;
+					}
 					current = queue.begin();
+
 				}
 
 				if(current != queue.end()){
