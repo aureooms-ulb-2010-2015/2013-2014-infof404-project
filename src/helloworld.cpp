@@ -88,13 +88,10 @@ int main(){
 		
 		std::cout << task_system << std::endl;
 
+		os::llf_scheduler<os::task_system_t> scheduler;
 
 
 
-
-
-
-		
 		std::cout << std::endl;
 	}
 	return 0;
