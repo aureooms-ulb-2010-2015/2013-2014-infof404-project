@@ -26,6 +26,7 @@ int main(){
 			c = ifs.get();
 		}
 		ifs.close();
+		std::cout << '\n';
 	}
 	return 0;
 }
