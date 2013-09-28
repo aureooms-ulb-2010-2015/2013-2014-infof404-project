@@ -31,10 +31,12 @@ namespace os{
 		}
 		void run(uint delta, uint lcm){
 			for(uint i = 0; i < lcm; ++i){
+				std::cout << i << " -> ";
 				if(i % delta == 0){
 					for(task_t& task : *task_system){
-						if(i > task.offset && (i - task.offset) % task.period == 0){
+						if(i >= task.offset && (i - task.offset) % task.period == 0){
 							queue.insert(node_t(i + task.deadline - task.wcet, &task));
+							std::cout << "new job, ";
 						}
 					}
 
@@ -56,10 +58,12 @@ namespace os{
 						std::swap(it->second, current->second);
 						queue.erase(current);
 						current = it;
+						std::cout << "work" << std::endl;
 					}
 					else{
 						queue.erase(current);
 						current = queue.begin();
+						std::cout << "free" << std::endl;
 					}
 				}
 				else{
