@@ -3,6 +3,7 @@
 
 #include "os/task_t.h"
 #include "os/task_system_t.h"
+#include "os/parse.h"
 #include "lib/io.h"
 
 int main(){
