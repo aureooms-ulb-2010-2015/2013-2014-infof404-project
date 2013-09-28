@@ -2,16 +2,18 @@
 #define OS_SCHEDULER_H
 
 #include <algorithm>
-#include <multimap>
+#include <map>
 #include <iostream>
 
 namespace os{
 	template<typename S, typename T>
 	class llf_scheduler{
 	private:
-		typedef std::multimap<uint, T*> queue_t; 
+		typedef std::multimap<uint, T*> queue_t;
+		typedef typename queue_t::iterator queue_iterator;
+		typedef typename queue_t::const_iterator queue_const_iterator;
 		queue_t queue;
-		queue_t::const_iterator current;
+		queue_const_iterator current;
 		S& task_system;
 		uint idle = 0, preempted = 0;
 
@@ -41,8 +43,8 @@ namespace os{
 						std::cout << "error" << std::endl;
 						break;
 					}
-					else if(i + task->deadline - current->first > 1){
-						queue_t::iterator it = queue.emplace(current->first + 1, nullptr);
+					else if(i + current->second->deadline - current->first > 1){
+						queue_iterator it = queue.emplace(current->first + 1, nullptr);
 						std::swap(it->second, current->second);
 						queue.erase(current);
 						current = it;
