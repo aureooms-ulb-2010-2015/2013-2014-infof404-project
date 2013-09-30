@@ -1,0 +1,62 @@
+% set lists indent %
+\cftsetindents{equations}{1.5em}{2.3em}
+
+
+
+% OBSCURE
+
+\renewcommand\listoftheorems[1][]{%
+  %% much hacking here to pick up the definition from the class
+  %% without oodles of conditionals.
+  \bgroup
+  \setlisttheoremstyle{#1}%
+  \let\listfigurename\listtheoremname
+  \def\contentsline##1{%
+    \csname thmt@contentsline@##1\endcsname{##1}%
+  }%
+  \@for\thmt@envname:=\thmt@allenvs\do{%
+  \@xa\protected@edef\csname l@\thmt@envname\endcsname{% CHECK: why p@edef?
+    \@nx\@dottedtocline{1}{1.2em}{\@nx\thmt@listnumwidth}%
+  }%
+  }%
+  \let\thref@starttoc\@starttoc
+  \def\@starttoc##1{\thref@starttoc{loe}}%
+  % new hack: to allow multiple calls, we defer the opening of the
+  % loe file to AtEndDocument time. This is before the aux file is
+  % read back again, that is early enough.
+  % TODO: is it? crosscheck include/includeonly!
+  \@fileswfalse
+  \AtEndDocument{%
+    \if@filesw
+      \@ifundefined{tf@loe}{%
+        \expandafter\newwrite\csname tf@loe\endcsname
+        \immediate\openout \csname tf@loe\endcsname \jobname.loe\relax
+      }{}%
+    \fi
+  }%
+  %\expandafter
+  \listoffigures
+  \egroup
+}
+
+\renewcommand\thmt@mklistcmd{%
+  \@xa\protected@edef\csname l@\thmt@envname\endcsname{% CHECK: why p@edef?
+    \@nx\@dottedtocline{1}{1.2em}{\@nx\thmt@listnumwidth}%
+  }%
+  \ifthmt@isstarred
+    \@xa\def\csname ll@\thmt@envname\endcsname{%
+      \protect\numberline{\protect\let\protect\autodot\protect\@empty}%
+      \thmt@thmname
+      \ifx\@empty\thmt@shortoptarg\else\protect\thmtformatoptarg{\thmt@shortoptarg}\fi
+    }%
+  \else
+    \@xa\def\csname ll@\thmt@envname\endcsname{%
+      \protect\numberline{\csname the\thmt@envname\endcsname}%
+      \thmt@thmname
+      \ifx\@empty\thmt@shortoptarg\else\protect\thmtformatoptarg{\thmt@shortoptarg}\fi
+    }%
+  \fi
+  \@xa\gdef\csname thmt@contentsline@\thmt@envname\endcsname{%
+    \thmt@contentslineShow% default:show
+  }%
+}

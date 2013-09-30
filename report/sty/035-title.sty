@@ -1,0 +1,63 @@
+\pgfkeys{
+	/titlepages/.is family, /titlepages,
+	% Here are the options that a user can pass
+	default/.style = {
+		title = Title,
+		author = Author,
+		bg = bg,
+		logo = logo,
+		university = University,
+		COURSE = COURSE,
+		course = course,
+		faculty = Faculty,
+		department = Departement,
+		academicyear = academicyear
+	},
+	title/.estore in = \titlepagestitle,
+	author/.estore in = \titlepagesauthor,
+	bg/.estore in = \titlepagesbg,
+	logo/.estore in = \titlepageslogo,
+	university/.estore in = \titlepagesuniversity,
+	COURSE/.estore in = \titlepagesCOURSE,
+	course/.estore in = \titlepagescourse,
+	faculty/.estore in = \titlepagesfaculty,
+	department/.estore in = \titlepagesdepartment,
+	academicyear/.estore in = \titlepagesacademicyear
+}
+
+\newcommand\titlepages[1][]{
+	\pgfkeys{/titlepages, default, #1}
+	\begin{titlepage}
+	\pagestyle{empty}
+	\bgimg{\titlepagesbg}
+	\begin{center}
+	\vspace*{1.05cm}
+	{\Large \titlepagesauthor}\\[4cm]
+	\begin{spacing}{1.8}
+	\smallcaps{\Huge \titlepagestitle}\\[1cm]
+	\end{spacing}
+	{Projet du cours \titlepagesCOURSE}
+	\vfill
+	{\titlepagesuniversity}\\[0.314cm]
+	{\dftitle\today}
+
+	\newpage
+
+	\topimg{\titlepageslogo}
+	\smallcaps{\Large \titlepagesuniversity}\\[0.942cm]
+	{\large \titlepagesfaculty}\\[0.314cm]
+	{\large \titlepagesdepartment}\\[0.314cm]
+	\rule{0.314\linewidth}{0.314mm}\\[0.5cm]
+	{Cours d'\smallcaps{\titlepagescourse}}\\[2cm]
+	\begin{spacing}{1.5}
+	\smallcaps{\LARGE \titlepagestitle}\\[2cm]
+	\end{spacing}
+	{Projet de}\\[0.26cm]
+	{\large \titlepagesauthor}\\[0.5cm]
+	\vfill
+	\rule{0.2\linewidth}{0.314mm}\\[0.5cm]
+	\today\\[0.3cm]
+	\textbf{\titlepagesacademicyear}
+	\end{center}
+	\end{titlepage}
+}

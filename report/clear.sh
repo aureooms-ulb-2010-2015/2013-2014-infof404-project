@@ -1,0 +1,1 @@
+rm *.aux *.lof *.log *.bbl *.blg *.toc *.idx *.ilg *.ind *.lol *.out *.loa *.equ *.pyg *.alg *.lomintedobject *.loalgobject *.loe test.tex test.pdf perso.sty *.asy

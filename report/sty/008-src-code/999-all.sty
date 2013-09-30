@@ -1,0 +1,26 @@
+% general style for listing captions
+\usepackage{caption}
+\usepackage{calc}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\noindent\colorbox{gray}{\parbox{\textwidth- 2 \fboxsep}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
+\lstset{
+	backgroundcolor=\color{lightgray},
+	extendedchars=true,
+	showstringspaces=false,
+	showspaces=false,
+	numbers=left,
+	numberstyle=\footnotesize\color{darkgray}\textbf,
+	numbersep=9pt,
+	tabsize=2,
+	breaklines=true,
+	showtabs=false,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries\color{green!40!black},
+	commentstyle=\itshape\color{purple!40!black},
+	identifierstyle=\color{blue},
+	stringstyle=\color{orange},
+	belowcaptionskip=0pt,
+	aboveskip=0pt
+}
