@@ -9,6 +9,7 @@
 #include "os/parse.h"
 #include "os/generator.h"
 #include "os/scheduler.h"
+#include "os/study.h"
 #include "lib/io.h"
 #include "lib/num.h"
 
@@ -120,6 +121,28 @@ int main(){
 		scheduler.init(task_system);
 		scheduler.run(10u, 100u);
 
+
+
+		std::cout << std::endl;
+	}
+
+	{
+		std::cout << "STUDY TEST" << std::endl;
+		os::task_system_t task_system;
+		std::cout << task_system << std::endl;
+
+		uint seed = std::chrono::system_clock::now().time_since_epoch().count();
+		std::default_random_engine generator(seed);
+		std::uniform_int_distribution<uint> distribution(0,100);
+
+		typedef std::default_random_engine G;
+		typedef std::uniform_int_distribution<uint> D;
+		os::task_system_generator<G,D> task_system_generator(generator, distribution);
+
+		std::vector<bool> benchmark;
+		os::llf_scheduler<os::task_system_t, os::job_t> scheduler;
+
+		os::study_scheduler(task_system_generator, scheduler, std::vector<uint>({4u}), std::vector<uint>({70u}), std::vector<uint>({10u}), 10, benchmark, task_system);
 
 
 		std::cout << std::endl;

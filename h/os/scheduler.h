@@ -18,9 +18,11 @@ namespace os{
 		queue_t queue;
 		queue_iterator current;
 		S* task_system;
-		uint idle = 0, preempted = 0;
 
 	public:
+		uint idle = 0, preempted = 0;
+		bool schedulable = true;
+
 		void reset(){
 			queue.clear();
 			current = queue.begin();
@@ -32,6 +34,12 @@ namespace os{
 		}
 		void run(uint delta, uint lcm){
 			for(uint i = 0; i < lcm; ++i){
+				if(current->second.d < current->first){
+					schedulable = false;
+					std::cout << "not schedulable" << std::endl;
+					return;
+				}
+
 				::operator<<(std::cout << "queue -> ", queue) << std::endl;
 				std::cout << i << " -> ";
 				if(i % delta == 0){

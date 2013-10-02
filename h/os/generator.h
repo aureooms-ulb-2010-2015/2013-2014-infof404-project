@@ -5,7 +5,7 @@
 
 namespace os{
 	template<typename G, typename D,typename U, typename N, typename S>
-	void generate_task_system(G& generator, D& distribution, const U usage, const N n, S& task_system){
+	uint generate_task_system(G& generator, D& distribution, const U usage, const N n, S& task_system){
 		if(n > 0){
 			U left = usage;
 			N i = 0;
@@ -25,6 +25,8 @@ namespace os{
 			uint wcet = left;
 			task_system.emplace_back(offset, period, deadline, wcet);
 		}
+
+		return 100u;
 	}
 
 	template<typename G, typename D>
@@ -37,8 +39,8 @@ namespace os{
 		generator(&generator), distribution(&distribution){}
 
 		template<typename U, typename N, typename S>
-		void next(const U u, const N n, S& task_system){
-			generate_task_system(*generator, *distribution, u, n, task_system);
+		uint next(const U u, const N n, S& task_system){
+			return generate_task_system(*generator, *distribution, u, n, task_system);
 		}
 	};
 
