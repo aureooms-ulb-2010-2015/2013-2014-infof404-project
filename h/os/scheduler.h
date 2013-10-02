@@ -28,17 +28,13 @@ namespace os{
 			current = queue.begin();
 			idle = 0;
 			preempted = 0;
+			schedulable = true;
 		}
 		void init(S& task_system){
 			this->task_system = &task_system;
 		}
 		void run(uint delta, uint lcm){
 			for(uint i = 0; i < lcm; ++i){
-				if(current->second.d < current->first){
-					schedulable = false;
-					std::cout << "not schedulable" << std::endl;
-					return;
-				}
 
 				::operator<<(std::cout << "queue -> ", queue) << std::endl;
 				std::cout << i << " -> ";
@@ -60,6 +56,7 @@ namespace os{
 
 				if(current != queue.end()){
 					if(i > current->first){
+						schedulable = false;
 						std::cout << "error" << std::endl;
 						break;
 					}

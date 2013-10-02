@@ -142,8 +142,15 @@ int main(){
 		std::vector<bool> benchmark;
 		os::llf_scheduler<os::task_system_t, os::job_t> scheduler;
 
-		os::study_scheduler(task_system_generator, scheduler, std::vector<uint>({4u}), std::vector<uint>({70u}), std::vector<uint>({10u}), 10, benchmark, task_system);
+		os::study_scheduler(task_system_generator, scheduler, std::vector<uint>({4u}), std::vector<uint>({70u}), std::vector<uint>({10u}), 100, benchmark, task_system);
 
+		double avg = 0, tot = 0;
+		for(bool x : benchmark){
+			if(x) ++avg;
+			++tot;
+		}
+
+		std::cout << avg << " / " << tot << " : " << (avg/tot*100) << "%"<< std::endl;
 
 		std::cout << std::endl;
 	}
