@@ -76,6 +76,32 @@ int main(){
 		std::cout << std::endl;
 	}
 
+	{
+		std::cout << "GENERATE SYSTEM TEST 2" << std::endl;
+		os::task_system_t task_system;
+		std::cout << task_system << std::endl;
+
+		uint seed = std::chrono::system_clock::now().time_since_epoch().count();
+		std::default_random_engine generator(seed);
+		std::uniform_int_distribution<uint> distribution(0,100);
+		uint usage = 70;
+		uint n = 5;
+
+		typedef std::default_random_engine G;
+		typedef std::uniform_int_distribution<uint> D;
+		os::task_system_generator<G,D> task_system_generator(generator, distribution);
+		task_system_generator.next(usage, n, task_system);
+
+		std::cout << task_system << std::endl;
+		uint u = 0;
+		for(auto task : task_system){
+			u += task.wcet;
+		}
+		
+		std::cout << u << std::endl;
+		std::cout << std::endl;
+	}
+
 
 	{
 		std::cout << "SCHEDULER TEST" << std::endl;

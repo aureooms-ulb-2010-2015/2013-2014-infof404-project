@@ -4,13 +4,14 @@
 #include <algorithm>
 
 namespace os{
-	template<typename G, typename S, typename N, typename U, typename D, typename I, typename B>
+	template<typename G, typename S, typename N, typename U, typename D, typename I, typename B, typename T>
 	void study_scheduler(G& generator, S& scheduler, const N& n, const U& u, const D& d, const I m, B& benchmark){
-		for(auto& x : n){
-			for(auto& y : u){
+		for(auto& x : u){
+			for(auto& y : n){
 				for(auto& z : d){
 					for(I i = 0; i < m; ++i){
-						auto task_system = generator.next(x, y);
+						T task_system;
+						generator.next(x, y, task_system);
 						scheduler.reset();
 						scheduler.init(task_system);
 						scheduler.run(z, task_system.lcm);

@@ -26,6 +26,22 @@ namespace os{
 			task_system.emplace_back(offset, period, deadline, wcet);
 		}
 	}
+
+	template<typename G, typename D>
+	class task_system_generator{
+	private:
+		G* generator;
+		D* distribution;
+	public:
+		task_system_generator(G& generator, D& distribution):
+		generator(&generator), distribution(&distribution){}
+
+		template<typename U, typename N, typename S>
+		void next(const U u, const N n, S& task_system){
+			generate_task_system(*generator, *distribution, u, n, task_system);
+		}
+	};
+
 }
 
 
