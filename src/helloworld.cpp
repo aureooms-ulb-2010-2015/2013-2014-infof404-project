@@ -10,6 +10,8 @@
 #include "os/generator.h"
 #include "os/scheduler.h"
 #include "os/study.h"
+#include "os/benchmark_t.h"
+#include "os/benchmark_node_t.h"
 #include "lib/io.h"
 #include "lib/num.h"
 
@@ -139,14 +141,14 @@ int main(){
 		typedef std::uniform_int_distribution<uint> D;
 		os::task_system_generator<G,D> task_system_generator(generator, distribution);
 
-		std::vector<bool> benchmark;
+		os::benchmark_t benchmark;
 		os::llf_scheduler<os::task_system_t, os::job_t> scheduler;
 
 		os::study_scheduler(task_system_generator, scheduler, std::vector<uint>({4u}), std::vector<uint>({70u}), std::vector<uint>({10u}), 100, benchmark, task_system);
 
 		double avg = 0, tot = 0;
-		for(bool x : benchmark){
-			if(x) ++avg;
+		for(os::benchmark_node_t& x : benchmark){
+			if(x.schedulable) ++avg;
 			++tot;
 		}
 

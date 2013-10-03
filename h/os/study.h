@@ -15,8 +15,7 @@ namespace os{
 						scheduler.reset();
 						scheduler.init(task_system);
 						scheduler.run(z, lcm);
-						//benchmark.add(x, y, z, scheduler.schedulable, scheduler.preempted);
-						benchmark.push_back(scheduler.schedulable);
+						benchmark.emplace_back(x, y, z, scheduler.schedulable, scheduler.preempted);
 					}
 				}
 			}
