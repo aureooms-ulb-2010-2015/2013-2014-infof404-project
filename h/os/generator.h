@@ -10,7 +10,7 @@ namespace os{
 			U left = usage;
 			N i = 0;
 			while(i < n-1){
-				U u = distribution(generator) % (left - n + i + 1);
+				U u = distribution(generator) % (left - n + i) + 1;
 				left -= u;
 				uint offset = 0;
 				uint period = 100;
@@ -35,7 +35,7 @@ namespace os{
 			D period_distribution(std::max(1 + (n * 100 - 1) / usage, distribution.min()),distribution.max());
 			while(i < n-1){
 				U p = period_distribution(generator);
-				U u = distribution(generator) % (left - n + i + 1);
+				U u = distribution(generator) % (left - n + i) + 1;
 				left -= u;
 				uint offset = 0;
 				uint period = p;

@@ -79,6 +79,8 @@ int main(){
 		std::cout << std::endl;
 	}
 
+	return 0;
+
 	{
 		std::cout << "GENERATE SYSTEM TEST 2" << std::endl;
 		os::task_system_t task_system;
