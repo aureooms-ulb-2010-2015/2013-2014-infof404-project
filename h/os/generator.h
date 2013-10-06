@@ -27,6 +27,32 @@ namespace os{
 		}
 	}
 
+	template<typename G, typename D,typename U, typename N, typename S>
+	void generate_task_system2(G& generator, D& distribution, const U usage, const N n, S& task_system){
+		if(n > 0){
+			U left = usage;
+			N i = 0;
+			D period_distribution(std::max(1 + (n * 100 - 1) / usage, distribution.min()),distribution.max());
+			while(i < n-1){
+				U p = period_distribution(generator);
+				U u = distribution(generator) % (left - n + i + 1);
+				left -= u;
+				uint offset = 0;
+				uint period = p;
+				uint deadline = u + distribution(generator) % (distribution.max() - u + 1);
+				uint wcet = 1 + (u * p - 1) / distribution.max();
+				task_system.emplace_back(offset, period, deadline, wcet);
+				++i;
+			}
+			U p = period_distribution(generator);
+			uint offset = 0;
+			uint period = p;
+			uint deadline = left + distribution(generator) % (distribution.max() - left + 1);
+			uint wcet = 1 + (left * p - 1) / distribution.max();
+			task_system.emplace_back(offset, period, deadline, wcet);
+		}
+	}
+
 	template<typename G, typename D>
 	class task_system_generator{
 	private:
