@@ -1,5 +1,9 @@
+#ifndef LIB_NUM_H
+#define LIB_NUM_H
+
 #include <iostream>
 #include <numeric>
+#include <cmath>
 
 namespace lib{
 
@@ -18,4 +22,22 @@ namespace lib{
 		I temp = gcd(a, b);
 		return temp ? (a / temp * b) : 0;
 	}
+
+	template<typename F, typename I>
+	F ceil(F v, const I p){
+		v *= pow(10, p);
+		v = ceil(v);
+		v /= pow(10, -p);
+		return v;
+	}
+
+	template<typename F, typename I>
+	F floor(F v, const I p){
+		v *= pow(10, p);
+		v = floor(v);
+		v /= pow(10, -p);
+		return v;
+	}
 }
+
+#endif //LIB_NUM_H

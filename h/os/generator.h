@@ -4,35 +4,59 @@
 #include <algorithm>
 #include <set>
 
+#include "lib/io.h"
+
 namespace os{
-	template<typename G, typename D,typename U, typename N, typename S>
-	void generate_task_system(G& generator, D& distribution, const U usage, const N n, S& task_system){
+
+
+	template<typename F, typename I, typename J>
+	F floor_min_uniform(F v, const I p, const J min){
+		J i = v * p;
+		i %= p - min;
+		i += min;
+		v = i;
+		return v / p;
+	}
+
+	template<typename G, typename U, typename P, typename D, typename N, typename S>
+	void generate_task_system(G& generator, U& usage_distribution, P& period_distribution, const D u, const N n, S& task_system){
 		if(n > 0){
-			double sep[n+1] = {};
-			for(N i = 1; i < n; ++i){
-				sep[i] = rate_distribution(generator);
+			std::set<D> sep;
+			while(sep.size() < n-1){
+				sep.insert(floor_min_uniform(usage_distribution(generator)*u, (uint)(period_distribution.min()*u), 1u));
 			}
-			for(N i = 0; i < n; ++i){
+			sep.insert(u);
+
+			::operator<<(std::cout, sep) << std::endl;
+			D left = 0;
+			for(D right : sep){
 				uint offset = 0;
 				uint period = period_distribution(generator);
-				uint wcet = (sep[i+1] - sep[i])*period;
+				uint wcet = (right - left) * period;
 				uint deadline = wcet + period_distribution(generator) % (period - wcet + 1);
+				task_system.emplace_back(offset, period, deadline, wcet);
+
+				left = right;
 			}
 		}
 	}
 
-	template<typename G, typename D>
+	template<typename G, typename U, typename P>
 	class task_system_generator{
 	private:
 		G* generator;
-		D* distribution;
-	public:
-		task_system_generator(G& generator, D& distribution):
-		generator(&generator), distribution(&distribution){}
+		U* usage_distribution;
+		P* period_distribution;
 
-		template<typename U, typename N, typename S>
-		void next(const U u, const N n, S& task_system){
-			generate_task_system(*generator, *distribution, u, n, task_system);
+	public:
+		task_system_generator(G& generator, U& usage_distribution, P& period_distribution):
+		generator(&generator),
+		usage_distribution(&usage_distribution),
+		period_distribution(&period_distribution){}
+
+		template<typename D, typename N, typename S>
+		void next(const D u, const N n, S& task_system){
+			generate_task_system(*generator, *usage_distribution, *period_distribution, u, n, task_system);
 		}
 	};
 

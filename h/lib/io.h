@@ -6,6 +6,7 @@
 #include <map>
 #include <queue>
 #include <list>
+#include <set>
 
 template<typename T>
 std::ostream& operator<<(std::ostream& out, const std::vector<T>& vector){
@@ -87,6 +88,21 @@ std::ostream& operator<<(std::ostream& out, const std::multimap<Key,T>& map){
 		out << it->second;
 	}
 	out << "}";
+	return out;
+}
+
+template<typename T>
+std::ostream& operator<<(std::ostream& out, const std::set<T>& set){
+	out << "[";
+	if(set.size() > 0){
+		bool first = true;
+		for(const T& val : set){
+			if(!first) out << ", ";
+			out << val;
+			first = false;
+		}
+	}
+	out << "]";
 	return out;
 }
 

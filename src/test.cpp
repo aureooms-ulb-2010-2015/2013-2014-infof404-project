@@ -64,45 +64,21 @@ int main(){
 
 		uint seed = std::chrono::system_clock::now().time_since_epoch().count();
 		std::default_random_engine generator(seed);
-		std::uniform_int_distribution<uint> distribution(0,100);
-		uint usage = 70;
+		std::uniform_real_distribution<double> usage_distribution(0.0,1.0);
+		std::uniform_int_distribution<uint> period_distribution(50,100);
+		double u = 0.7;
 		uint n = 5;
-		os::generate_task_system(generator, distribution, usage, n, task_system);
+		os::generate_task_system(generator, usage_distribution, period_distribution, u, n, task_system);
 
 		std::cout << task_system << std::endl;
-		uint u = 0;
+		double t = 0;
 		for(auto task : task_system){
-			u += task.wcet;
+			t += (double)task.wcet/(double)task.period;
 		}
 		
-		std::cout << u << std::endl;
+		std::cout << t << std::endl;
 		std::cout << std::endl;
 	}
-
-	{
-		std::cout << "GENERATE SYSTEM TEST 2" << std::endl;
-		os::task_system_t task_system;
-		std::cout << task_system << std::endl;
-
-		uint seed = std::chrono::system_clock::now().time_since_epoch().count();
-		std::default_random_engine generator(seed);
-		std::uniform_int_distribution<uint> distribution(0,5);
-		double usage = 70;
-		uint n = 5;
-		os::generate_task_system2(generator, distribution, usage, n, task_system);
-
-		std::cout << task_system << std::endl;
-		double lcm = os::task_system_period_lcm<uint, os::task_system_t>(task_system);
-		double u = 0;
-		for(auto task : task_system){
-			u += (double)task.wcet * lcm / task.period;
-		}
-		
-		std::cout << u/lcm << std::endl;
-		std::cout << std::endl;
-	}
-
-	return 0;
 
 	{
 		std::cout << "GENERATE SYSTEM TEST (CLASS)" << std::endl;
@@ -111,22 +87,24 @@ int main(){
 
 		uint seed = std::chrono::system_clock::now().time_since_epoch().count();
 		std::default_random_engine generator(seed);
-		std::uniform_int_distribution<uint> distribution(0,100);
-		uint usage = 70;
+		std::uniform_real_distribution<double> usage_distribution(0.0,1.0);
+		std::uniform_int_distribution<uint> period_distribution(100,1000);
+		double u = 0.7;
 		uint n = 5;
 
 		typedef std::default_random_engine G;
-		typedef std::uniform_int_distribution<uint> D;
-		os::task_system_generator<G,D> task_system_generator(generator, distribution);
-		task_system_generator.next(usage, n, task_system);
+		typedef std::uniform_real_distribution<double> U;
+		typedef std::uniform_int_distribution<uint> P;
+		os::task_system_generator<G,U,P> task_system_generator(generator, usage_distribution, period_distribution);
+		task_system_generator.next(u, n, task_system);
 
 		std::cout << task_system << std::endl;
-		uint u = 0;
+		double t = 0;
 		for(auto task : task_system){
-			u += task.wcet;
+			t += (double)task.wcet/(double)task.period;
 		}
 		
-		std::cout << u << std::endl;
+		std::cout << t << std::endl;
 		std::cout << std::endl;
 	}
 
@@ -160,16 +138,18 @@ int main(){
 
 		uint seed = std::chrono::system_clock::now().time_since_epoch().count();
 		std::default_random_engine generator(seed);
-		std::uniform_int_distribution<uint> distribution(0,100);
+		std::uniform_real_distribution<double> usage_distribution(0.0,1.0);
+		std::uniform_int_distribution<uint> period_distribution(50,100);
 
 		typedef std::default_random_engine G;
-		typedef std::uniform_int_distribution<uint> D;
-		os::task_system_generator<G,D> task_system_generator(generator, distribution);
+		typedef std::uniform_real_distribution<double> U;
+		typedef std::uniform_int_distribution<uint> P;
+		os::task_system_generator<G,U,P> task_system_generator(generator, usage_distribution, period_distribution);
 
 		os::benchmark_t benchmark;
 		os::llf_scheduler<os::task_system_t, os::job_t> scheduler;
 
-		os::study_scheduler(task_system_generator, scheduler, std::vector<uint>({4u}), std::vector<uint>({70u}), std::vector<uint>({10u}), 100, benchmark, task_system, os::task_system_period_lcm<uint, os::task_system_t>);
+		os::study_scheduler(task_system_generator, scheduler, std::vector<uint>({4u}), std::vector<double>({0.7}), std::vector<uint>({10u}), 100, benchmark, task_system, os::task_system_period_lcm<uint, os::task_system_t>);
 
 		double avg = 0, tot = 0;
 		for(os::benchmark_node_t& x : benchmark){
