@@ -62,3 +62,11 @@
 	\addcontentsline{toc}{chapter}{\listequationsname}
 	\listofequations
 }
+
+
+\usepackage{array,tabularx}
+
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent
+   \tabularx{\columnwidth}{>{$}l<{$} @{${}={}$} >{\raggedright\arraybackslash}X}}
+  {\endtabularx\par\vspace{\belowdisplayskip}}
