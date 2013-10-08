@@ -25,6 +25,13 @@
 	academicyear/.estore in = \titlepagesacademicyear
 }
 
+
+\newcommand{\titlepagesauthorsname}{Authors}
+
+\addto\captionsfrench{
+	\renewcommand{\titlepagesauthorsname}{Auteurs}
+}
+
 \newcommand\titlepages[1][]{
 	\pgfkeys{/titlepages, default, #1}
 	\begin{titlepage}
@@ -36,7 +43,7 @@
 	\begin{spacing}{1.8}
 	\smallcaps{\Huge \titlepagestitle}\\[1cm]
 	\end{spacing}
-	{Projet du cours \titlepagesCOURSE}
+	{\titlepagesCOURSE}
 	\vfill
 	{\titlepagesuniversity}\\[0.314cm]
 	{\dftitle\today}
@@ -48,11 +55,11 @@
 	{\large \titlepagesfaculty}\\[0.314cm]
 	{\large \titlepagesdepartment}\\[0.314cm]
 	\rule{0.314\linewidth}{0.314mm}\\[0.5cm]
-	{Cours d'\smallcaps{\titlepagescourse}}\\[2cm]
+	{\smallcaps{\titlepagescourse}}\\[2cm]
 	\begin{spacing}{1.5}
 	\smallcaps{\LARGE \titlepagestitle}\\[2cm]
 	\end{spacing}
-	{Projet de}\\[0.26cm]
+	{\titlepagesauthorsname}\\[0.26cm]
 	{\large \titlepagesauthor}\\[0.5cm]
 	\vfill
 	\rule{0.2\linewidth}{0.314mm}\\[0.5cm]
