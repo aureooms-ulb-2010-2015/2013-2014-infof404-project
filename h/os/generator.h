@@ -53,6 +53,32 @@ namespace os{
 		}
 	}
 
+	template<typename G, typename D, typename N, typename S>
+	void generate_task_system2(G& generator, D& distribution, const double usage, const N n, S& task_system){
+		if(n > 0){
+			double left = usage;
+			N i = 0;
+			while(i < n-1){
+				uint r = 1.0 / left;
+				double p = distribution(generator) % (distribution.max() - r) + r;
+				double u = distribution(generator) % (p - n + i) + 1;
+				uint offset = 0;
+				uint period = p;
+				uint wcet = u * p / distribution.max();
+				uint deadline = wcet + distribution(generator) % (distribution.max() - u + 1);
+				task_system.emplace_back(offset, period, deadline, wcet);
+				++i;
+				left -= (double)wcet/(double)period;
+			}
+			double p = period_distribution(generator);
+			uint offset = 0;
+			uint period = p;
+			uint deadline = left + distribution(generator) % (distribution.max() - left + 1);
+			uint wcet = 1 + (left * p - 1) / distribution.max();
+			task_system.emplace_back(offset, period, deadline, wcet);
+		}
+	}
+
 	template<typename G, typename D>
 	class task_system_generator{
 	private:

@@ -79,10 +79,33 @@ int main(){
 		std::cout << std::endl;
 	}
 
+	{
+		std::cout << "GENERATE SYSTEM TEST 2" << std::endl;
+		os::task_system_t task_system;
+		std::cout << task_system << std::endl;
+
+		uint seed = std::chrono::system_clock::now().time_since_epoch().count();
+		std::default_random_engine generator(seed);
+		std::uniform_int_distribution<uint> distribution(0,5);
+		double usage = 70;
+		uint n = 5;
+		os::generate_task_system2(generator, distribution, usage, n, task_system);
+
+		std::cout << task_system << std::endl;
+		double lcm = os::task_system_period_lcm<uint, os::task_system_t>(task_system);
+		double u = 0;
+		for(auto task : task_system){
+			u += (double)task.wcet * lcm / task.period;
+		}
+		
+		std::cout << u/lcm << std::endl;
+		std::cout << std::endl;
+	}
+
 	return 0;
 
 	{
-		std::cout << "GENERATE SYSTEM TEST 2" << std::endl;
+		std::cout << "GENERATE SYSTEM TEST (CLASS)" << std::endl;
 		os::task_system_t task_system;
 		std::cout << task_system << std::endl;
 
