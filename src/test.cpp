@@ -108,6 +108,8 @@ int main(){
 		std::cout << std::endl;
 	}
 
+	return 0;
+
 
 	{
 		std::cout << "SCHEDULER TEST" << std::endl;

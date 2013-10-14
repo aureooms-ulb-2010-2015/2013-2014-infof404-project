@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <set>
+#include <iostream>
 
 #include "lib/io.h"
 
@@ -10,9 +11,9 @@ namespace os{
 
 
 	template<typename F, typename I, typename J>
-	F floor_min_uniform(F v, const I p, const J min){
-		J i = v * p;
-		i %= p - min;
+	F floor_min_uniform(F v, const I p, const J min, const F u){
+		J i = v * p * u;
+		i %= (J)((p * u) - min);
 		i += min;
 		v = i;
 		return v / p;
@@ -22,10 +23,10 @@ namespace os{
 	void generate_task_system(G& generator, U& usage_distribution, P& period_distribution, const D u, const N n, S& task_system){
 		if(n > 0){
 			std::set<D> sep;
-			while(sep.size() < n-1){
-				sep.insert(floor_min_uniform(usage_distribution(generator)*u, (uint)(period_distribution.min()*u), 1u));
-			}
 			sep.insert(u);
+			while(sep.size() < n){
+				sep.insert(floor_min_uniform(usage_distribution(generator), period_distribution.min(), 1u, u));
+			}
 
 			::operator<<(std::cout, sep) << std::endl;
 			D left = 0;
