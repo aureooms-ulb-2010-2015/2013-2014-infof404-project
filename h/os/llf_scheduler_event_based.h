@@ -1,5 +1,5 @@
-#ifndef OS_SCHEDULER_H
-#define OS_SCHEDULER_H
+#ifndef OS_LLF_SCHEDULER_EVENT_BASED_H
+#define OS_LLF_SCHEDULER_EVENT_BASED_H
 
 #include <algorithm>
 #include <map>
@@ -8,7 +8,7 @@
 
 namespace os{
 	template<typename S, typename J>
-	class llf_scheduler{
+	class llf_scheduler_event_based{
 	private:
 		typedef typename S::value_type task_t;
 		typedef std::pair<uint, J> node_t;
@@ -34,7 +34,7 @@ namespace os{
 			this->task_system = &task_system;
 		}
 		void run(uint delta, uint lcm){
-			for(uint i = 0; i < lcm; ++i){
+			for(uint i = 0; i < lcm;){
 
 				::operator<<(std::cout << "queue -> ", queue) << std::endl;
 				std::cout << i << " -> ";
@@ -60,21 +60,24 @@ namespace os{
 						std::cout << "error" << std::endl;
 						break;
 					}
-					else if(current->second.d - current->first > 1){
-						queue_iterator it = queue.insert(node_t(current->first + 1, current->second));
+					else if(current->second.d - current->first > delta){
+						queue_iterator it = queue.insert(node_t(current->first + delta, current->second));
 						queue.erase(current);
 						current = it;
-						std::cout << "work" << std::endl;
+						std::cout << "work * " << delta << std::endl;
+						i += delta;
 					}
 					else{
+						std::cout << "work * " << (current->second.d - current->first) << ", free" << std::endl;
+						i += current->second.d - current->first;
 						queue.erase(current);
 						current = queue.begin();
-						std::cout << "free" << std::endl;
 					}
 				}
 				else{
-					++idle;
-					std::cout << "idle" << std::endl;
+					idle += delta - i % delta;
+					i += delta - i % delta;
+					std::cout << "idle * " << (delta - i % delta) << std::endl;
 				}
 			}
 		}
@@ -83,4 +86,4 @@ namespace os{
 }
 
 
-#endif // OS_SCHEDULER_H
+#endif // OS_LLF_SCHEDULER_EVENT_BASED_H

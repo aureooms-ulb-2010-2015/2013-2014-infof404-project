@@ -8,7 +8,8 @@
 #include "os/task_system_t.h"
 #include "os/parse.h"
 #include "os/generator.h"
-#include "os/scheduler.h"
+#include "os/llf_scheduler_time_based.h"
+#include "os/llf_scheduler_event_based.h"
 #include "os/study.h"
 #include "os/benchmark_t.h"
 #include "os/benchmark_node_t.h"
@@ -108,11 +109,9 @@ int main(){
 		std::cout << std::endl;
 	}
 
-	return 0;
-
 
 	{
-		std::cout << "SCHEDULER TEST" << std::endl;
+		std::cout << "SCHEDULER TIME BASED TEST" << std::endl;
 
 		os::task_system_t task_system;
 		std::cout << task_system << std::endl;
@@ -123,7 +122,29 @@ int main(){
 		
 		std::cout << task_system << std::endl;
 
-		os::llf_scheduler<os::task_system_t, os::job_t> scheduler;
+		os::llf_scheduler_time_based<os::task_system_t, os::job_t> scheduler;
+		scheduler.reset();
+		scheduler.init(task_system);
+		scheduler.run(10u, os::task_system_period_lcm<uint, os::task_system_t>(task_system));
+
+
+
+		std::cout << std::endl;
+	}
+
+	{
+		std::cout << "SCHEDULER EVENT BASED TEST" << std::endl;
+
+		os::task_system_t task_system;
+		std::cout << task_system << std::endl;
+
+		std::ifstream ifs("system/1", std::ifstream::in);
+		os::parse_task_system_stream(ifs, task_system);
+		ifs.close();
+		
+		std::cout << task_system << std::endl;
+
+		os::llf_scheduler_event_based<os::task_system_t, os::job_t> scheduler;
 		scheduler.reset();
 		scheduler.init(task_system);
 		scheduler.run(10u, os::task_system_period_lcm<uint, os::task_system_t>(task_system));
@@ -138,8 +159,9 @@ int main(){
 		os::task_system_t task_system;
 		std::cout << task_system << std::endl;
 
-		uint seed = std::chrono::system_clock::now().time_since_epoch().count();
-		std::default_random_engine generator(seed);
+		//uint seed = std::chrono::system_clock::now().time_since_epoch().count();
+		std::seed_seq seed = {1878};
+		std::default_random_engine generator;
 		std::uniform_real_distribution<double> usage_distribution(0.0,1.0);
 		std::uniform_int_distribution<uint> period_distribution(50,100);
 
@@ -148,13 +170,33 @@ int main(){
 		typedef std::uniform_int_distribution<uint> P;
 		os::task_system_generator<G,U,P> task_system_generator(generator, usage_distribution, period_distribution);
 
-		os::benchmark_t benchmark;
-		os::llf_scheduler<os::task_system_t, os::job_t> scheduler;
+		os::benchmark_t benchmark[2];
+		os::llf_scheduler_time_based<os::task_system_t, os::job_t> scheduler_1;
+		os::llf_scheduler_event_based<os::task_system_t, os::job_t> scheduler_2;
 
-		os::study_scheduler(task_system_generator, scheduler, std::vector<uint>({4u}), std::vector<double>({0.7}), std::vector<uint>({10u}), 100, benchmark, task_system, os::task_system_period_lcm<uint, os::task_system_t>);
+		std::vector<uint> vector_n({2u});
+		std::vector<double> vector_u({0.7});
+		std::vector<uint> vector_d({10u});
+		size_t n = 100;
 
-		double avg = 0, tot = 0;
-		for(os::benchmark_node_t& x : benchmark){
+		generator.seed(seed);
+		os::study_scheduler(task_system_generator, scheduler_1, vector_n, vector_u, vector_d, n, benchmark[0], task_system, os::task_system_period_lcm<uint, os::task_system_t>);
+		generator.seed(seed);
+		os::study_scheduler(task_system_generator, scheduler_2, vector_n, vector_u, vector_d, n, benchmark[1], task_system, os::task_system_period_lcm<uint, os::task_system_t>);
+
+		double avg, tot;
+		avg = 0;
+		tot = 0;
+		for(os::benchmark_node_t& x : benchmark[0]){
+			if(x.schedulable) ++avg;
+			++tot;
+		}
+
+		std::cout << avg << " / " << tot << " : " << (avg/tot*100) << "%"<< std::endl;
+
+		avg = 0;
+		tot = 0;
+		for(os::benchmark_node_t& x : benchmark[1]){
 			if(x.schedulable) ++avg;
 			++tot;
 		}
