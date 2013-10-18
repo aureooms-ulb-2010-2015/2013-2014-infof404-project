@@ -16,7 +16,24 @@
 #include "os/lcm.h"
 #include "lib/io.h"
 
+#include "svg/namespace.hpp"
+
 int main(){
+
+	{
+		std::cout << "SVG TEST" << std::endl;
+    	svg::Dimensions dimensions(100, 100);
+    	svg::Document doc("svg/my_svg.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
+
+    	for(size_t i = 0; i < 10; ++i){
+			svg::Rectangle rectangle(svg::Point(i*10, i*10), i*10, i*20, svg::Color(i*10, i*20, i*30));
+			doc << rectangle;
+		}
+
+		doc.save();
+	}
+
+	return 0;
 
 	{
 		std::cout << "TASK PRINT TEST" << std::endl;
