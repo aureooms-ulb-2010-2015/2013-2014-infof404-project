@@ -17,23 +17,24 @@
 #include "lib/io.h"
 
 #include "svg/namespace.hpp"
+#include "os/plot_result_svg.h"
 
 int main(){
 
-	{
-		std::cout << "SVG TEST" << std::endl;
-    	svg::Dimensions dimensions(100, 100);
-    	svg::Document doc("svg/my_svg.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
+	// {
+	// 	std::cout << "SVG TEST" << std::endl;
+ //    	svg::Dimensions dimensions(100, 100);
+ //    	svg::Document doc("svg/my_svg.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
 
-    	for(size_t i = 0; i < 10; ++i){
-			svg::Rectangle rectangle(svg::Point(i*10, i*10), i*10, i*20, svg::Color(i*10, i*20, i*30));
-			doc << rectangle;
-		}
+ //    	for(size_t i = 0; i < 10; ++i){
+	// 		svg::Rectangle rectangle(svg::Point(i*10, i*10), i*10, i*20, svg::Color(i*10, i*20, i*30));
+	// 		doc << rectangle;
+	// 	}
 
-		doc.save();
-	}
+	// 	doc.save();
+	// }
 
-	return 0;
+	// return 0;
 
 	{
 		std::cout << "TASK PRINT TEST" << std::endl;
@@ -192,24 +193,24 @@ int main(){
 		os::llf_scheduler_event_based<os::task_system_t, os::job_t> scheduler_2;
 
 		std::vector<uint> vector_n({2u});
-		std::vector<double> vector_u({0.7});
-		std::vector<uint> vector_d({10u});
-		size_t n = 100;
+		std::vector<double> vector_u({0.3, 0.7});
+		std::vector<uint> vector_d({5u, 10u});
+		size_t n = 10;
 
-		generator.seed(seed);
-		os::study_scheduler(task_system_generator, scheduler_1, vector_n, vector_u, vector_d, n, benchmark[0], task_system, os::task_system_period_lcm<uint, os::task_system_t>);
+		// generator.seed(seed);
+		// os::study_scheduler(task_system_generator, scheduler_1, vector_n, vector_u, vector_d, n, benchmark[0], task_system, os::task_system_period_lcm<uint, os::task_system_t>);
 		generator.seed(seed);
 		os::study_scheduler(task_system_generator, scheduler_2, vector_n, vector_u, vector_d, n, benchmark[1], task_system, os::task_system_period_lcm<uint, os::task_system_t>);
 
 		double avg, tot;
-		avg = 0;
-		tot = 0;
-		for(os::benchmark_node_t& x : benchmark[0]){
-			if(x.schedulable) ++avg;
-			++tot;
-		}
+		// avg = 0;
+		// tot = 0;
+		// for(os::benchmark_node_t& x : benchmark[0]){
+		// 	if(x.schedulable) ++avg;
+		// 	++tot;
+		// }
 
-		std::cout << avg << " / " << tot << " : " << (avg/tot*100) << "%"<< std::endl;
+		// std::cout << avg << " / " << tot << " : " << (avg/tot*100) << "%"<< std::endl;
 
 		avg = 0;
 		tot = 0;
@@ -219,6 +220,32 @@ int main(){
 		}
 
 		std::cout << avg << " / " << tot << " : " << (avg/tot*100) << "%"<< std::endl;
+
+		std::cout << std::endl;
+
+		// GZU7DUZGUGZUD
+
+		std::cout << "SVG TEST" << std::endl;
+
+		const size_t u_width = 2, d_width = 2;
+
+		double p_mean[u_width][d_width] = {};
+		double s_mean[u_width][d_width] = {};
+		double boundaries[2][2] = {};
+
+		os::compute_mean(benchmark[1], u_width, d_width, p_mean, s_mean, boundaries);
+
+
+
+		svg::Dimensions dimensions(100, 100);
+
+		svg::Document doc1("svg/1.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
+		os::plot_mean<svg::Document, svg::Rectangle, double[u_width][d_width]>(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, 10);
+		doc1.save();
+
+		svg::Document doc2("svg/2.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
+		os::plot_mean<svg::Document, svg::Rectangle, double[u_width][d_width]>(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, 10);
+		doc2.save();
 
 		std::cout << std::endl;
 	}
