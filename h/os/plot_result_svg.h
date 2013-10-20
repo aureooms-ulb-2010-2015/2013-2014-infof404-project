@@ -5,6 +5,20 @@
 
 namespace os{
 
+	typedef struct color{
+		int r = 0;
+		int g = 0;
+		int b = 0;
+
+		color(){}
+		color(int r, int g, int b):r(r), g(g), b(b){}
+
+	} color;
+
+	int compute_color(const double value, const int start, const int stop){
+		return value * (stop - start) + start;
+	}
+
 	template<typename B, typename M>
 	void compute_mean(B& benchmark, const size_t u_width, const size_t d_width, M& p_mean, M& s_mean, double boundaries[2][2]){
 		for(auto& x : benchmark){
@@ -24,19 +38,20 @@ namespace os{
 	}
 
 	template<typename D, typename R, typename M>
-	void plot_mean(D& doc, M& mean, const double v_min, const double v_max, const size_t u_width, const size_t d_width, const double res){
+	void plot_mean(D& doc, M& mean, const double v_min, const double v_max, const size_t u_width, const size_t d_width, const double res, const color start, const color stop){
 		const double v_range = v_max - v_min + 1;
 		for(size_t i = 0; i < u_width; ++i){
 			for(size_t j = 0; j < d_width; ++j){
-				const int r = (mean[i][j] - v_min) / v_range * 255;
-				std::cout << r << std::endl;
-				const int g = r;
-				const int b = r;
+				const double value = (mean[i][j] - v_min) / v_range;
+				const int r = compute_color(value, start.r, stop.r);
+				const int g = compute_color(value, start.g, stop.g);
+				const int b = compute_color(value, start.b, stop.b);
 				R rectangle(svg::Point(i*res, (j+1)*res), res, res, svg::Color(r, g, b));
 				doc << rectangle;
 			}
 		}
 	}
+
 }
 
 

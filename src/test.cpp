@@ -240,11 +240,11 @@ int main(){
 		svg::Dimensions dimensions(100, 100);
 
 		svg::Document doc1("svg/1.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
-		os::plot_mean<svg::Document, svg::Rectangle, double[u_width][d_width]>(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, 10);
+		os::plot_mean<svg::Document, svg::Rectangle, double[u_width][d_width]>(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, 50, os::color(255, 255, 255), os::color(0, 0, 0));
 		doc1.save();
 
 		svg::Document doc2("svg/2.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
-		os::plot_mean<svg::Document, svg::Rectangle, double[u_width][d_width]>(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, 10);
+		os::plot_mean<svg::Document, svg::Rectangle, double[u_width][d_width]>(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, 50, os::color(0, 0, 0), os::color(255, 255, 255));
 		doc2.save();
 
 		std::cout << std::endl;
