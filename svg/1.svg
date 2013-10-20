@@ -2,7 +2,11 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100px" height="100px" xmlns="http://www.w3.org/2000/svg" version="1.1" >
 	<rect x="0" y="50" width="50" height="50" fill="rgb(219,219,219)" />
+	<text x="15" y="80" fill="rgb(36,36,36)" font-size="12" font-family="Verdana" >0.1</text>
 	<rect x="0" y="0" width="50" height="50" fill="rgb(255,255,255)" />
+	<text x="15" y="30" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >0.0</text>
 	<rect x="50" y="50" width="50" height="50" fill="rgb(0,0,0)" />
+	<text x="65" y="80" fill="rgb(255,255,255)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="50" y="0" width="50" height="50" fill="rgb(8,8,8)" />
+	<text x="65" y="30" fill="rgb(247,247,247)" font-size="12" font-family="Verdana" >1.0</text>
 </svg>

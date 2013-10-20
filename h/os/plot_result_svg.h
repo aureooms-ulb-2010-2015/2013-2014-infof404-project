@@ -19,6 +19,10 @@ namespace os{
 		return value * (stop - start) + start;
 	}
 
+	color color_inv(int r, int g, int b){
+		return color(255 - r, 255 - g, 255 - b);
+	}
+
 	template<typename B, typename M>
 	void compute_mean(B& benchmark, const size_t u_width, const size_t d_width, M& p_mean, M& s_mean, double boundaries[2][2]){
 		for(auto& x : benchmark){
@@ -37,7 +41,7 @@ namespace os{
 		}
 	}
 
-	template<typename D, typename R, typename M>
+	template<typename D, typename M>
 	void plot_mean(D& doc, M& mean, const double v_min, const double v_max, const size_t u_width, const size_t d_width, const double res, const color start, const color stop){
 		const double v_range = v_max - v_min;
 		for(size_t i = 0; i < u_width; ++i){
@@ -47,8 +51,12 @@ namespace os{
 				const int r = compute_color(value, start.r, stop.r);
 				const int g = compute_color(value, start.g, stop.g);
 				const int b = compute_color(value, start.b, stop.b);
-				R rectangle(svg::Point(i*res, (j+1)*res), res, res, svg::Color(r, g, b));
-				doc << rectangle;
+				svg::Rectangle rectangle(svg::Point(i*res, (j+1)*res), res, res, svg::Color(r, g, b));
+				std::stringstream value_s;
+				value_s.precision(1);
+				value_s << std::fixed << value;
+				svg::Text text(svg::Point(i*res + res/2 - 10, j*res+ res/2 - 5), value_s.str(), svg::Color(255 - r, 255 - g, 255 - b));
+				doc << rectangle << text;
 			}
 		}
 	}
