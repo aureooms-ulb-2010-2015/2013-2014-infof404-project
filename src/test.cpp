@@ -2,6 +2,7 @@
 #include <fstream>
 #include <chrono>
 #include <random>
+#include <limits>
 
 #include "os/job_t.h"
 #include "os/task_t.h"
@@ -231,7 +232,10 @@ int main(){
 
 		double p_mean[u_width][d_width] = {};
 		double s_mean[u_width][d_width] = {};
-		double boundaries[2][2] = {};
+		double boundaries[2][2] = {
+			{std::numeric_limits<double>::infinity(), 0},
+			{std::numeric_limits<double>::infinity(), 0}
+		};
 
 		os::compute_mean(benchmark[1], u_width, d_width, p_mean, s_mean, boundaries);
 
