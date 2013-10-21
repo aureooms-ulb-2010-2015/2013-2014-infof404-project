@@ -4,7 +4,6 @@
 #include <chrono>
 #include <string>
 #include <utility>
-#include <exception>
 
 #include "os/task_system_t.h"
 #include "os/generator.h"
