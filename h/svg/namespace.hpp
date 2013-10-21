@@ -102,6 +102,9 @@ namespace svg
         Point(double x = 0, double y = 0) : x(x), y(y) { }
         double x;
         double y;
+        double get_x(){return x;}
+        double get_y(){return y;}
+
     };
     optional<Point> getMinPoint(std::vector<Point> const & points)
     {

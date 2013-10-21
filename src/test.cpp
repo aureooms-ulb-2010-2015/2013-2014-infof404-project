@@ -20,23 +20,80 @@
 #include "svg/namespace.hpp"
 #include "os/plot_result_svg.h"
 
+svg::Document make_SVG_doc(int lcm, int task_nbr, int size_of_time_unit ){
+		//lcm total number of time unit needed
+
+		svg::Dimensions dimensions(50 + lcm*size_of_time_unit , 100 + 50*task_nbr);//width,height
+		svg::Document doc("svg/plot_res.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
+
+		return doc;
+
+	}
+
+void draw_axis (svg::Document& doc, int width, int height){
+	svg::Line vert_axis(svg::Point(12, 12), svg::Point(12, height-12), svg::Stroke(2,svg::Color(20, 30, 40)));
+	svg::Line hor_axis(svg::Point(12, 12), svg::Point(width-12, 12), svg::Stroke(2,svg::Color(20, 30, 40)));
+
+	svg::Polygon hor_arrow(svg::Color(20, 30, 40));
+	hor_arrow << svg::Point(width-12, 12) << svg::Point(width-18, 6) << svg::Point(width-18, 18);
+
+	doc << vert_axis << hor_axis << hor_arrow;
+
+	}
+void draw_vert_arrow (svg::Document& doc, svg::Point head){
+
+	svg::Point tail = svg::Point(head.get_x(), head.get_y()+25);
+
+	svg::Line arrow_body(head, tail, svg::Stroke(2,svg::Color(20, 30, 40)));
+	svg::Polygon arrow_head(svg::Color(20, 30, 40));
+	arrow_head << head << svg::Point(head.get_x()+3, head.get_y()+7) << svg::Point(head.get_x()-3, head.get_y()+7);
+	doc << arrow_body << arrow_head;
+
+	}
+
+void draw_rectangle(svg::Document& doc, svg::Point top_left_corner, int time_unit){
+	
+	svg::Rectangle rect = svg::Rectangle(top_left_corner,time_unit,25);
+    doc<<rect;
+}
+
+
 int main(){
 
-	// {
-	// 	std::cout << "SVG TEST" << std::endl;
- //    	svg::Dimensions dimensions(100, 100);
- //    	svg::Document doc("svg/my_svg.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
+	 
 
- //    	for(size_t i = 0; i < 10; ++i){
-	// 		svg::Rectangle rectangle(svg::Point(i*10, i*10), i*10, i*20, svg::Color(i*10, i*20, i*30));
-	// 		doc << rectangle;
-	// 	}
 
-	// 	doc.save();
-	// }
 
-	// return 0;
+	 {
+	 	std::cout << "SVG TEST" << std::endl;
+	 	//PARAM
+	 	int lcm = 120;
+	 	int task_nbr = 3;
+	 	int time_unit = 5;
+	 	//ATTRIBUTS
+    	int width =50 + lcm*time_unit;
+    	int height =100 + 50*task_nbr;//25 for arrows 25 for blocks
+    	int circle_diameter = 25;
 
+    	svg::Document doc = make_SVG_doc(lcm,task_nbr,time_unit);
+    	draw_axis(doc,width,height ); 
+    	draw_rectangle(doc,svg::Point(107,107),time_unit);
+
+
+
+
+
+   		/*for(size_t i = 1; i < 11; ++i){
+	 		svg::Rectangle rectangle(svg::Point(i*10, i*10), i*10, i*20, svg::Color(i*10, i*20, i*30));
+	 		doc << rectangle;
+		}
+		*/
+
+	 	doc.save();
+	 }
+
+	/*
+{
 	{
 		std::cout << "TASK PRINT TEST" << std::endl;
 		os::task_t task;
@@ -253,5 +310,11 @@ int main(){
 
 		std::cout << std::endl;
 	}
+}
+	*/
+
+	
 	return 0;
 }
+
+
