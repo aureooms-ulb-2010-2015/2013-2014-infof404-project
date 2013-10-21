@@ -16,12 +16,10 @@ namespace os{
 
 		template<typename O>
 		friend O& operator<< (O &out, const task_t& task) {
-			out << '['
-				<< task.offset << ", "
-				<< task.period << ", "
-				<< task.deadline << ", "
-				<< task.wcet
-			<< ']';
+			out << task.offset << ' '
+				<< task.period << ' '
+				<< task.deadline << ' '
+				<< task.wcet;
 			return out;
 		}
 	} task_t;
