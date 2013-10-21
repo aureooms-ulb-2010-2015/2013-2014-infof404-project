@@ -7,11 +7,11 @@ namespace os{
 		uint n;
 		uint d;
 		bool schedulable;
-		uint preempted;
+		double preempted;
 
 		
 		benchmark_node_t(){}
-		benchmark_node_t(uint u, uint n, uint d, bool schedulable, uint preempted)
+		benchmark_node_t(uint u, uint n, uint d, bool schedulable, double preempted)
 		:u(u), n(n), d(d), schedulable(schedulable), preempted(preempted){}
 
 		template<typename O>

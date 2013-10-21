@@ -250,9 +250,11 @@ int main(){
 		os::llf_scheduler_time_based<os::task_system_t, os::job_t> scheduler_1;
 		os::llf_scheduler_event_based<os::task_system_t, os::job_t> scheduler_2;
 
-		std::vector<uint> vector_n({2u});
-		std::vector<double> vector_u({0.3, 0.7});
-		std::vector<uint> vector_d({5u, 10u});
+		const size_t u_width = 3, d_width = 3;
+
+		std::vector<uint> vector_n({3u});
+		std::vector<double> vector_u({0.3, 0.7, 0.9});
+		std::vector<uint> vector_d({1u, 5u, 10u});
 		size_t n = 10;
 
 		// generator.seed(seed);
@@ -285,27 +287,43 @@ int main(){
 
 		std::cout << "SVG TEST" << std::endl;
 
-		const size_t u_width = 2, d_width = 2;
 
 		double p_mean[u_width][d_width] = {};
 		double s_mean[u_width][d_width] = {};
+		double counter[u_width][d_width] = {};
+		// double boundaries[2][2] = {
+		// 	{std::numeric_limits<double>::infinity(), 0},
+		// 	{std::numeric_limits<double>::infinity(), 0}
+		// };
+
 		double boundaries[2][2] = {
-			{std::numeric_limits<double>::infinity(), 0},
-			{std::numeric_limits<double>::infinity(), 0}
+			{0, 1},
+			{0, 1}
 		};
 
-		os::compute_mean(benchmark[1], u_width, d_width, p_mean, s_mean, boundaries);
+		os::compute_mean(benchmark[1], u_width, d_width, p_mean, s_mean, counter);
+
+		const double res = 50, x_res = 50, y_res = 50, scale_res = 30;
+		const svg::Color axis_color(0, 0, 0);
+		const svg::Stroke axis_stroke(1, axis_color);
+		const std::string p_file = "svg/1.svg";
+		const std::string s_file = "svg/2.svg";
+		const os::color color_good(255, 255, 255), color_bad(0, 0, 0);
 
 
+		svg::Dimensions dimensions(150 + u_width * x_res, 150 + d_width * y_res);
+		svg::Layout layout(dimensions, svg::Layout::BottomLeft);
 
-		svg::Dimensions dimensions(100, 100);
-
-		svg::Document doc1("svg/1.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
-		os::plot_mean(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, 50, os::color(255, 255, 255), os::color(0, 0, 0));
+		svg::Document doc1(p_file, layout);
+		os::plot_mean(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, res, color_good, color_bad, 75, 75);
+		os::plot_scale(doc1, 0, 1, 0.2, scale_res, color_good, color_bad, 0, 0);
+		os::plot_axis(doc1, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
 		doc1.save();
 
-		svg::Document doc2("svg/2.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
-		os::plot_mean(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, 50, os::color(0, 0, 0), os::color(255, 255, 255));
+		svg::Document doc2(s_file, layout);
+		os::plot_mean(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, res, color_bad, color_good, 75, 75);
+		os::plot_scale(doc2, 0, 1, 0.2, scale_res, color_bad, color_good, 0, 0);
+		os::plot_axis(doc2, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
 		doc2.save();
 
 		std::cout << std::endl;
