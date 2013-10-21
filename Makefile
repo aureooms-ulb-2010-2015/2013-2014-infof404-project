@@ -4,7 +4,6 @@ $(VERBOSE).SILENT:
 
 INCLUDE_PATH = -Ih/
 LIBS = -lpthread
-OUTPUTNAME = $(ROOT)run
 TYPE = run
 
 #DONOTTOUCH
@@ -58,13 +57,18 @@ endif
 OUTPUTDIR = o
 DEPENDENCYDIR = d
 LIBDIR = lib
+OUTPUT_NAMES = $(patsubst $(SRC)/%.cpp,run/%,$(shell find $(SRC) -regex .*\\.cpp | sed 's/ /\\ /g'))
 OBJFILES = $(patsubst $(SRC)/%,$(ROOT)$(OUTPUTDIR)/%,$(patsubst %.cpp,%.o,$(shell find $(SRC) | grep \\.cpp$$)))
 DEP = g++ -MM -MF
 DEPFILES = $(patsubst $(ROOT)$(OUTPUTDIR)/%,$(ROOT)$(DEPENDENCYDIR)/%,$(patsubst %.o,%.d,$(OBJFILES)))
 
 REQUIRED_DIRS = $(shell find $(SRC) -type d | sed s:^$(SRC):$(ROOT)$(OUTPUTDIR):)
 REQUIRED_DIRS += $(shell find $(SRC) -type d | sed s:^$(SRC):$(ROOT)$(DEPENDENCYDIR):)
-REQUIRED_DIRS += $(ROOT)$(LIBDIR)
+ifeq ($(TYPE),lib)
+	REQUIRED_DIRS += $(ROOT)$(LIBDIR)
+else
+	REQUIRED_DIRS += $(ROOT)$(TYPE)
+endif
 _MKDIRS := $(shell for d in $(REQUIRED_DIRS); \
              do                               \
                [ -d $$d ] || mkdir -p $$d;  \
@@ -92,7 +96,7 @@ ifneq ($(words $(MAKECMDGOALS)),1)
 else
 
 
-all: prepare $(OUTPUTNAME)
+all: prepare $(OUTPUT_NAMES)
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILES)
@@ -106,10 +110,9 @@ N := 1
 PRINT_PROGRESS = echo -n ["`expr "  \`expr $N '*' 100 / $T\`" : '.*\(...\)$$'`%]"$(eval N := $(shell expr $N + 1))
 endif
 
-
-$(OUTPUTNAME): $(OBJFILES)
+$(ROOT)$(TYPE)/%: $(ROOT)$(OUTPUTDIR)/%.o
 	@echo "$(ACTION_COLOR)"linking $@"$(NO_COLOR)"
-	$(TOOL) $@ $(OBJFILES) $(TOOL_OPT)
+	$(TOOL) $@ $^ $(TOOL_OPT)
 
 $(ROOT)$(OUTPUTDIR)/%.o: $(ROOT)$(DEPENDENCYDIR)/%.d $(SRC)/%.cpp
 	$(PRINT_PROGRESS) $(CXX) -c $(word 2,$^) -o $@" "
@@ -125,8 +128,8 @@ prepare:
 	rm -f temp.errors temp.log
 		
 clean:
-	@echo "$(ACTION_COLOR)"rm -rf $(DEPFILES) $(OBJFILES) $(OUTPUTNAME) temp.errors temp.log $(ROOT)$(DEPENDENCYDIR) $(ROOT)$(OUTPUTDIR) $(ROOT)$(LIBDIR)"$(NO_COLOR)"
-	rm -rf $(DEPFILES) $(OBJFILES) $(OUTPUTNAME) temp.errors temp.log $(ROOT)$(DEPENDENCYDIR) $(ROOT)$(OUTPUTDIR) $(ROOT)$(LIBDIR)
+	@echo "$(ACTION_COLOR)"rm -rf $(DEPFILES) $(OBJFILES) $(OUTPUTNAME) temp.errors temp.log $(REQUIRED_DIRS)"$(NO_COLOR)"
+	rm -rf $(DEPFILES) $(OBJFILES) $(OUTPUTNAME) temp.errors temp.log $(REQUIRED_DIRS)
 
 
 endif

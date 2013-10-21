@@ -4,5 +4,5 @@
 	<line x1="12" y1="238" x2="12" y2="12" stroke-width="2" stroke="rgb(20,30,40)" />
 	<line x1="12" y1="238" x2="638" y2="238" stroke-width="2" stroke="rgb(20,30,40)" />
 	<polygon points="638,238 632,244 632,232 " fill="rgb(20,30,40)" />
-	<rect x="107" y="143" width="10" height="100" fill="transparent" />
+	<rect x="107" y="143" width="5" height="25" fill="transparent" />
 </svg>
