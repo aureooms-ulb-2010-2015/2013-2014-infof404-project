@@ -17,7 +17,7 @@
 #include "lib/io.h"
 
 #include "svg/namespace.hpp"
-#include "os/plot_result_svg.h"
+#include "os/study/plot.h"
 
 svg::Document make_SVG_doc(int lcm, int task_nbr, int size_of_time_unit ){
 		//lcm total number of time unit needed
@@ -322,7 +322,7 @@ int main(){
 			{0, 1}
 		};
 
-		os::compute_mean(benchmark[1], u_width, d_width, p_mean, s_mean, counter);
+		os::study::compute_mean(benchmark[1], u_width, d_width, p_mean, s_mean, counter);
 
 		const double res = 50, x_res = 50, y_res = 50, scale_res = 30;
 		const svg::Color axis_color(0, 0, 0);
@@ -336,15 +336,15 @@ int main(){
 		svg::Layout layout(dimensions, svg::Layout::BottomLeft);
 
 		svg::Document doc1(p_file, layout);
-		os::plot_mean(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, res, color_good, color_bad, 75, 75);
-		os::plot_scale(doc1, 0, 1, 0.2, scale_res, color_good, color_bad, 0, 0);
-		os::plot_axis(doc1, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
+		os::study::plot_mean(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, res, color_good, color_bad, 75, 75);
+		os::study::plot_scale(doc1, 0, 1, 0.2, scale_res, color_good, color_bad, 0, 0);
+		os::study::plot_axis(doc1, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
 		doc1.save();
 
 		svg::Document doc2(s_file, layout);
-		os::plot_mean(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, res, color_bad, color_good, 75, 75);
-		os::plot_scale(doc2, 0, 1, 0.2, scale_res, color_bad, color_good, 0, 0);
-		os::plot_axis(doc2, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
+		os::study::plot_mean(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, res, color_bad, color_good, 75, 75);
+		os::study::plot_scale(doc2, 0, 1, 0.2, scale_res, color_bad, color_good, 0, 0);
+		os::study::plot_axis(doc2, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
 		doc2.save();
 
 		std::cout << std::endl;
