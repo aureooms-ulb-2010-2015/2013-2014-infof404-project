@@ -3,7 +3,6 @@
 #include <random>
 
 #include "os/generator.h"
-#include "os/study/plot.h"
 #include "os/benchmark_t.h"
 #include "os/task_system_t.h"
 #include "os/llf_scheduler_time_based.h"
@@ -15,6 +14,8 @@
 
 #include "lib/pinput.h"
 #include "lib/exception.h"
+
+#include "os/study/plot.h" // TODO REMOVEZ
 
 template<typename O, typename U, typename D, typename N, typename K, typename P, typename V, typename S>
 void fill_parameters(const O& options, U& u, D& d, N& n, K& k, P& p_min, P& p_max, V& s, S& mode, S& file_name, bool& open){
@@ -146,8 +147,6 @@ int main(int argc, char* argv[]){
 
 		if(seed_v.size() == 0) seed_v.push_back(std::chrono::system_clock::now().time_since_epoch().count());
 
-		const size_t u_width = vector_u.size();
-		const size_t d_width = vector_d.size();
 
 
 		os::task_system_t task_system;
@@ -185,47 +184,17 @@ int main(int argc, char* argv[]){
 
 		std::cout << std::endl;
 
-
-		std::cout << "SVG TEST" << std::endl;
+		const size_t u_width = vector_u.size();
+		const size_t d_width = vector_d.size();
 
 		std::vector<std::vector<double>> p_mean(u_width, std::vector<double>(d_width, 0));
 		std::vector<std::vector<double>> s_mean(u_width, std::vector<double>(d_width, 0));
 		std::vector<std::vector<double>> counter(u_width, std::vector<double>(d_width, 0));
 
-		double boundaries[2][2] = {
-			{0, 1},
-			{0, 1}
-		};
-
 		os::study::compute_mean(benchmark, u_width, d_width, p_mean, s_mean, counter);
 
-		os::store_mean(std::cout, p_mean, u_width, d_width);
-		os::store_mean(std::cout, s_mean, u_width, d_width);
-
-		const double res = 50, x_res = 50, y_res = 50, scale_res = 30;
-		const svg::Color axis_color(0, 0, 0);
-		const svg::Stroke axis_stroke(1, axis_color);
-		const std::string p_file = "svg/1.svg";
-		const std::string s_file = "svg/2.svg";
-		const lib::color color_good(255, 255, 255), color_bad(0, 0, 0);
-
-
-		svg::Dimensions dimensions(150 + u_width * x_res, 150 + d_width * y_res);
-		svg::Layout layout(dimensions, svg::Layout::BottomLeft);
-
-		svg::Document doc1(p_file, layout);
-		os::study::plot_mean(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, res, color_good, color_bad, 75, 75);
-		os::study::plot_scale(doc1, 0, 1, 0.2, scale_res, color_good, color_bad, 0, 0);
-		os::study::plot_axis(doc1, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
-		doc1.save();
-
-		svg::Document doc2(s_file, layout);
-		os::study::plot_mean(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, res, color_bad, color_good, 75, 75);
-		os::study::plot_scale(doc2, 0, 1, 0.2, scale_res, color_bad, color_good, 0, 0);
-		os::study::plot_axis(doc2, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
-		doc2.save();
-
-		std::cout << std::endl;
+		os::store_mean(std::cout, p_mean, vector_u, vector_d, u_width, d_width);
+		os::store_mean(std::cout, s_mean, vector_u, vector_d, u_width, d_width);
 
 	}
 	catch(const std::exception& e){
