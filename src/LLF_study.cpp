@@ -12,10 +12,36 @@
 #include "os/lcm.h"
 #include "os/io.h"
 
-int main(){
-	std::cout << "STUDY TEST" << std::endl;
+#include "lib/pinput.h"
+
+int main(int argc, char* argv[]){
+
+	std::vector<std::string> params;
+	std::map<std::string, std::vector<std::string>> options;
+	std::set<std::string> flags;
+	std::set<std::string> option_set = {
+		"-u", "--utilization",
+		"-n",
+		"-m",
+		"-d", "--delta",
+		"-p", "--period",
+		"-o", "--output"
+	};
+	std::set<std::string> flag_set = {
+		"-h", "--help",
+		"-v", "--verbose"
+	};
+
+	pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
+
+	if(flags.count("-h") || flags.count("--help")){
+		help();
+		return 0;
+	}
+
+
+
 	os::task_system_t task_system;
-	std::cout << task_system << std::endl;
 
 	//uint seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::seed_seq seed = {1878};
@@ -37,12 +63,12 @@ int main(){
 	std::vector<uint> vector_n({3u});
 	std::vector<double> vector_u({0.3, 0.7, 0.9});
 	std::vector<uint> vector_d({1u, 5u, 10u});
-	size_t n = 10;
+	size_t m = 10;
 
 	// generator.seed(seed);
-	// os::study_scheduler(task_system_generator, scheduler_1, vector_n, vector_u, vector_d, n, benchmark[0], task_system, os::task_system_period_lcm<uint, os::task_system_t>);
+	// os::study_scheduler(task_system_generator, scheduler_1, vector_n, vector_u, vector_d, m, benchmark[0], task_system, os::task_system_period_lcm<uint, os::task_system_t>);
 	generator.seed(seed);
-	os::study_scheduler(task_system_generator, scheduler_2, vector_n, vector_u, vector_d, n, benchmark[1], task_system, os::task_system_period_lcm<uint, os::task_system_t>);
+	os::study_scheduler(task_system_generator, scheduler_2, vector_n, vector_u, vector_d, m, benchmark[1], task_system, os::task_system_period_lcm<uint, os::task_system_t>);
 
 	double avg, tot;
 	// avg = 0;
