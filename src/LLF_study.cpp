@@ -53,7 +53,7 @@ void fill_parameters(const O& options, U& u, D& d, N& n, K& k, P& p_min, P& p_ma
 	}
 
 	if(((it = options.find("-s")) != options.end() || (it = options.find("--seed")) != options.end()) && it->second.size() > 0){
-		for(auto& x : it->second) s.push_back(std::stoi(x));
+		for(auto& x : it->second) s.push_back(std::stoll(x));
 	}
 
 	if((it = options.find("-o")) != options.end() || (it = options.find("--output")) != options.end()){

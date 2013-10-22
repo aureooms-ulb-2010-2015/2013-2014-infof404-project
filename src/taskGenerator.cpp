@@ -11,8 +11,8 @@
 #include "lib/io.h"
 #include "lib/exception.h"
 
-template<typename O, typename U, typename N, typename P, typename S>
-void parse_options(const O& options, U& u, N& n, P& p_min, P& p_max, S& file_name, bool& open){
+template<typename O, typename U, typename N, typename P, typename V, typename S>
+void fill_parameters(const O& options, U& u, N& n, P& p_min, P& p_max, V& s, S& file_name, bool& open){
 
 	typename O::const_iterator it;
 
@@ -35,6 +35,10 @@ void parse_options(const O& options, U& u, N& n, P& p_min, P& p_max, S& file_nam
 			}
 			if(p_min > p_max) std::swap(p_min, p_max);
 		}
+	}
+
+	if(((it = options.find("-s")) != options.end() || (it = options.find("--seed")) != options.end()) && it->second.size() > 0){
+		for(auto& x : it->second) s.push_back(std::stoll(x));
 	}
 
 	if((it = options.find("-o")) != options.end() || (it = options.find("--output")) != options.end()){
@@ -61,6 +65,7 @@ void help(){
 	std::cout << "   " << "-n #0 (int >= 0)" << std::endl << std::endl;
 	std::cout << " - optional parameters" << std::endl << std::endl;
 	std::cout << "   " << "[-p | --period] #0 [#1] (int[2], #1 >= #0)" << std::endl;
+	std::cout << "   " << "[-s | --seed  ] #0 (uint)" << std::endl;
 	std::cout << "   " << "[-o | --output] #0 (string)" << std::endl << std::endl;
 }
 
@@ -75,6 +80,7 @@ int main(int argc, char* argv[]){
 			"-u", "--utilization",
 			"-n",
 			"-p", "--period",
+			"-s", "--seed",
 			"-o", "--output"
 		};
 		std::set<std::string> flag_set = {
@@ -94,16 +100,19 @@ int main(int argc, char* argv[]){
 		uint n;
 		uint p_min = 50;
 		uint p_max = 100;
+		std::vector<long long> seed_v;
+
 		std::string file_name;
 		bool open = false;
 
-		parse_options(options, u, n, p_min, p_max, file_name, open);
-
+		fill_parameters(options, u, n, p_min, p_max, seed_v, file_name, open);
 		check_parameters(u, n, p_min, p_max);
+
+		if(seed_v.size() == 0) seed_v.push_back(std::chrono::system_clock::now().time_since_epoch().count());
 
 		os::task_system_t task_system;
 
-		uint seed = std::chrono::system_clock::now().time_since_epoch().count();
+		std::seed_seq seed(seed_v.begin(), seed_v.end());
 		std::default_random_engine generator(seed);
 		std::uniform_real_distribution<double> usage_distribution(0.0,1.0);
 		std::uniform_int_distribution<uint> period_distribution(p_min,p_max);
