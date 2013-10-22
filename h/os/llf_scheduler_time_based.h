@@ -83,6 +83,7 @@ namespace os{
 					}
 				}
 				else{
+					++idle;
 					std::cout << "idle" << std::endl;
 				}
 			}

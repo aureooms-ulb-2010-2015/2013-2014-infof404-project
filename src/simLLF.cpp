@@ -103,18 +103,35 @@ int main(int argc, char* argv[]){
 		std::cout << task_system << std::endl;
 		std::cout << std::endl;
 
+		uint lcm = os::task_system_period_lcm<uint, os::task_system_t>(task_system);
+		uint preempted, idle;
+		bool schedulable;
+
 		if(mode == "event"){
 			os::llf_scheduler_event_based<os::task_system_t, os::job_t> scheduler;
 			scheduler.reset();
 			scheduler.init(task_system);
-			scheduler.run(d, os::task_system_period_lcm<uint, os::task_system_t>(task_system));
+			scheduler.run(d, lcm);
+
+			preempted = scheduler.preempted;
+			idle = scheduler.idle;
+			schedulable = scheduler.schedulable;
 		}
 		else{
 			os::llf_scheduler_time_based<os::task_system_t, os::job_t> scheduler;
 			scheduler.reset();
 			scheduler.init(task_system);
-			scheduler.run(d, os::task_system_period_lcm<uint, os::task_system_t>(task_system));
+			scheduler.run(d, lcm);
+
+			preempted = scheduler.preempted;
+			idle = scheduler.idle;
+			schedulable = scheduler.schedulable;
 		}
+
+		std::cout << "study interval [" << 0 << ", " << lcm << '[' << std::endl;
+		std::cout << "# preemptions : " << preempted << std::endl;
+		std::cout << "# idle : " << idle << std::endl;
+		std::cout << "b schedulable : " << schedulable << std::endl;
 
 	}
 	catch(const std::exception& e){

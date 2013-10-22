@@ -58,7 +58,7 @@ namespace os{
 		typedef std::pair<typename events_t::iterator, typename events_t::iterator> events_r;
 
 	public:
-		uint preempted = 0;
+		uint idle = 0, preempted = 0;
 		bool schedulable = true;
 
 		void reset(){
@@ -158,6 +158,7 @@ namespace os{
 					}
 				}
 				else{
+					idle += next - i;
 					std::cout << "idle * " << (next - i) << std::endl;
 					i = next;
 				}
