@@ -7,7 +7,6 @@
 #include "os/job_t.h"
 #include "os/task_t.h"
 #include "os/task_system_t.h"
-#include "os/parse.h"
 #include "os/generator.h"
 #include "os/llf_scheduler_time_based.h"
 #include "os/llf_scheduler_event_based.h"
@@ -127,7 +126,7 @@ int main(){
 		std::cout << task_system << std::endl;
 
 		std::ifstream ifs("system/0", std::ifstream::in);
-		os::parse_task_system_stream(ifs, task_system);
+		ifs >> task_system;
 		ifs.close();
 		
 		std::cout << task_system << std::endl;
@@ -193,7 +192,7 @@ int main(){
 		std::cout << task_system << std::endl;
 
 		std::ifstream ifs("system/1", std::ifstream::in);
-		os::parse_task_system_stream(ifs, task_system);
+		ifs >> task_system;
 		ifs.close();
 		
 		std::cout << task_system << std::endl;
@@ -215,7 +214,7 @@ int main(){
 		std::cout << task_system << std::endl;
 
 		std::ifstream ifs("system/1", std::ifstream::in);
-		os::parse_task_system_stream(ifs, task_system);
+		ifs >> task_system;
 		ifs.close();
 		
 		std::cout << task_system << std::endl;
