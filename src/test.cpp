@@ -30,16 +30,39 @@ svg::Document make_SVG_doc(int lcm, int task_nbr, int size_of_time_unit ){
 
 	}
 
-void draw_axis (svg::Document& doc, int width, int height){
+void draw_axis (svg::Document& doc, int width, int height, int time_unit, int lcm ){
 	svg::Line vert_axis(svg::Point(12, 12), svg::Point(12, height-12), svg::Stroke(2,svg::Color(20, 30, 40)));
 	svg::Line hor_axis(svg::Point(12, 12), svg::Point(width-12, 12), svg::Stroke(2,svg::Color(20, 30, 40)));
 
 	svg::Polygon hor_arrow(svg::Color(20, 30, 40));
 	hor_arrow << svg::Point(width-12, 12) << svg::Point(width-18, 6) << svg::Point(width-18, 18);
 
-	doc << vert_axis << hor_axis << hor_arrow;
+
+
+	doc << vert_axis << hor_axis << hor_arrow ;
+
+
+	//draw graduation
+
+	int max_grad = lcm * time_unit;
+
+	std::cout<<max_grad<<std::endl;
+	for (int i = 0; i <= lcm ; i+=5)
+	{
+		std::cout<<i<<" " <<lcm<<std::endl;
+		std::stringstream value_s;
+		value_s.precision(0);
+		value_s  << i;
+		int offset = 9;
+		if (i>9){offset=0;}
+		else if (i>99){offset=-9;}
+		svg::Text text(svg::Point( i*time_unit+offset , 2), value_s.str(), svg::Color(20, 30, 40));
+		doc <<  text;
+	}
 
 	}
+
+
 void draw_vert_arrow (svg::Document& doc, svg::Point head){
 
 	svg::Point tail (head.get_x(), head.get_y()+25);
@@ -57,7 +80,7 @@ void draw_rectangle(svg::Document& doc, svg::Point top_left_corner, int time_uni
     doc<<rect;
 }
 void draw_circle(svg::Document& doc, svg::Point center){
-	int circle_diameter = 25;
+	int circle_diameter = 12;
 	svg::Circle circle(center, circle_diameter, svg::Fill(svg::Color(20, 30, 40)));
 	doc << circle;
 }
@@ -81,18 +104,13 @@ int main(){
     	
 
     	svg::Document doc = make_SVG_doc(lcm,task_nbr,time_unit);
-    	draw_axis(doc,width,height ); 
-    	//draw_rectangle(doc,svg::Point(107,107),time_unit);
-    	draw_circle(doc,svg::Point(107,107));
+    	draw_axis(doc,width,height,time_unit,lcm ); 
+    	
 
 
 
 
-   		/*for(size_t i = 1; i < 11; ++i){
-	 		svg::Rectangle rectangle(svg::Point(i*10, i*10), i*10, i*20, svg::Color(i*10, i*20, i*30));
-	 		doc << rectangle;
-		}
-		*/
+   		
 
 	 	doc.save();
 	 }
