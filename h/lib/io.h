@@ -1,15 +1,14 @@
 #ifndef LIB_IO_H
 #define LIB_IO_H
 
-#include <iostream>
 #include <vector>
 #include <map>
 #include <queue>
 #include <list>
 #include <set>
 
-template<typename T>
-std::ostream& operator<<(std::ostream& out, const std::vector<T>& vector){
+template<typename S, typename T>
+S& operator<<(S& out, const std::vector<T>& vector){
 	out << "[";
 	if(!vector.empty()){
 		for (size_t index = 0; index < vector.size()-1; ++index){
@@ -22,8 +21,8 @@ std::ostream& operator<<(std::ostream& out, const std::vector<T>& vector){
 	return out;
 }
 
-template<typename T>
-std::ostream& operator<<(std::ostream& out, const std::list<T>& list){
+template<typename S, typename T>
+S& operator<<(S& out, const std::list<T>& list){
 	out << "[";
 	if(!list.empty()){
 		typename std::list<T>::const_iterator it = list.cbegin();
@@ -37,8 +36,8 @@ std::ostream& operator<<(std::ostream& out, const std::list<T>& list){
 	return out;
 }
 
-template<typename T>
-std::ostream& operator<<(std::ostream& out, std::queue<T> queue){
+template<typename S, typename T>
+S& operator<<(S& out, std::queue<T> queue){
 	out << "[";
 	if(!queue.empty()){
 		while(queue.size() > 1){
@@ -53,8 +52,8 @@ std::ostream& operator<<(std::ostream& out, std::queue<T> queue){
 	return out;
 }
 
-template<typename Key, typename T>
-std::ostream& operator<<(std::ostream& out, const std::map<Key,T>& map){
+template<typename S, typename Key, typename T>
+S& operator<<(S& out, const std::map<Key,T>& map){
 	out << "{";
 	if (map.size() > 0){
 		typename std::map<Key,T>::const_iterator it, pen = --map.end();
@@ -72,8 +71,8 @@ std::ostream& operator<<(std::ostream& out, const std::map<Key,T>& map){
 	return out;
 }
 
-template<typename Key, typename T>
-std::ostream& operator<<(std::ostream& out, const std::multimap<Key,T>& map){
+template<typename S, typename Key, typename T>
+S& operator<<(S& out, const std::multimap<Key,T>& map){
 	out << "{";
 	if (map.size() > 0){
 		typename std::multimap<Key,T>::const_iterator it, pen = --map.end();
@@ -91,8 +90,8 @@ std::ostream& operator<<(std::ostream& out, const std::multimap<Key,T>& map){
 	return out;
 }
 
-template<typename T>
-std::ostream& operator<<(std::ostream& out, const std::set<T>& set){
+template<typename S, typename T>
+S& operator<<(S& out, const std::set<T>& set){
 	out << "[";
 	if(set.size() > 0){
 		bool first = true;

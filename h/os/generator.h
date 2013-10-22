@@ -3,9 +3,6 @@
 
 #include <algorithm>
 #include <set>
-#include <iostream>
-
-#include "lib/io.h"
 
 namespace os{
 
@@ -28,7 +25,6 @@ namespace os{
 				sep.insert(floor_min_uniform(usage_distribution(generator), period_distribution.min(), 1u, u));
 			}
 
-			::operator<<(std::cout, sep) << std::endl;
 			D left = 0;
 			for(D right : sep){
 				uint offset = 0;
