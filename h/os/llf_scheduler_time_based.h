@@ -26,7 +26,6 @@ namespace os{
 		void reset(){
 			queue.clear();
 			current = queue.begin();
-			idle = 0;
 			preempted = 0;
 			schedulable = true;
 		}
@@ -38,34 +37,45 @@ namespace os{
 
 				::operator<<(std::cout << "queue -> ", queue) << std::endl;
 				std::cout << i << " -> ";
-				if(i % delta == 0){
-					for(task_t& task : *task_system){
-						if(i >= task.offset && (i - task.offset) % task.period == 0){
-							queue.insert(node_t(i + task.deadline - task.wcet, J(i, task.wcet, i + task.deadline)));
-							std::cout << "new job, ";
-						}
-					}
 
-					if(current != queue.begin() && current != queue.end()){
-						++preempted;
-						std::cout << "preempted, ";
-					}
-					current = queue.begin();
+				// check for new jobs
 
+				bool new_job = false;
+
+				for(task_t& task : *task_system){
+					if(i >= task.offset && (i - task.offset) % task.period == 0){
+						queue.insert(node_t(i + task.deadline - task.wcet, J(i, task.wcet, i + task.deadline)));
+						std::cout << "new job, ";
+						new_job = true;
+					}
 				}
 
+				// if there was no current job and a new job arrived
+				if(current == queue.end() && new_job) current = queue.begin();
+
+				// else if there was a current job and it's time to check priorities
+				else if(i % delta == 0 && current != queue.begin() && current != queue.end()){
+					++preempted;
+					std::cout << "preempted, ";
+					current = queue.begin();
+				}
+
+				// if there is a current job
 				if(current != queue.end()){
+					// deadline missed
 					if(i > current->first){
 						schedulable = false;
 						std::cout << "error" << std::endl;
 						break;
 					}
+					// there is still work to do
 					else if(current->second.d - current->first > 1){
 						queue_iterator it = queue.insert(node_t(current->first + 1, current->second));
 						queue.erase(current);
 						current = it;
 						std::cout << "work" << std::endl;
 					}
+					// current job done
 					else{
 						queue.erase(current);
 						current = queue.begin();
@@ -73,7 +83,6 @@ namespace os{
 					}
 				}
 				else{
-					++idle;
 					std::cout << "idle" << std::endl;
 				}
 			}
