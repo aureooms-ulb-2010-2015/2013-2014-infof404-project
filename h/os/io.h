@@ -9,7 +9,7 @@ namespace os{
 		for(size_t i = 0; i < x_size; ++i){
 			out << mean[i][0];
 			for(size_t j = 1; j < y_size; ++j){
-				out << ',' << mean[i][j];
+				out << ' ' << mean[i][j];
 			}
 			out << std::endl;
 		}
