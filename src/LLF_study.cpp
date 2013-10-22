@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 #include <random>
 
 #include "os/generator.h"
@@ -14,6 +15,19 @@
 
 #include "lib/pinput.h"
 
+void help(){
+	std::cout << " - flags" << std::endl << std::endl;
+	std::cout << "   " << "[-h | --help]" << std::endl;
+	std::cout << "   " << "[-v | --verbose]" << std::endl << std::endl;
+	std::cout << " - mandatory parameters" << std::endl << std::endl;
+	std::cout << "   " << "[-u | --utilization] #0 (double >= 0)" << std::endl;
+	std::cout << "   " << "-n #0 (uint)" << std::endl << std::endl;
+	std::cout << " - optional parameters" << std::endl << std::endl;
+	std::cout << "   " << "[-p | --period] #0 [#1] (int[2], #1 >= #0)" << std::endl;
+	std::cout << "   " << "[-s | --seed  ] #0 (uint)" << std::endl;
+	std::cout << "   " << "[-o | --output] #0 (string)" << std::endl << std::endl;
+}
+
 int main(int argc, char* argv[]){
 
 	std::vector<std::string> params;
@@ -25,6 +39,7 @@ int main(int argc, char* argv[]){
 		"-m",
 		"-d", "--delta",
 		"-p", "--period",
+		"-s", "--seed",
 		"-o", "--output"
 	};
 	std::set<std::string> flag_set = {
@@ -43,8 +58,7 @@ int main(int argc, char* argv[]){
 
 	os::task_system_t task_system;
 
-	//uint seed = std::chrono::system_clock::now().time_since_epoch().count();
-	std::seed_seq seed = {1878};
+	std::seed_seq seed = {std::chrono::system_clock::now().time_since_epoch().count()};
 	std::default_random_engine generator;
 	std::uniform_real_distribution<double> usage_distribution(0.0,1.0);
 	std::uniform_int_distribution<uint> period_distribution(50,100);
