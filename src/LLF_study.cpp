@@ -2,7 +2,7 @@
 #include <random>
 
 #include "os/generator.h"
-#include "os/plot_result_svg.h"
+#include "os/study/plot.h"
 #include "os/benchmark_t.h"
 #include "os/task_system_t.h"
 #include "os/llf_scheduler_time_based.h"
@@ -83,7 +83,7 @@ int main(){
 		{0, 1}
 	};
 
-	os::compute_mean(benchmark[1], u_width, d_width, p_mean, s_mean, counter);
+	os::study::compute_mean(benchmark[1], u_width, d_width, p_mean, s_mean, counter);
 
 	os::store_mean(std::cout, p_mean, u_width, d_width);
 	os::store_mean(std::cout, s_mean, u_width, d_width);
@@ -93,22 +93,22 @@ int main(){
 	const svg::Stroke axis_stroke(1, axis_color);
 	const std::string p_file = "svg/1.svg";
 	const std::string s_file = "svg/2.svg";
-	const os::color color_good(255, 255, 255), color_bad(0, 0, 0);
+	const lib::color color_good(255, 255, 255), color_bad(0, 0, 0);
 
 
 	svg::Dimensions dimensions(150 + u_width * x_res, 150 + d_width * y_res);
 	svg::Layout layout(dimensions, svg::Layout::BottomLeft);
 
 	svg::Document doc1(p_file, layout);
-	os::plot_mean(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, res, color_good, color_bad, 75, 75);
-	os::plot_scale(doc1, 0, 1, 0.2, scale_res, color_good, color_bad, 0, 0);
-	os::plot_axis(doc1, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
+	os::study::plot_mean(doc1, p_mean, boundaries[0][0], boundaries[0][1], u_width, d_width, res, color_good, color_bad, 75, 75);
+	os::study::plot_scale(doc1, 0, 1, 0.2, scale_res, color_good, color_bad, 0, 0);
+	os::study::plot_axis(doc1, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
 	doc1.save();
 
 	svg::Document doc2(s_file, layout);
-	os::plot_mean(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, res, color_bad, color_good, 75, 75);
-	os::plot_scale(doc2, 0, 1, 0.2, scale_res, color_bad, color_good, 0, 0);
-	os::plot_axis(doc2, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
+	os::study::plot_mean(doc2, s_mean, boundaries[1][0], boundaries[1][1], u_width, d_width, res, color_bad, color_good, 75, 75);
+	os::study::plot_scale(doc2, 0, 1, 0.2, scale_res, color_bad, color_good, 0, 0);
+	os::study::plot_axis(doc2, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 74, 74);
 	doc2.save();
 
 	std::cout << std::endl;
