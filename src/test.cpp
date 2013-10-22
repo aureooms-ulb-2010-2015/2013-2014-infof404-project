@@ -46,9 +46,8 @@ void draw_axis (svg::Document& doc, int width, int height, int time_unit, int lc
 	int max_grad = lcm * time_unit;
 
 	std::cout<<max_grad<<std::endl;
-	for (int i = 0; i <= lcm ; i+=5)
+	for (int i = 0; i <= lcm ; i+=20)
 	{
-		std::cout<<i<<" " <<lcm<<std::endl;
 		std::stringstream value_s;
 		value_s.precision(0);
 		value_s  << i;
@@ -94,7 +93,7 @@ int main(){
 	 {
 	 	std::cout << "SVG TEST" << std::endl;
 	 	//PARAM
-	 	int lcm = 120;
+	 	int lcm = 1000;
 	 	int task_nbr = 3;
 	 	int time_unit = 10;
 	 	//ATTRIBUTS
