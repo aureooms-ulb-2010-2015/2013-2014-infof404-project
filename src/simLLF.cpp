@@ -17,7 +17,7 @@ void parse_parameters(const P& parameters, const O& options, D& d, S& mode, S& f
 
 	if(parameters.size() < 1) throw lib::exception("Missing d");
 
-	d = std::stoi(parameters[0]);
+	d = std::stoul(parameters[0]);
 	if(parameters.size() >= 2){
 		file_name = parameters[1];
 		open = true;
@@ -135,6 +135,7 @@ int main(int argc, char* argv[]){
 	}
 	catch(const std::exception& e){
 		std::cout << "error -> " << e.what() << std::endl;
+		return 1;
 	}
 
 	return 0;

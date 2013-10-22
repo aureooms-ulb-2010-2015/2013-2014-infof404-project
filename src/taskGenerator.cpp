@@ -22,16 +22,16 @@ void parse_options(const O& options, U& u, N& n, P& p_min, P& p_max, S& file_nam
 	else throw lib::exception("Cannot find -u option");
 
 	if((it = options.find("-n")) != options.end() && it->second.size() > 0){
-		n = std::stod(it->second[0]);
+		n = std::stoul(it->second[0]);
 	}
 	else throw lib::exception("Cannot find -n option");
 
 
 	if((it = options.find("-p")) != options.end() || (it = options.find("--period")) != options.end()){
 		if(it->second.size() > 0){
-			p_min = p_max = std::stoi(it->second[0]);
+			p_min = p_max = std::stoul(it->second[0]);
 			if(it->second.size() > 1){
-				p_max = std::stoi(it->second[1]);
+				p_max = std::stoul(it->second[1]);
 			}
 			if(p_min > p_max) std::swap(p_min, p_max);
 		}
@@ -132,6 +132,7 @@ int main(int argc, char* argv[]){
 	}
 	catch(const std::exception& e){
 		std::cout << "error -> " << e.what() << std::endl;
+		return 1;
 	}
 
 	return 0;
