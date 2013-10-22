@@ -5,7 +5,6 @@
 
 #include "os/job_t.h"
 #include "os/task_system_t.h"
-#include "os/parse.h"
 #include "os/llf_scheduler_event_based.h"
 #include "os/llf_scheduler_time_based.h"
 #include "os/lcm.h"
@@ -97,7 +96,7 @@ int main(int argc, char* argv[]){
 		std::istream istream(buffer);
 
 		os::task_system_t task_system;
-		os::parse_task_system_stream(istream, task_system);
+		istream >> task_system;
 		if(open) ifstream.close();
 		
 		std::cout << task_system << std::endl;

@@ -10,6 +10,7 @@
 #include "os/job_t.h"
 #include "os/study.h"
 #include "os/lcm.h"
+#include "os/io.h"
 
 int main(){
 	std::cout << "STUDY TEST" << std::endl;
@@ -83,6 +84,9 @@ int main(){
 	};
 
 	os::compute_mean(benchmark[1], u_width, d_width, p_mean, s_mean, counter);
+
+	os::store_mean(std::cout, p_mean, u_width, d_width);
+	os::store_mean(std::cout, s_mean, u_width, d_width);
 
 	const double res = 50, x_res = 50, y_res = 50, scale_res = 30;
 	const svg::Color axis_color(0, 0, 0);
