@@ -77,6 +77,7 @@ int main(int argc, char* argv[]){
 		std::string mode = "event";
 		std::string file_name;
 		bool open = false;
+		bool pipe = flags.count("-p") || flags.count("--pipe");
 
 		parse_parameters(params, options, d, mode, file_name, open);
 
@@ -100,16 +101,14 @@ int main(int argc, char* argv[]){
 		os::task_system_t task_system;
 		istream >> task_system;
 		if(open) ifstream.close();
-		
-		std::cout << task_system << std::endl;
-		std::cout << std::endl;
 
 		uint lcm = os::task_system_period_lcm<uint, os::task_system_t>(task_system);
 		uint preempted, idle;
 		bool schedulable;
 
 		std::function<void(size_t, size_t, size_t, size_t)> callback = [](size_t, size_t, size_t, size_t){};
-		if(flags.count("-p") || flags.count("--pipe")){
+		if(pipe){
+			std::cout << task_system.size() << ' ' << lcm << std::endl;
 			callback = [](size_t event, size_t task, size_t i, size_t j){
 				std::cout << event << ' ' << task << ' ' << i << ' ' << j << std::endl;
 			};
@@ -136,10 +135,12 @@ int main(int argc, char* argv[]){
 			schedulable = scheduler.schedulable;
 		}
 
-		std::cout << "study interval [" << 0 << ", " << lcm << '[' << std::endl;
-		std::cout << "# preemptions : " << preempted << std::endl;
-		std::cout << "# idle : " << idle << std::endl;
-		std::cout << "b schedulable : " << schedulable << std::endl;
+		if(!pipe){
+			std::cout << "study interval [" << 0 << ", " << lcm << '[' << std::endl;
+			std::cout << "# preemptions : " << preempted << std::endl;
+			std::cout << "# idle : " << idle << std::endl;
+			std::cout << "b schedulable : " << schedulable << std::endl;
+		}
 
 	}
 	catch(const std::exception& e){

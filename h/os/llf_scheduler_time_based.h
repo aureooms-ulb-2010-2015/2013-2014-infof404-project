@@ -42,8 +42,6 @@ namespace os{
 		void run(uint delta, uint lcm, std::function<void(size_t, size_t, size_t, size_t)> callback){
 			for(uint i = 0; i < lcm; ++i){
 
-				::operator<<(std::cout << "queue -> ", queue) << std::endl;
-				std::cout << i << " -> ";
 
 				// check for new jobs
 				bool new_job = false;
@@ -51,7 +49,6 @@ namespace os{
 				for(task_t& task : *task_system){
 					if(i >= task.offset && (i - task.offset) % task.period == 0){
 						queue.insert(node_t(i + task.deadline - task.wcet, J(id, i, task.wcet, i + task.deadline)));
-						std::cout << "new job, ";
 						callback(0, id, i, 0);
 						callback(1, id, i + task.deadline, 0);
 						new_job = true;
@@ -65,7 +62,6 @@ namespace os{
 				// else if there was a current job and it's time to check priorities
 				else if(i % delta == 0 && current != queue.begin() && current != queue.end()){
 					++preempted;
-					std::cout << "preempted, ";
 					current = queue.begin();
 				}
 
@@ -74,7 +70,6 @@ namespace os{
 					// deadline missed
 					if(i > current->first){
 						schedulable = false;
-						std::cout << "error" << std::endl;
 						callback(3, current->second.id, i, 0);
 						break;
 					}
@@ -83,7 +78,6 @@ namespace os{
 						queue_iterator it = queue.insert(node_t(current->first + 1, current->second));
 						queue.erase(current);
 						current = it;
-						std::cout << "work" << std::endl;
 						callback(2, current->second.id, i, i+1);
 					}
 					// current job done
@@ -91,12 +85,10 @@ namespace os{
 						callback(2, current->second.id, i, i+1);
 						queue.erase(current);
 						current = queue.begin();
-						std::cout << "free" << std::endl;
 					}
 				}
 				else{
 					++idle;
-					std::cout << "idle" << std::endl;
 				}
 			}
 		}

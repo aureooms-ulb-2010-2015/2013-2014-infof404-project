@@ -95,11 +95,6 @@ namespace os{
 			uint i = 0;
 			while(i < lcm){
 
-				::operator<<(std::cout << "queue -> ", queue) << std::endl;
-				::operator<<(std::cout << "events -> ", events) << std::endl;
-				std::cout << i << " -> ";
-
-
 				bool new_job = false;
 				bool check_priorities = false;
 				events_r range = events.equal_range(i);
@@ -110,7 +105,6 @@ namespace os{
 					switch(it->second.id){
 						case NEW_JOB:{
 							queue.insert(node_t(i + it->second.task->deadline - it->second.task->wcet, J(it->second.task_id, i, it->second.task->wcet, i + it->second.task->deadline)));
-							std::cout << "new job, ";
 							callback(0, it->second.task_id, i, 0);
 							callback(1, it->second.task_id, i + it->second.task->deadline, 0);
 							new_job = true;
@@ -125,7 +119,7 @@ namespace os{
 						}
 
 						case END_OF_INTERVAL:{
-							std::cout << "end of interval, ";
+							break;
 						}
 					}
 					typename events_t::iterator prev = it;
@@ -139,7 +133,6 @@ namespace os{
 				// else if there was a current job and it's time to check priorities
 				else if(check_priorities && current != queue.begin() && current != queue.end()){
 					++preempted;
-					std::cout << "preempted, ";
 					current = queue.begin();
 				}
 
@@ -150,7 +143,6 @@ namespace os{
 					// deadline missed
 					if(i > current->first){
 						schedulable = false;
-						std::cout << "error" << std::endl;
 						callback(3, current->second.id, i, 0);
 						break;
 					}
@@ -159,14 +151,12 @@ namespace os{
 						queue_iterator it = queue.insert(node_t(current->first + (next - i), current->second));
 						queue.erase(current);
 						current = it;
-						std::cout << "work * " << (next - i) << std::endl;
 						callback(2, current->second.id, i, next);
 						i = next;
 					}
 					// current job done
 					else{
 						callback(2, current->second.id, i, i + current->second.d - current->first);
-						std::cout << "work * " << (current->second.d - current->first) << ", free" << std::endl;
 						i += current->second.d - current->first;
 						queue.erase(current);
 						current = queue.begin();
@@ -174,7 +164,6 @@ namespace os{
 				}
 				else{
 					idle += next - i;
-					std::cout << "idle * " << (next - i) << std::endl;
 					i = next;
 				}
 			}
