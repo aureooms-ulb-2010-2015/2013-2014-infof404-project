@@ -72,9 +72,8 @@ void fill_parameters(const O& options, U& u, D& d, N& n, K& k, P& p_min, P& p_ma
 
 template<typename U, typename D, typename N, typename P, typename S>
 void check_parameters(const U& u, const D& d, const N& n, const P& p_min, const S& mode){
-	for(auto& x : d){
-		if(x < 1) throw lib::exception("E d[i] < 1");
-	}
+	for(auto& x : d) if(x < 1) throw lib::exception("E d[i] < 1");
+	for(auto& x : u) if(x > 1) throw lib::exception("E u[i] > 1");
 	for(auto& x : n){
 		if(x > p_min) throw lib::exception("E n[i] > p_min");
 		for(auto& y : u){
