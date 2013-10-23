@@ -184,18 +184,11 @@ int main(int argc, char* argv[]){
 
 		std::cout << std::endl;
 
+
 		const size_t u_width = vector_u.size();
 		const size_t d_width = vector_d.size();
-
-		std::vector<std::vector<double>> p_mean(u_width, std::vector<double>(d_width, 0));
-		std::vector<std::vector<double>> s_mean(u_width, std::vector<double>(d_width, 0));
-		std::vector<std::vector<double>> counter(u_width, std::vector<double>(d_width, 0));
-
-		os::study::compute_mean(benchmark, u_width, d_width, p_mean, s_mean, counter);
-
-		os::store_mean(std::cout, p_mean, vector_u, vector_d, u_width, d_width);
-		os::store_mean(std::cout, s_mean, vector_u, vector_d, u_width, d_width);
-
+		const size_t n_width = vector_n.size();
+		os::store_benchmark(std::cout, benchmark, vector_u, vector_d, vector_n, u_width, d_width, n_width, k);
 	}
 	catch(const std::exception& e){
 		std::cout << "error -> " << e.what() << std::endl;
