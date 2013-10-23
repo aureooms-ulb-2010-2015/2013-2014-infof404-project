@@ -88,6 +88,7 @@ namespace os{
 					}
 					// current job done
 					else{
+						callback(2, current->second.id, i, i+1);
 						queue.erase(current);
 						current = queue.begin();
 						std::cout << "free" << std::endl;

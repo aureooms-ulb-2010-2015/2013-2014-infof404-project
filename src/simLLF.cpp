@@ -41,6 +41,7 @@ void help(){
 	std::cout << " - flags" << std::endl << std::endl;
 	std::cout << "   " << "[-h | --help]" << std::endl;
 	std::cout << "   " << "[-v | --verbose]" << std::endl << std::endl;
+	std::cout << "   " << "[-p | --pipe]" << std::endl << std::endl;
 	std::cout << " - mandatory parameters" << std::endl << std::endl;
 	std::cout << "   " << "#0 (int >= 1)" << std::endl << std::endl;
 	std::cout << " - optional parameters" << std::endl << std::endl;
@@ -60,7 +61,8 @@ int main(int argc, char* argv[]){
 		};
 		std::set<std::string> flag_set = {
 			"-h", "--help",
-			"-v", "--verbose"
+			"-v", "--verbose",
+			"-p", "--pipe"
 		};
 
 		pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
@@ -106,11 +108,18 @@ int main(int argc, char* argv[]){
 		uint preempted, idle;
 		bool schedulable;
 
+		std::function<void(size_t, size_t, size_t, size_t)> callback = [](size_t, size_t, size_t, size_t){};
+		if(flags.count("-p") || flags.count("--pipe")){
+			callback = [](size_t event, size_t task, size_t i, size_t j){
+				std::cout << event << ' ' << task << ' ' << i << ' ' << j << std::endl;
+			};
+		}
+
 		if(mode == "event"){
 			os::llf_scheduler_event_based<os::task_system_t, os::job_t> scheduler;
 			scheduler.reset();
 			scheduler.init(task_system);
-			scheduler.run(d, lcm);
+			scheduler.run(d, lcm, callback);
 
 			preempted = scheduler.preempted;
 			idle = scheduler.idle;
@@ -120,7 +129,7 @@ int main(int argc, char* argv[]){
 			os::llf_scheduler_time_based<os::task_system_t, os::job_t> scheduler;
 			scheduler.reset();
 			scheduler.init(task_system);
-			scheduler.run(d, lcm);
+			scheduler.run(d, lcm, callback);
 
 			preempted = scheduler.preempted;
 			idle = scheduler.idle;

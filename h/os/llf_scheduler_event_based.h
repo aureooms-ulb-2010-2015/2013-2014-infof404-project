@@ -165,6 +165,7 @@ namespace os{
 					}
 					// current job done
 					else{
+						callback(2, current->second.id, i, i + current->second.d - current->first);
 						std::cout << "work * " << (current->second.d - current->first) << ", free" << std::endl;
 						i += current->second.d - current->first;
 						queue.erase(current);
