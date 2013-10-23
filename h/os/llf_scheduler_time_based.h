@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <map>
 #include <iostream>
+#include <functional>
+
 #include "lib/io.h"
 
 namespace os{
@@ -32,22 +34,29 @@ namespace os{
 		void init(S& task_system){
 			this->task_system = &task_system;
 		}
+
 		void run(uint delta, uint lcm){
+			run(delta, lcm, [](size_t, size_t, size_t, size_t){});
+		}
+
+		void run(uint delta, uint lcm, std::function<void(size_t, size_t, size_t, size_t)> callback){
 			for(uint i = 0; i < lcm; ++i){
 
 				::operator<<(std::cout << "queue -> ", queue) << std::endl;
 				std::cout << i << " -> ";
 
 				// check for new jobs
-
 				bool new_job = false;
-
+				size_t id = 0;
 				for(task_t& task : *task_system){
 					if(i >= task.offset && (i - task.offset) % task.period == 0){
-						queue.insert(node_t(i + task.deadline - task.wcet, J(i, task.wcet, i + task.deadline)));
+						queue.insert(node_t(i + task.deadline - task.wcet, J(id, i, task.wcet, i + task.deadline)));
 						std::cout << "new job, ";
+						callback(0, id, i, 0);
+						callback(1, id, i + task.deadline, 0);
 						new_job = true;
 					}
+					++id;
 				}
 
 				// if there was no current job and a new job arrived
@@ -66,6 +75,7 @@ namespace os{
 					if(i > current->first){
 						schedulable = false;
 						std::cout << "error" << std::endl;
+						callback(3, current->second.id, i, 0);
 						break;
 					}
 					// there is still work to do
@@ -74,6 +84,7 @@ namespace os{
 						queue.erase(current);
 						current = it;
 						std::cout << "work" << std::endl;
+						callback(2, current->second.id, i, i+1);
 					}
 					// current job done
 					else{
