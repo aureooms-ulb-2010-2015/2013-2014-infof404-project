@@ -174,15 +174,15 @@ int main(int argc, char* argv[]){
 			os::study_scheduler(task_system_generator, scheduler, vector_n, vector_u, vector_d, k, benchmark, task_system, os::task_system_period_lcm<uint, os::task_system_t>);
 		}
 
-		double avg = 0, tot = 0;
-		for(os::benchmark_node_t& x : benchmark){
-			if(x.schedulable) ++avg;
-			++tot;
-		}
+		// double avg = 0, tot = 0;
+		// for(os::benchmark_node_t& x : benchmark){
+		// 	if(x.schedulable) ++avg;
+		// 	++tot;
+		// }
 
-		std::cout << avg << " / " << tot << " : " << (avg/tot*100) << "%"<< std::endl;
+		// std::cout << avg << " / " << tot << " : " << (avg/tot*100) << "%"<< std::endl;
 
-		std::cout << std::endl;
+		// std::cout << std::endl;
 
 
 		const size_t u_width = vector_u.size();

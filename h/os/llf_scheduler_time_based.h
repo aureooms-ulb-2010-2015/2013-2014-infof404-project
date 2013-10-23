@@ -22,13 +22,15 @@ namespace os{
 		S* task_system;
 
 	public:
-		uint idle = 0, preempted = 0;
+		uint idle = 0, preempted = 0, i = 0;
 		bool schedulable = true;
 
 		void reset(){
 			queue.clear();
 			current = queue.begin();
+			idle = 0;
 			preempted = 0;
+			i = 0;
 			schedulable = true;
 		}
 		void init(S& task_system){
@@ -40,7 +42,7 @@ namespace os{
 		}
 
 		void run(uint delta, uint lcm, std::function<void(size_t, size_t, size_t, size_t)> callback){
-			for(uint i = 0; i < lcm; ++i){
+			for(; i < lcm; ++i){
 
 
 				// check for new jobs
@@ -69,6 +71,7 @@ namespace os{
 				if(current != queue.end()){
 					// deadline missed
 					if(i > current->first){
+						++i;
 						schedulable = false;
 						callback(3, current->second.id, i, 0);
 						break;

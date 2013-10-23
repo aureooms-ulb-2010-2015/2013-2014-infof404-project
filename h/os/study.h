@@ -19,9 +19,7 @@ namespace os{
 						scheduler.reset();
 						scheduler.init(task_system);
 						scheduler.run(z, lcm);
-						std::cout << scheduler.preempted << ',' << lcm << std::endl;
-						std::cout << ((double)scheduler.preempted / lcm) << std::endl;
-						benchmark.emplace_back(i, j, k, scheduler.schedulable, ((double)scheduler.preempted) / lcm);
+						benchmark.emplace_back(i, j, k, scheduler.schedulable, ((double)scheduler.preempted) / scheduler.i);
 					}
 				}
 			}

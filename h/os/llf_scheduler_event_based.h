@@ -61,14 +61,16 @@ namespace os{
 		typedef std::pair<typename events_t::iterator, typename events_t::iterator> events_r;
 
 	public:
-		uint idle = 0, preempted = 0;
+		uint idle = 0, preempted = 0, i = 0;
 		bool schedulable = true;
 
 		void reset(){
 			queue.clear();
 			events.clear();
 			current = queue.begin();
+			idle = 0;
 			preempted = 0;
+			i = 0;
 			schedulable = true;
 		}
 		void init(S& task_system){
@@ -92,7 +94,6 @@ namespace os{
 			events.insert(event_p(lcm - 1, event_t(END_OF_INTERVAL, -1, nullptr)));
 
 			uint next = 0;
-			uint i = 0;
 			while(i < lcm){
 
 				bool new_job = false;
@@ -142,6 +143,7 @@ namespace os{
 				if(current != queue.end()){
 					// deadline missed
 					if(i > current->first){
+						++i;
 						schedulable = false;
 						callback(3, current->second.id, i, 0);
 						break;
