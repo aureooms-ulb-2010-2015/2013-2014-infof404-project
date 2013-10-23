@@ -3,26 +3,26 @@
 <svg width="650px" height="650px" xmlns="http://www.w3.org/2000/svg" version="1.1" >
 	<rect x="75" y="525" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="90" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="75" y="475" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="90" y="505" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="75" y="475" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="90" y="505" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
 	<rect x="75" y="425" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="90" y="455" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="75" y="375" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="90" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="75" y="325" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="90" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="75" y="375" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="90" y="405" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="75" y="325" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="90" y="355" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
 	<rect x="75" y="275" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="90" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="75" y="225" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="90" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="75" y="175" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="90" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="75" y="125" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="90" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="75" y="125" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="90" y="155" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
 	<rect x="75" y="75" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="90" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="125" y="525" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="140" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="125" y="525" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="140" y="555" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
 	<rect x="125" y="475" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="140" y="505" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="125" y="425" width="50" height="50" fill="rgb(255,255,255)" />
@@ -31,36 +31,36 @@
 	<text x="140" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="125" y="325" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="140" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="125" y="275" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="140" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="125" y="275" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="140" y="305" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
 	<rect x="125" y="225" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="140" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="125" y="175" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="140" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="125" y="125" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="140" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="125" y="75" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="140" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="175" y="525" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="190" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="175" y="475" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="190" y="505" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="125" y="75" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="140" y="105" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="175" y="525" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="190" y="555" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="175" y="475" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="190" y="505" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
 	<rect x="175" y="425" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="190" y="455" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="175" y="375" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="190" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="175" y="325" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="190" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="175" y="275" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="190" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="175" y="225" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="190" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="175" y="325" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="190" y="355" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="175" y="275" width="50" height="50" fill="rgb(102,102,102)" />
+	<text x="190" y="305" fill="rgb(230,230,230)" font-size="12" font-family="Verdana" >0.4</text>
+	<rect x="175" y="225" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="190" y="255" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
 	<rect x="175" y="175" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="190" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="175" y="125" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="190" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="175" y="75" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="190" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="175" y="75" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="190" y="105" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
 	<rect x="225" y="525" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="240" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="225" y="475" width="50" height="50" fill="rgb(255,255,255)" />
@@ -71,136 +71,136 @@
 	<text x="240" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="225" y="325" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="240" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="225" y="275" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="240" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="225" y="275" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="240" y="305" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
 	<rect x="225" y="225" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="240" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="225" y="175" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="240" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="225" y="125" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="240" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="225" y="75" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="240" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="225" y="175" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="240" y="205" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="225" y="125" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="240" y="155" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="225" y="75" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="240" y="105" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
 	<rect x="275" y="525" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="290" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="275" y="475" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="290" y="505" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="275" y="425" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="290" y="455" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="275" y="375" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="290" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="275" y="325" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="290" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="275" y="275" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="290" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="275" y="225" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="290" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="275" y="475" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="290" y="505" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="275" y="425" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="290" y="455" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="275" y="375" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="290" y="405" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="275" y="325" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="290" y="355" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="275" y="275" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="290" y="305" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="275" y="225" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="290" y="255" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
 	<rect x="275" y="175" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="290" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="275" y="125" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="290" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="275" y="75" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="290" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="325" y="525" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="340" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="325" y="475" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="340" y="505" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="325" y="425" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="340" y="455" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="325" y="375" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="340" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="325" y="325" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="340" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="325" y="275" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="340" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="325" y="225" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="340" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="325" y="175" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="340" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="275" y="125" width="50" height="50" fill="rgb(102,102,102)" />
+	<text x="290" y="155" fill="rgb(230,230,230)" font-size="12" font-family="Verdana" >0.4</text>
+	<rect x="275" y="75" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="290" y="105" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="325" y="525" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="340" y="555" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="325" y="475" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="340" y="505" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="325" y="425" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="340" y="455" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="325" y="375" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="340" y="405" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="325" y="325" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="340" y="355" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="325" y="275" width="50" height="50" fill="rgb(102,102,102)" />
+	<text x="340" y="305" fill="rgb(230,230,230)" font-size="12" font-family="Verdana" >0.4</text>
+	<rect x="325" y="225" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="340" y="255" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="325" y="175" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="340" y="205" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
 	<rect x="325" y="125" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="340" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="325" y="75" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="340" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="325" y="75" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="340" y="105" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
 	<rect x="375" y="525" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="390" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="375" y="475" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="390" y="505" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
 	<rect x="375" y="425" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="390" y="455" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="375" y="375" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="390" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="375" y="325" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="390" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="375" y="275" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="390" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="375" y="375" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="390" y="405" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="375" y="325" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="390" y="355" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="375" y="275" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="390" y="305" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
 	<rect x="375" y="225" width="50" height="50" fill="rgb(255,255,255)" />
 	<text x="390" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="375" y="175" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="390" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="375" y="125" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="390" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="375" y="75" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="390" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="525" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="475" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="505" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="425" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="455" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="375" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="325" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="275" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="225" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="175" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="125" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="425" y="75" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="440" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="525" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="475" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="505" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="425" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="455" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="375" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="325" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="275" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="225" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="175" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="125" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="475" y="75" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="490" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="525" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="555" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="475" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="505" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="425" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="455" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="375" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="405" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="325" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="355" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="275" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="305" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="225" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="255" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="175" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="205" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="125" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="155" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
-	<rect x="525" y="75" width="50" height="50" fill="rgb(255,255,255)" />
-	<text x="540" y="105" fill="rgb(127,127,127)" font-size="12" font-family="Verdana" >1.0</text>
+	<rect x="375" y="175" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="390" y="205" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="375" y="125" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="390" y="155" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="375" y="75" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="390" y="105" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="425" y="525" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="440" y="555" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="425" y="475" width="50" height="50" fill="rgb(51,51,51)" />
+	<text x="440" y="505" fill="rgb(179,179,179)" font-size="12" font-family="Verdana" >0.2</text>
+	<rect x="425" y="425" width="50" height="50" fill="rgb(51,51,51)" />
+	<text x="440" y="455" fill="rgb(179,179,179)" font-size="12" font-family="Verdana" >0.2</text>
+	<rect x="425" y="375" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="440" y="405" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="425" y="325" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="440" y="355" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="425" y="275" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="440" y="305" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="425" y="225" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="440" y="255" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="425" y="175" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="440" y="205" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="425" y="125" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="440" y="155" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="425" y="75" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="440" y="105" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="475" y="525" width="50" height="50" fill="rgb(204,204,204)" />
+	<text x="490" y="555" fill="rgb(76,76,76)" font-size="12" font-family="Verdana" >0.8</text>
+	<rect x="475" y="475" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="490" y="505" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="475" y="425" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="490" y="455" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="475" y="375" width="50" height="50" fill="rgb(102,102,102)" />
+	<text x="490" y="405" fill="rgb(230,230,230)" font-size="12" font-family="Verdana" >0.4</text>
+	<rect x="475" y="325" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="490" y="355" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="475" y="275" width="50" height="50" fill="rgb(51,51,51)" />
+	<text x="490" y="305" fill="rgb(179,179,179)" font-size="12" font-family="Verdana" >0.2</text>
+	<rect x="475" y="225" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="490" y="255" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="475" y="175" width="50" height="50" fill="rgb(102,102,102)" />
+	<text x="490" y="205" fill="rgb(230,230,230)" font-size="12" font-family="Verdana" >0.4</text>
+	<rect x="475" y="125" width="50" height="50" fill="rgb(102,102,102)" />
+	<text x="490" y="155" fill="rgb(230,230,230)" font-size="12" font-family="Verdana" >0.4</text>
+	<rect x="475" y="75" width="50" height="50" fill="rgb(153,153,153)" />
+	<text x="490" y="105" fill="rgb(25,25,25)" font-size="12" font-family="Verdana" >0.6</text>
+	<rect x="525" y="525" width="50" height="50" fill="rgb(102,102,102)" />
+	<text x="540" y="555" fill="rgb(230,230,230)" font-size="12" font-family="Verdana" >0.4</text>
+	<rect x="525" y="475" width="50" height="50" fill="rgb(0,0,0)" />
+	<text x="540" y="505" fill="rgb(128,128,128)" font-size="12" font-family="Verdana" >0.0</text>
+	<rect x="525" y="425" width="50" height="50" fill="rgb(0,0,0)" />
+	<text x="540" y="455" fill="rgb(128,128,128)" font-size="12" font-family="Verdana" >0.0</text>
+	<rect x="525" y="375" width="50" height="50" fill="rgb(102,102,102)" />
+	<text x="540" y="405" fill="rgb(230,230,230)" font-size="12" font-family="Verdana" >0.4</text>
+	<rect x="525" y="325" width="50" height="50" fill="rgb(51,51,51)" />
+	<text x="540" y="355" fill="rgb(179,179,179)" font-size="12" font-family="Verdana" >0.2</text>
+	<rect x="525" y="275" width="50" height="50" fill="rgb(0,0,0)" />
+	<text x="540" y="305" fill="rgb(128,128,128)" font-size="12" font-family="Verdana" >0.0</text>
+	<rect x="525" y="225" width="50" height="50" fill="rgb(51,51,51)" />
+	<text x="540" y="255" fill="rgb(179,179,179)" font-size="12" font-family="Verdana" >0.2</text>
+	<rect x="525" y="175" width="50" height="50" fill="rgb(0,0,0)" />
+	<text x="540" y="205" fill="rgb(128,128,128)" font-size="12" font-family="Verdana" >0.0</text>
+	<rect x="525" y="125" width="50" height="50" fill="rgb(51,51,51)" />
+	<text x="540" y="155" fill="rgb(179,179,179)" font-size="12" font-family="Verdana" >0.2</text>
+	<rect x="525" y="75" width="50" height="50" fill="rgb(51,51,51)" />
+	<text x="540" y="105" fill="rgb(179,179,179)" font-size="12" font-family="Verdana" >0.2</text>
 	<rect x="0" y="620" width="30" height="30" fill="rgb(0,0,0)" />
 	<text x="5" y="640" fill="rgb(128,128,128)" font-size="12" font-family="Verdana" >0.0</text>
 	<rect x="30" y="620" width="30" height="30" fill="rgb(51,51,51)" />

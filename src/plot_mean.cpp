@@ -11,7 +11,7 @@
 #include "lib/exception.h"
 
 template<typename O, typename S, typename C>
-void fill_parameters(const O& options, S& file_name_in, bool& open_in, S& file_name_out, C& color_good, C& color_bad, C& color_axis, double& stroke_width, double& res, double& x_res, double& y_res, double& scale_res){
+void fill_parameters(const O& options, S& file_name_in, bool& open_in, S& file_name_out, C& color_start, C& color_stop, C& color_axis, double& stroke_width, double& res, double& x_res, double& y_res, double& scale_res){
 
 	typename O::const_iterator it;
 
@@ -23,12 +23,12 @@ void fill_parameters(const O& options, S& file_name_in, bool& open_in, S& file_n
 
 	if((it = options.find("-c")) != options.end() || (it = options.find("--color")) != options.end()){
 		if(it->second.size() > 5){
-			color_good.r = std::stoi(it->second[0]);
-			color_good.g = std::stoi(it->second[1]);
-			color_good.b = std::stoi(it->second[2]);
-			color_bad.r = std::stoi(it->second[3]);
-			color_bad.g = std::stoi(it->second[4]);
-			color_bad.b = std::stoi(it->second[5]);
+			color_start.r = std::stoi(it->second[0]);
+			color_start.g = std::stoi(it->second[1]);
+			color_start.b = std::stoi(it->second[2]);
+			color_stop.r = std::stoi(it->second[3]);
+			color_stop.g = std::stoi(it->second[4]);
+			color_stop.b = std::stoi(it->second[5]);
 		}
 	}
 
@@ -123,9 +123,9 @@ int main(int argc, char *argv[]){
 
 
 		double res = 50, x_res = 50, y_res = 50, scale_res = 30, stroke_width = 1;
-		lib::color color_axis(0, 0, 0), color_good(255, 255, 255), color_bad(0, 0, 0);
+		lib::color color_axis(0, 0, 0), color_start(255, 255, 255), color_stop(0, 0, 0);
 
-		fill_parameters(options, file_name_in, open_in, file_name_out, color_good, color_bad, color_axis, stroke_width, res, x_res, y_res, scale_res);
+		fill_parameters(options, file_name_in, open_in, file_name_out, color_start, color_stop, color_axis, stroke_width, res, x_res, y_res, scale_res);
 
 		// CHOOSE INPUT
 
@@ -163,8 +163,8 @@ int main(int argc, char *argv[]){
 		svg::Layout layout(dimensions, svg::Layout::BottomLeft);
 
 		svg::Document doc(file_name_out, layout);
-		os::study::plot_mean(doc, mean, boundaries[0], boundaries[1], u_width, d_width, res, color_good, color_bad, 75, 75);
-		os::study::plot_scale(doc, 0, 1, 0.2, scale_res, color_good, color_bad, 0, 0);
+		os::study::plot_mean(doc, mean, boundaries[0], boundaries[1], u_width, d_width, res, color_start, color_stop, 75, 75);
+		os::study::plot_scale(doc, 0, 1, 0.2, scale_res, color_start, color_stop, 0, 0);
 		os::study::plot_axis(doc, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 75, 75);
 		doc.save();
 
