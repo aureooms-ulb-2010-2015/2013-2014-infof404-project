@@ -75,24 +75,21 @@ void fill_parameters(const O& options, S& file_name_in, bool& open_in, S& file_n
 
 void help(){
 	std::cout << " - flags" << std::endl << std::endl;
-	std::cout << "   " << "[-h | --help]" << std::endl;
-	std::cout << "   " << "[-v | --verbose]" << std::endl << std::endl;
+	std::cout << "   " << "[-h  | --help        ]" << std::endl;
+	std::cout << "   " << "[-v  | --verbose     ]" << std::endl << std::endl;
 	std::cout << " - mandatory parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-u | --utilization] ... (double[] | v[i] >= 0)" << std::endl;
-	std::cout << "   " << "[-d | --delta      ] ... (uint[])" << std::endl;
-	std::cout << "   " << "-n                   ... (uint[])" << std::endl;
-	std::cout << "   " << "-k                   ... (uint)" << std::endl << std::endl;
+	std::cout << "   " << "[-o  | --output      ] #0 (string)" << std::endl << std::endl;
 	std::cout << " - optional parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-p | --period] #0 [#1] (int[2], #1 >= #0)" << std::endl;
-	std::cout << "   " << "[-s | --seed  ] #0 (uint)" << std::endl;
-	std::cout << "   " << "[-o | --output] #0 (string)" << std::endl << std::endl;
-	std::cout << "   " << "[-m | --mode  ] #0 (string)" << std::endl << std::endl;
+	std::cout << "   " << "[-c  | --color       ] #0 #1 #2 #3 #4 #5 (int[6])" << std::endl;
+	std::cout << "   " << "[-i  | --input       ] #0 (string)" << std::endl;
+	std::cout << "   " << "[-r  | --res         ] #0 (double)" << std::endl;
+	std::cout << "   " << "[-sr | --scaleres    ] #0 (double)" << std::endl;
+	std::cout << "   " << "[-a  | --axiscolor   ] #0 #1 #2 (int[3])" << std::endl;
+	std::cout << "   " << "[-s  | --strokewidth ] #0 (double)" << std::endl;
 }
 
 int main(int argc, char *argv[]){
 	try{
-
-
 		std::vector<std::string> params;
 		std::map<std::string, std::vector<std::string>> options;
 		std::set<std::string> flags;
