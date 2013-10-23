@@ -169,6 +169,7 @@ namespace os{
 					i = next;
 				}
 			}
+			callback(4, 0, i, 0);
 		}
 
 	};

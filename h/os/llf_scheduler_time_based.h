@@ -94,6 +94,7 @@ namespace os{
 					++idle;
 				}
 			}
+			callback(4, 0, i, 0);
 		}
 
 	};
