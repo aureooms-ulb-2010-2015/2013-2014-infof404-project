@@ -10,6 +10,7 @@
 #include "lib/pinput.h"
 #include "lib/io.h"
 #include "lib/exception.h"
+#include "lib/ansi.h"
 
 template<typename O, typename U, typename N, typename P, typename V, typename S>
 void fill_parameters(const O& options, U& u, N& n, P& p_min, P& p_max, V& s, S& file_name, bool& open){
@@ -85,16 +86,23 @@ int main(int argc, char* argv[]){
 		};
 		std::set<std::string> flag_set = {
 			"-h", "--help",
-			"-v", "--verbose"
+			"-v", "--verbose",
+			"--nocolor"
 		};
 
 		pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
 
-		if(flags.count("-h") || flags.count("--help")){
+		const bool show_help = flags.count("-h") || flags.count("--help");
+		if(show_help){
 			help();
 			return 0;
 		}
 
+		const bool verbose = flags.count("-v") || flags.count("--verbose");
+		const bool nocolor = flags.count("--nocolor");
+
+		const char* vcolor = (nocolor)? "" : ansi::blue;
+		const char* rcolor = (nocolor)? "" : ansi::reset;
 
 		double u;
 		uint n;
@@ -136,6 +144,22 @@ int main(int argc, char* argv[]){
 		ostream << task_system;
 
 		if(open) ofstream.close();
+
+		if(verbose){
+			double t = 0;
+			for(auto task : task_system){
+				t += (double)task.wcet/(double)task.period;
+			}
+
+			std::cout << vcolor << std::endl;
+			std::cout << "u = " << t << std::endl;
+			std::cout.precision(2);
+			std::cout << std::fixed;
+			std::cout << "abs error = " << (u - t)*100 << "%" << std::endl;
+			std::cout << "rel error = " << (1 - t/u)*100 << "%" << std::endl;
+			std::cout << "worst abs error that could happen = " << (100./p_min*n) << "%" << std::endl;
+			std::cout << rcolor;
+		}
 
 
 	}
