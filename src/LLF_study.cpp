@@ -125,7 +125,7 @@ int main(int argc, char* argv[]){
 
 	const bool nocolor = flags.count("--nocolor");
 
-	//const char* vcolor = (nocolor)? "" : ansi::blue;
+	const char* vcolor = (nocolor)? "" : ansi::blue;
 	const char* ecolor = (nocolor)? "" : ansi::red;
 	const char* rcolor = (nocolor)? "" : ansi::reset;
 
@@ -134,6 +134,8 @@ int main(int argc, char* argv[]){
 		help();
 		return 0;
 	}
+
+	const bool verbose = flags.count("-v") || flags.count("--verbose");
 
 
 	try{
@@ -174,13 +176,35 @@ int main(int argc, char* argv[]){
 
 		generator.seed(seed);
 
+		std::function<void(uint, uint, uint, bool, double)> callback;
+
+
+		const size_t u_width = vector_u.size();
+		const size_t d_width = vector_d.size();
+		const size_t n_width = vector_n.size();
+
+		if(verbose){
+			const size_t total = u_width * d_width * n_width * k;
+			size_t processed = 0;
+			callback = [&](uint i, uint j, uint k, bool s, double p){
+				benchmark.emplace_back(i,j,k,s,p);
+				++processed;
+				std::cout << vcolor << processed << " / " << total << rcolor << std::endl;
+			};
+		}
+		else{
+			callback = [&](uint i, uint j, uint k, bool s, double p){
+				benchmark.emplace_back(i,j,k,s,p);
+			};
+		}
+
 		if(mode == "event"){
 			os::llf_scheduler_event_based<os::task_system_t, os::job_t> scheduler;
-			os::study_scheduler(task_system_generator, scheduler, vector_n, vector_u, vector_d, k, benchmark, task_system, os::task_system_period_lcm<uint, os::task_system_t>);
+			os::study_scheduler(task_system_generator, scheduler, vector_n, vector_u, vector_d, k, task_system, os::task_system_period_lcm<uint, os::task_system_t>, callback);
 		}
 		else{
 			os::llf_scheduler_time_based<os::task_system_t, os::job_t> scheduler;
-			os::study_scheduler(task_system_generator, scheduler, vector_n, vector_u, vector_d, k, benchmark, task_system, os::task_system_period_lcm<uint, os::task_system_t>);
+			os::study_scheduler(task_system_generator, scheduler, vector_n, vector_u, vector_d, k, task_system, os::task_system_period_lcm<uint, os::task_system_t>, callback);
 		}
 
 		// double avg = 0, tot = 0;
@@ -193,10 +217,6 @@ int main(int argc, char* argv[]){
 
 		// std::cout << std::endl;
 
-
-		const size_t u_width = vector_u.size();
-		const size_t d_width = vector_d.size();
-		const size_t n_width = vector_n.size();
 
 		// OUTPUT
 		std::streambuf* buffer;
