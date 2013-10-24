@@ -170,7 +170,7 @@ int main(int argc, char *argv[]){
 
 		svg::Document doc(file_name_out, layout);
 		os::study::plot_mean(doc, mean, boundaries[0], boundaries[1], u_width, d_width, res, color_start, color_stop, 75, 75);
-		os::study::plot_scale(doc, 0, 1, 0.2, scale_res, color_start, color_stop, 0, 0);
+		os::study::plot_scale(doc, 0, 1, 5, scale_res, color_start, color_stop, 0, 0);
 		os::study::plot_axis(doc, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 75, 75);
 		doc.save();
 

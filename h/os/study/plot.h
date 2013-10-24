@@ -12,9 +12,16 @@ namespace os{
 			return value * (stop - start) + start;
 		}
 
-		lib::color color_inv(int r, int g, int b){
-			return lib::color((r+128)%256, (g+128)%256, (b+128)%256);
+		svg::Color color_inv(int r, int g, int b){
+			return svg::Color((r+128)%256 , (g+128)%256, (b+128)%256);
 		}
+
+		// svg::Color color_inv(int r, int g, int b){
+		// 	r = (r > 128)? r - 40 : r + 40;
+		// 	g = (g > 128)? g - 40 : g + 40;
+		// 	b = (b > 128)? b - 40 : b + 40;
+		// 	return svg::Color(r, g, b);
+		// }
 
 		template<typename B, typename M>
 		void compute_mean(B& benchmark, const size_t u_width, const size_t d_width, M& p_mean, M& s_mean, M& counter){
@@ -62,28 +69,28 @@ namespace os{
 					const int b = compute_color(value, start.b, stop.b);
 					svg::Rectangle rectangle(svg::Point(i*res + x_offset, (j+1)*res + y_offset), res, res, svg::Color(r, g, b));
 					std::stringstream value_s;
-					value_s.precision(1);
+					value_s.precision(2);
 					value_s << std::fixed << value;
-					svg::Text text(svg::Point(i*res + res/2 - 10 + x_offset, j*res+ res/2 - 5 + y_offset), value_s.str(), svg::Color((r+128)%256, (g+128)%256, (b+128)%256));
+					svg::Text text(svg::Point(i*res + res/2 - 14 + x_offset, j*res+ res/2 - 5 + y_offset), value_s.str(), color_inv(r,g,b));
 					doc << rectangle << text;
 				}
 			}
 		}
 
 		template<typename D>
-		void plot_scale(D& doc, const double v_min, const double v_max, const double v_step, const double res, const lib::color start, const lib::color stop, const double x_offset, const double y_offset){
-			size_t j = 0;
-			for(double i = v_min; i <= v_max; i += v_step){
+		void plot_scale(D& doc, const double v_min, const double v_max, const size_t v_size, const double res, const lib::color start, const lib::color stop, const double x_offset, const double y_offset){
+			
+			for(size_t j = 0; j <= v_size; ++j){
+				const double i = (v_max - v_min) / v_size * j;
 				const int r = compute_color(i, start.r, stop.r);
 				const int g = compute_color(i, start.g, stop.g);
 				const int b = compute_color(i, start.b, stop.b);
 				svg::Rectangle rectangle(svg::Point(j*res + x_offset, 1*res + y_offset), res, res, svg::Color(r, g, b));
 				std::stringstream value_s;
-				value_s.precision(1);
+				value_s.precision(2);
 				value_s << std::fixed << i;
-				svg::Text text(svg::Point(j*res + res/2 - 10 + x_offset, res/2 - 5 + y_offset), value_s.str(), svg::Color((r+128)%256, (g+128)%256, (b+128)%256));
+				svg::Text text(svg::Point(j*res + res/2 - 14 + x_offset, res/2 - 5 + y_offset), value_s.str(), color_inv(r,g,b));
 				doc << rectangle << text;
-				++j;
 			}
 		}
 
@@ -106,24 +113,24 @@ namespace os{
 			{
 				for(size_t i = 0; i < x_size; ++i){
 					std::stringstream stream;
-					stream.precision(1);
+					stream.precision(2);
 					stream << std::fixed << x_array[i];
-					svg::Text text(svg::Point(i*x_res + x_res/2 - 10 + x_offset, - 5 + y_offset -y_res/4), stream.str(), color);
+					svg::Text text(svg::Point(i*x_res + x_res/2 - 14 + x_offset, - 5 + y_offset -y_res/4), stream.str(), color);
 					doc << text;
 				}
-				svg::Text text(svg::Point(x_size*x_res + x_res/2 - 10 + x_offset,  - 5 + y_offset -y_res/4), x_label, color);
+				svg::Text text(svg::Point(x_size*x_res + x_res/2 - 14 + x_offset,  - 5 + y_offset -y_res/4), x_label, color);
 				doc << text;
 			}
 
 			{
 				for(size_t j = 0; j < y_size; ++j){
 					std::stringstream stream;
-					stream.precision(1);
+					stream.precision(2);
 					stream << std::fixed << y_array[j];
-					svg::Text text(svg::Point(- 10 + x_offset - x_res/4, j*y_res+ y_res/2 - 5 + y_offset), stream.str(), color);
+					svg::Text text(svg::Point(- 14 + x_offset - x_res/4, j*y_res+ y_res/2 - 5 + y_offset), stream.str(), color);
 					doc << text;
 				}
-				svg::Text text(svg::Point(- 10 + x_offset - x_res/4, y_size*y_res+ y_res/2 - 5 + y_offset), y_label, color);
+				svg::Text text(svg::Point(- 14 + x_offset - x_res/4, y_size*y_res+ y_res/2 - 5 + y_offset), y_label, color);
 				doc << text;
 			}
 			
