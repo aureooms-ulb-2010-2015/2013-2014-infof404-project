@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <random>
+#include <fstream>
 
 #include "os/generator.h"
 #include "os/benchmark_t.h"
@@ -15,7 +16,7 @@
 #include "lib/pinput.h"
 #include "lib/exception.h"
 
-#include "os/study/plot.h" // TODO REMOVEZ
+#include "lib/ansi.h"
 
 template<typename O, typename U, typename D, typename N, typename K, typename P, typename V, typename S>
 void fill_parameters(const O& options, U& u, D& d, N& n, K& k, P& p_min, P& p_max, V& s, S& mode, S& file_name, bool& open){
@@ -85,48 +86,57 @@ void check_parameters(const U& u, const D& d, const N& n, const P& p_min, const 
 
 void help(){
 	std::cout << " - flags" << std::endl << std::endl;
-	std::cout << "   " << "[-h | --help]" << std::endl;
-	std::cout << "   " << "[-v | --verbose]" << std::endl << std::endl;
+	std::cout << "   " << "[-h | --help        ]" << std::endl;
+	std::cout << "   " << "[-v | --verbose     ]" << std::endl;
+	std::cout << "   " << "[--nocolor          ]" << std::endl << std::endl;
 	std::cout << " - mandatory parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-u | --utilization] ... (double[] | v[i] >= 0)" << std::endl;
-	std::cout << "   " << "[-d | --delta      ] ... (uint[])" << std::endl;
-	std::cout << "   " << "-n                   ... (uint[])" << std::endl;
-	std::cout << "   " << "-k                   ... (uint)" << std::endl << std::endl;
+	std::cout << "   " << "[-u | --utilization ] ... (double[] | v[i] >= 0)" << std::endl;
+	std::cout << "   " << "[-d | --delta       ] ... (uint[])" << std::endl;
+	std::cout << "   " << "-n                    ... (uint[])" << std::endl;
+	std::cout << "   " << "-k                    ... (uint)" << std::endl << std::endl;
 	std::cout << " - optional parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-p | --period] #0 [#1] (int[2], #1 >= #0)" << std::endl;
-	std::cout << "   " << "[-s | --seed  ] #0 (uint)" << std::endl;
-	std::cout << "   " << "[-o | --output] #0 (string)" << std::endl << std::endl;
-	std::cout << "   " << "[-m | --mode  ] #0 (string)" << std::endl << std::endl;
+	std::cout << "   " << "[-p | --period      ] #0 [#1] (int[2], #1 >= #0)" << std::endl;
+	std::cout << "   " << "[-s | --seed        ] #0 (uint)" << std::endl;
+	std::cout << "   " << "[-o | --output      ] #0 (string)" << std::endl << std::endl;
+	std::cout << "   " << "[-m | --mode        ] #0 (string)" << std::endl << std::endl;
 }
 
 int main(int argc, char* argv[]){
+
+	std::vector<std::string> params;
+	std::map<std::string, std::vector<std::string>> options;
+	std::set<std::string> flags;
+	std::set<std::string> option_set = {
+		"-u", "--utilization",
+		"-d", "--delta",
+		"-n",
+		"-k",
+		"-p", "--period",
+		"-s", "--seed",
+		"-o", "--output"
+	};
+	std::set<std::string> flag_set = {
+		"-h", "--help",
+		"-v", "--verbose",
+		"--nocolor"
+	};
+
+	pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
+
+	const bool nocolor = flags.count("--nocolor");
+
+	//const char* vcolor = (nocolor)? "" : ansi::blue;
+	const char* ecolor = (nocolor)? "" : ansi::red;
+	const char* rcolor = (nocolor)? "" : ansi::reset;
+
+	const bool show_help = flags.count("-h") || flags.count("--help");
+	if(show_help){
+		help();
+		return 0;
+	}
+
+
 	try{
-
-		std::vector<std::string> params;
-		std::map<std::string, std::vector<std::string>> options;
-		std::set<std::string> flags;
-		std::set<std::string> option_set = {
-			"-u", "--utilization",
-			"-d", "--delta",
-			"-n",
-			"-k",
-			"-p", "--period",
-			"-s", "--seed",
-			"-o", "--output"
-		};
-		std::set<std::string> flag_set = {
-			"-h", "--help",
-			"-v", "--verbose"
-		};
-
-		pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
-
-		if(flags.count("-h") || flags.count("--help")){
-			help();
-			return 0;
-		}
-
-
 
 		std::vector<double> vector_u;
 		std::vector<uint> vector_d;
@@ -187,10 +197,26 @@ int main(int argc, char* argv[]){
 		const size_t u_width = vector_u.size();
 		const size_t d_width = vector_d.size();
 		const size_t n_width = vector_n.size();
-		os::store_benchmark(std::cout, benchmark, vector_u, vector_d, vector_n, u_width, d_width, n_width, k);
+
+		// OUTPUT
+		std::streambuf* buffer;
+		std::ofstream ofstream;
+
+		if(open){
+			ofstream.open(file_name);
+			buffer = ofstream.rdbuf();
+		}
+		else{
+			buffer = std::cout.rdbuf();
+		}
+
+		std::ostream ostream(buffer);
+		os::store_benchmark(ostream, benchmark, vector_u, vector_d, vector_n, u_width, d_width, n_width, k);
+
+		if(open) ofstream.close();
 	}
 	catch(const std::exception& e){
-		std::cout << "error -> " << e.what() << std::endl;
+		std::cout << ecolor << "error -> " << e.what() << rcolor << std::endl;
 		return 1;
 	}
 
