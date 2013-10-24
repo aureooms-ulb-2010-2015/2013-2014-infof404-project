@@ -72,37 +72,40 @@ void help(){
 
 int main(int argc, char* argv[]){
 
+
+	std::vector<std::string> params;
+	std::map<std::string, std::vector<std::string>> options;
+	std::set<std::string> flags;
+	std::set<std::string> option_set = {
+		"-u", "--utilization",
+		"-n",
+		"-p", "--period",
+		"-s", "--seed",
+		"-o", "--output"
+	};
+	std::set<std::string> flag_set = {
+		"-h", "--help",
+		"-v", "--verbose",
+		"--nocolor"
+	};
+
+	pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
+
+	const bool nocolor = flags.count("--nocolor");
+
+	const char* vcolor = (nocolor)? "" : ansi::blue;
+	const char* ecolor = (nocolor)? "" : ansi::red;
+	const char* rcolor = (nocolor)? "" : ansi::reset;
+
+	const bool show_help = flags.count("-h") || flags.count("--help");
+	if(show_help){
+		help();
+		return 0;
+	}
+
+	const bool verbose = flags.count("-v") || flags.count("--verbose");
+		
 	try{
-
-		std::vector<std::string> params;
-		std::map<std::string, std::vector<std::string>> options;
-		std::set<std::string> flags;
-		std::set<std::string> option_set = {
-			"-u", "--utilization",
-			"-n",
-			"-p", "--period",
-			"-s", "--seed",
-			"-o", "--output"
-		};
-		std::set<std::string> flag_set = {
-			"-h", "--help",
-			"-v", "--verbose",
-			"--nocolor"
-		};
-
-		pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
-
-		const bool show_help = flags.count("-h") || flags.count("--help");
-		if(show_help){
-			help();
-			return 0;
-		}
-
-		const bool verbose = flags.count("-v") || flags.count("--verbose");
-		const bool nocolor = flags.count("--nocolor");
-
-		const char* vcolor = (nocolor)? "" : ansi::blue;
-		const char* rcolor = (nocolor)? "" : ansi::reset;
 
 		double u;
 		uint n;
@@ -164,7 +167,7 @@ int main(int argc, char* argv[]){
 
 	}
 	catch(const std::exception& e){
-		std::cout << "error -> " << e.what() << std::endl;
+		std::cout << ecolor << "error -> " << e.what() << rcolor << std::endl;
 		return 1;
 	}
 
