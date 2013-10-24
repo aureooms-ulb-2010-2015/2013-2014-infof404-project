@@ -1,0 +1,35 @@
+\SetAlgoLined
+\KwData{system, lcm, d}
+
+$schedulable\leftarrow true$ \;
+$preempted\leftarrow 0$ \;
+$idle\leftarrow 0$ \;
+$j\leftarrow null$ \;
+$queue\leftarrow \emptyset$ \;
+
+\For{$i\leftarrow 0$ \KwTo lcm}{
+	check for new jobs\;
+	\If{$j = null \land llj \neq null$}{
+		$j\leftarrow llj$\tcc*[r]{llj := least laxity job}
+	}
+	\ElseIf{$j\neq null \land d\bmod i = 0 \land j\neq llj$}{
+		$preempted\leftarrow preempted+1$\;
+		$j\leftarrow llj$\;
+	}
+	\If{$j \neq null$}{
+		\If{$i > startdeadline[j]$}{
+			$idle\leftarrow idle+1$\;
+			$schedulable\leftarrow false$\;
+			break\;
+		}
+		\ElseIf{$timeleft[j] > 1$}{
+			$startdeadline[j]\leftarrow startdeadline[j]+1$\;
+		}
+		\Else{
+			delete j\;
+		}
+	}
+	\Else{
+		$idle\leftarrow idle+1$\;
+	}
+}

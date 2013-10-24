@@ -1,1 +1,13 @@
-\section{Simulator}
+\subsection{Simulator}
+
+
+\subsubsection{Regular mode}
+
+\shellcmd{./run/simLLF 10 system/1}
+
+\shellcmd{cat system/1 | ./run/simLLF 10}
+
+
+\subsubsection{Event pipe mode}
+
+\shellcmd{cat system/1 | ./run/simLLF 10 --pipe | ./run/plot\_schedule shedule/1.svg}
