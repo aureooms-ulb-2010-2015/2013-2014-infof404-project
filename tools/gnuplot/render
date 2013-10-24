@@ -1,0 +1,3 @@
+#!/bin/sh
+
+gnuplot -e "data_title='variation of $1';data_file='$2';data_xlabel='$1';data_ylabel='% of total';data_output='$3';" tools/gnuplot/script.plg
