@@ -1,1 +1,24 @@
 \section{Study}
+
+	generate data
+
+	./run/LLF_study -u 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 -d 1 2 3 4 5 6 7 8 9 10 -n 2 3 4 -k 1000 > benchmark/1
+
+	split data for use with gnuplot
+
+	cat benchmark/1 | ./run/gnuplot -o gnuplot/data/1 gnuplot/data/2 gnuplot/data/3
+
+	plot data with gnuplot
+
+	./tools/gnuplot/render u gnuplot/data/1 gnuplot/svg/1.svg
+	./tools/gnuplot/render d gnuplot/data/2 gnuplot/svg/2.svg
+	./tools/gnuplot/render n gnuplot/data/3 gnuplot/svg/3.svg
+
+	split data for use with custom color plot
+
+	cat benchmark/1 | ./run/compute_mean mean/data/1 mean/data/2
+
+	plot data with custom color plot
+
+	cat mean/data/1 | ./run/plot_mean -o mean/svg/1 --color 0 0 0 255 255 255
+	cat mean/data/2 | ./run/plot_mean -o mean/svg/2 --color 255 255 255 0 0 0
