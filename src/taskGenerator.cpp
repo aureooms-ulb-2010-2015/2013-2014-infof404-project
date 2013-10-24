@@ -59,15 +59,16 @@ void check_parameters(U& u, N& n, P& p_min, P& /*p_max*/){
 
 void help(){
 	std::cout << " - flags" << std::endl << std::endl;
-	std::cout << "   " << "[-h | --help]" << std::endl;
-	std::cout << "   " << "[-v | --verbose]" << std::endl << std::endl;
+	std::cout << "   " << "[-h | --help        ]" << std::endl;
+	std::cout << "   " << "[-v | --verbose     ]" << std::endl;
+	std::cout << "   " << "[--nocolor          ]" << std::endl << std::endl;
 	std::cout << " - mandatory parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-u | --utilization] #0 (double >= 0)" << std::endl;
+	std::cout << "   " << "[-u | --utilization ] #0 (double >= 0)" << std::endl;
 	std::cout << "   " << "-n #0 (int >= 0)" << std::endl << std::endl;
 	std::cout << " - optional parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-p | --period] #0 [#1] (int[2], #1 >= #0)" << std::endl;
-	std::cout << "   " << "[-s | --seed  ] #0 (uint)" << std::endl;
-	std::cout << "   " << "[-o | --output] #0 (string)" << std::endl << std::endl;
+	std::cout << "   " << "[-p | --period      ] #0 [#1] (int[2], #1 >= #0)" << std::endl;
+	std::cout << "   " << "[-s | --seed        ] #0 (uint)" << std::endl;
+	std::cout << "   " << "[-o | --output      ] #0 (string)" << std::endl << std::endl;
 }
 
 int main(int argc, char* argv[]){

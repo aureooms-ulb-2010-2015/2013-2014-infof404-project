@@ -40,14 +40,15 @@ void check_parameters(const D d, const S& mode){
 
 void help(){
 	std::cout << " - flags" << std::endl << std::endl;
-	std::cout << "   " << "[-h | --help]" << std::endl;
-	std::cout << "   " << "[-v | --verbose]" << std::endl << std::endl;
-	std::cout << "   " << "[-p | --pipe]" << std::endl << std::endl;
+	std::cout << "   " << "[-h | --help    ]" << std::endl;
+	std::cout << "   " << "[-v | --verbose ]" << std::endl;
+	std::cout << "   " << "[-p | --pipe    ]" << std::endl;
+	std::cout << "   " << "[--nocolor      ]" << std::endl << std::endl;
 	std::cout << " - mandatory parameters" << std::endl << std::endl;
 	std::cout << "   " << "#0 (int >= 1)" << std::endl << std::endl;
 	std::cout << " - optional parameters" << std::endl << std::endl;
 	std::cout << "   " << "#1 (string)" << std::endl << std::endl;
-	std::cout << "   " << "[-m | --mode] #0 (string)" << std::endl << std::endl;
+	std::cout << "   " << "[-m | --mode    ] #0 (string)" << std::endl << std::endl;
 }
 
 int main(int argc, char* argv[]){

@@ -9,6 +9,7 @@
 #include "os/study/plot.h"
 #include "lib/pinput.h"
 #include "lib/exception.h"
+#include "lib/ansi.h"
 
 template<typename O, typename S, typename C>
 void fill_parameters(const O& options, S& file_name_in, bool& open_in, S& file_name_out, C& color_start, C& color_stop, C& color_axis, double& stroke_width, double& res, double& x_res, double& y_res, double& scale_res){
@@ -76,7 +77,8 @@ void fill_parameters(const O& options, S& file_name_in, bool& open_in, S& file_n
 void help(){
 	std::cout << " - flags" << std::endl << std::endl;
 	std::cout << "   " << "[-h  | --help        ]" << std::endl;
-	std::cout << "   " << "[-v  | --verbose     ]" << std::endl << std::endl;
+	std::cout << "   " << "[-v  | --verbose     ]" << std::endl;
+	std::cout << "   " << "[--nocolor           ]" << std::endl << std::endl;
 	std::cout << " - mandatory parameters" << std::endl << std::endl;
 	std::cout << "   " << "[-o  | --output      ] #0 (string)" << std::endl << std::endl;
 	std::cout << " - optional parameters" << std::endl << std::endl;
@@ -89,30 +91,37 @@ void help(){
 }
 
 int main(int argc, char *argv[]){
+	std::vector<std::string> params;
+	std::map<std::string, std::vector<std::string>> options;
+	std::set<std::string> flags;
+	std::set<std::string> option_set = {
+		"-o", "--output",
+		"-c", "--color",
+		"-i", "--input",
+		"-r", "--res",
+		"-sr", "--scaleres",
+		"-a", "--axiscolor",
+		"-s", "--strokewidth",
+	};
+	std::set<std::string> flag_set = {
+		"-h", "--help",
+		"-v", "--verbose",
+		"--nocolor"
+	};
+
+	pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
+
+	const bool nocolor = flags.count("--nocolor");
+
+	const char* ecolor = (nocolor)? "" : ansi::red;
+	const char* rcolor = (nocolor)? "" : ansi::reset;
+
+	if(flags.count("-h") || flags.count("--help")){
+		help();
+		return 0;
+	}
+
 	try{
-		std::vector<std::string> params;
-		std::map<std::string, std::vector<std::string>> options;
-		std::set<std::string> flags;
-		std::set<std::string> option_set = {
-			"-o", "--output",
-			"-c", "--color",
-			"-i", "--input",
-			"-r", "--res",
-			"-sr", "--scaleres",
-			"-a", "--axiscolor",
-			"-s", "--strokewidth",
-		};
-		std::set<std::string> flag_set = {
-			"-h", "--help",
-			"-v", "--verbose"
-		};
-
-		pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
-
-		if(flags.count("-h") || flags.count("--help")){
-			help();
-			return 0;
-		}
 
 		std::string file_name_in;
 		bool open_in = false;
@@ -169,7 +178,7 @@ int main(int argc, char *argv[]){
 
 	}
 	catch(const std::exception& e){
-		std::cout << "error -> " << e.what() << std::endl;
+		std::cout << ecolor << "error -> " << e.what() << rcolor << std::endl;
 		return 1;
 	}
 	return 0;
