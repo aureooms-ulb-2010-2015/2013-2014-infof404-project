@@ -120,7 +120,6 @@ namespace os{
 						}
 
 						case END_OF_INTERVAL:{
-							break;
 						}
 					}
 					typename events_t::iterator prev = it;

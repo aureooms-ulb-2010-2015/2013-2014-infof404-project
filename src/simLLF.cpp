@@ -11,6 +11,7 @@
 #include "lib/pinput.h"
 #include "lib/io.h"
 #include "lib/exception.h"
+#include "lib/ansi.h"
 
 template<typename P, typename O, typename D, typename S>
 void parse_parameters(const P& parameters, const O& options, D& d, S& mode, S& file_name, bool& open){
@@ -51,33 +52,43 @@ void help(){
 
 int main(int argc, char* argv[]){
 
+
+	std::vector<std::string> params;
+	std::map<std::string, std::vector<std::string>> options;
+	std::set<std::string> flags;
+	std::set<std::string> option_set = {
+		"-m", "--mode"
+	};
+	std::set<std::string> flag_set = {
+		"-h", "--help",
+		"-v", "--verbose",
+		"-p", "--pipe",
+		"--nocolor"
+	};
+
+	pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
+
+
+	const bool nocolor = flags.count("--nocolor");
+
+	const char* vcolor = (nocolor)? "" : ansi::blue;
+	const char* ecolor = (nocolor)? "" : ansi::red;
+	const char* rcolor = (nocolor)? "" : ansi::reset;
+
+	const bool show_help = flags.count("-h") || flags.count("--help");
+	if(show_help){
+		help();
+		return 0;
+	}
+
+	const bool pipe = flags.count("-p") || flags.count("--pipe");
+
 	try{
-
-		std::vector<std::string> params;
-		std::map<std::string, std::vector<std::string>> options;
-		std::set<std::string> flags;
-		std::set<std::string> option_set = {
-			"-m", "--mode"
-		};
-		std::set<std::string> flag_set = {
-			"-h", "--help",
-			"-v", "--verbose",
-			"-p", "--pipe"
-		};
-
-		pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
-
-		if(flags.count("-h") || flags.count("--help")){
-			help();
-			return 0;
-		}
-
 
 		uint d;
 		std::string mode = "event";
 		std::string file_name;
 		bool open = false;
-		bool pipe = flags.count("-p") || flags.count("--pipe");
 
 		parse_parameters(params, options, d, mode, file_name, open);
 
@@ -136,15 +147,17 @@ int main(int argc, char* argv[]){
 		}
 
 		if(!pipe){
+			std::cout << vcolor;
 			std::cout << "study interval [" << 0 << ", " << lcm << '[' << std::endl;
 			std::cout << "# preemptions : " << preempted << std::endl;
 			std::cout << "# idle : " << idle << std::endl;
 			std::cout << "b schedulable : " << schedulable << std::endl;
+			std::cout << rcolor;
 		}
 
 	}
 	catch(const std::exception& e){
-		std::cout << "error -> " << e.what() << std::endl;
+		std::cout << ecolor << "error -> " << e.what() << rcolor << std::endl;
 		return 1;
 	}
 
