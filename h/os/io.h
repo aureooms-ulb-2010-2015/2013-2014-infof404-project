@@ -50,6 +50,17 @@ namespace os{
 		}
 	}
 
+	template<typename O, typename M, typename V>
+	void store_gnuplot(O& out, M& mean, const V& vector, const size_t width){
+		for(size_t i = 0; i < width; ++i){
+			out << vector[i];
+			out << ' ';
+			out << mean[i][0];
+			out << ' ';
+			out << mean[i][1];
+			out << std::endl;
+		}
+	}
 
 
 	template<typename O, typename V1, typename V2, typename V3>
