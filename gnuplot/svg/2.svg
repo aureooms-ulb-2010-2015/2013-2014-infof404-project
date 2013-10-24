@@ -897,10 +897,18 @@
 	<g transform="translate(507.9,76.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
 		<text>preemption %</text>
 	</g>
-	<path stroke='rgb(  0,  96, 173)'  d='M516.2,72.1 L558.4,72.1 M71.9,365.1 L295.5,406.6 L575.0,413.8 '></path>
-	<use xlink:href='#gpPt0' transform='translate(71.9,365.1) scale(4.50)' color='rgb(  0,  96, 173)'/>
-	<use xlink:href='#gpPt0' transform='translate(295.5,406.6) scale(4.50)' color='rgb(  0,  96, 173)'/>
-	<use xlink:href='#gpPt0' transform='translate(575.0,413.8) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<path stroke='rgb(  0,  96, 173)'  d='M516.2,72.1 L558.4,72.1 M71.9,350.0 L127.8,383.8 L183.7,395.4 L239.6,401.1 L295.5,404.8 L351.4,407.2 
+		L407.3,409.1 L463.2,410.4 L519.1,411.6 L575.0,412.5 '></path>
+	<use xlink:href='#gpPt0' transform='translate(71.9,350.0) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<use xlink:href='#gpPt0' transform='translate(127.8,383.8) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<use xlink:href='#gpPt0' transform='translate(183.7,395.4) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<use xlink:href='#gpPt0' transform='translate(239.6,401.1) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<use xlink:href='#gpPt0' transform='translate(295.5,404.8) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<use xlink:href='#gpPt0' transform='translate(351.4,407.2) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<use xlink:href='#gpPt0' transform='translate(407.3,409.1) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<use xlink:href='#gpPt0' transform='translate(463.2,410.4) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<use xlink:href='#gpPt0' transform='translate(519.1,411.6) scale(4.50)' color='rgb(  0,  96, 173)'/>
+	<use xlink:href='#gpPt0' transform='translate(575.0,412.5) scale(4.50)' color='rgb(  0,  96, 173)'/>
 	<use xlink:href='#gpPt0' transform='translate(537.3,72.1) scale(4.50)' color='rgb(  0,  96, 173)'/>
 </g>
 	</a>
@@ -909,10 +917,18 @@
 	<g transform="translate(507.9,94.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
 		<text>schedulability %</text>
 	</g>
-	<path stroke='rgb(  0, 173,   6)'  d='M516.2,90.1 L558.4,90.1 M71.9,54.1 L295.5,104.7 L575.0,153.8 '></path>
-	<use xlink:href='#gpPt1' transform='translate(71.9,54.1) scale(4.50)' color='rgb(  0, 173,   6)'/>
-	<use xlink:href='#gpPt1' transform='translate(295.5,104.7) scale(4.50)' color='rgb(  0, 173,   6)'/>
-	<use xlink:href='#gpPt1' transform='translate(575.0,153.8) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<path stroke='rgb(  0, 173,   6)'  d='M516.2,90.1 L558.4,90.1 M71.9,75.7 L127.8,88.2 L183.7,105.8 L239.6,119.1 L295.5,136.1 L351.4,144.4 
+		L407.3,162.5 L463.2,168.0 L519.1,180.4 L575.0,185.7 '></path>
+	<use xlink:href='#gpPt1' transform='translate(71.9,75.7) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<use xlink:href='#gpPt1' transform='translate(127.8,88.2) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<use xlink:href='#gpPt1' transform='translate(183.7,105.8) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<use xlink:href='#gpPt1' transform='translate(239.6,119.1) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<use xlink:href='#gpPt1' transform='translate(295.5,136.1) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<use xlink:href='#gpPt1' transform='translate(351.4,144.4) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<use xlink:href='#gpPt1' transform='translate(407.3,162.5) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<use xlink:href='#gpPt1' transform='translate(463.2,168.0) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<use xlink:href='#gpPt1' transform='translate(519.1,180.4) scale(4.50)' color='rgb(  0, 173,   6)'/>
+	<use xlink:href='#gpPt1' transform='translate(575.0,185.7) scale(4.50)' color='rgb(  0, 173,   6)'/>
 	<use xlink:href='#gpPt1' transform='translate(537.3,90.1) scale(4.50)' color='rgb(  0, 173,   6)'/>
 </g>
 	</a>

@@ -25,13 +25,13 @@
 
 \subsubsection{Splitting data for custom color plot}
 
-\shellcmd{cat benchmark/1 | ./run/split\_mean -o benchmark/2 benchmark/3 benchmark/4}
+\shellcmd{cat benchmark/1 | ./run/split\_benchmark -o benchmark/2 benchmark/3 benchmark/4}
 
-\shellcmd{cat benchmark/2 | ./run/compute\_mean mean/data/2p mean/data/2s}
+\shellcmd{cat benchmark/2 | ./run/compute\_mean -o mean/data/2p mean/data/2s}
 
-\shellcmd{cat benchmark/3 | ./run/compute\_mean mean/data/3p mean/data/3s}
+\shellcmd{cat benchmark/3 | ./run/compute\_mean -o mean/data/3p mean/data/3s}
 
-\shellcmd{cat benchmark/4 | ./run/compute\_mean mean/data/4p mean/data/4s}
+\shellcmd{cat benchmark/4 | ./run/compute\_mean -o mean/data/4p mean/data/4s}
 
 
 
