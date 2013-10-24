@@ -31,12 +31,13 @@ void fill_parameters(const O& options, S& file_name_in, bool& open_in, V& file_n
 }
 
 void help(){
+	std::cout << " - mandatory parameters" << std::endl << std::endl;
+	std::cout << "   " << "[-o | --output      ] ... (string[])" << std::endl << std::endl;
+	std::cout << " - optional parameters" << std::endl << std::endl;
+	std::cout << "   " << "[-i | --input       ] #0 (string)" << std::endl << std::endl;
 	std::cout << " - flags" << std::endl << std::endl;
 	std::cout << "   " << "[-h | --help        ]" << std::endl;
 	std::cout << "   " << "[--nocolor          ]" << std::endl << std::endl;
-	std::cout << " - optional parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-i | --input       ] #0 (string)" << std::endl;
-	std::cout << "   " << "[-o | --output      ] ... (string[])" << std::endl << std::endl;
 }
 
 int main(int argc, char *argv[]){
