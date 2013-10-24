@@ -14,14 +14,14 @@
 #include "lib/ansi.h"
 
 template<typename P, typename O, typename D, typename S>
-void parse_parameters(const P& parameters, const O& options, D& d, S& mode, S& file_name, bool& open){
+void parse_parameters(const P& parameters, const O& options, D& d, S& mode, S& file_name_in, bool& open_in, S& file_name_out, bool& open_out){
 
 	if(parameters.size() < 1) throw lib::exception("Missing d");
 
 	d = std::stoul(parameters[0]);
 	if(parameters.size() >= 2){
-		file_name = parameters[1];
-		open = true;
+		file_name_in = parameters[1];
+		open_in = true;
 	}
 
 	typename O::const_iterator it;
@@ -29,6 +29,13 @@ void parse_parameters(const P& parameters, const O& options, D& d, S& mode, S& f
 	if(((it = options.find("-m")) != options.end() || (it = options.find("--mode")) != options.end()) && it->second.size() > 0){
 		mode = it->second[0];
 	}
+
+	if((it = options.find("-o")) != options.end() || (it = options.find("--output")) != options.end()){
+		if(it->second.size() > 0){
+			file_name_out = it->second[0];
+			open_out = true;
+		}
+	};
 
 }
 
@@ -49,6 +56,7 @@ void help(){
 	std::cout << " - optional parameters" << std::endl << std::endl;
 	std::cout << "   " << "#1 (string)" << std::endl << std::endl;
 	std::cout << "   " << "[-m | --mode    ] #0 (string)" << std::endl << std::endl;
+	std::cout << "   " << "[-o | --output  ] #0 (string)" << std::endl << std::endl;
 }
 
 int main(int argc, char* argv[]){
@@ -64,6 +72,7 @@ int main(int argc, char* argv[]){
 		"-h", "--help",
 		"-v", "--verbose",
 		"-p", "--pipe",
+		"-o", "--output",
 		"--nocolor"
 	};
 
@@ -88,31 +97,46 @@ int main(int argc, char* argv[]){
 
 		uint d;
 		std::string mode = "event";
-		std::string file_name;
-		bool open = false;
+		std::string file_name_in, file_name_out;
+		bool open_in = false, open_out = false;
 
-		parse_parameters(params, options, d, mode, file_name, open);
+		parse_parameters(params, options, d, mode, file_name_in, open_in, file_name_out, open_out);
 
 		check_parameters(d, mode);
 
 
-		//READ INPUT
+		// INPUT
 
-		std::streambuf* buffer;
+		std::streambuf* buffer_in;
 		std::ifstream ifstream;
 
-		if(open){
-			ifstream.open(file_name);
-			buffer = ifstream.rdbuf();
+		if(open_in){
+			ifstream.open(file_name_in);
+			buffer_in = ifstream.rdbuf();
 		}
 		else{
-			buffer = std::cin.rdbuf();
+			buffer_in = std::cin.rdbuf();
 		}
-		std::istream istream(buffer);
+		std::istream istream(buffer_in);
 
 		os::task_system_t task_system;
 		istream >> task_system;
-		if(open) ifstream.close();
+		if(open_in) ifstream.close();
+
+		// OUTPUT
+		std::streambuf* buffer_out;
+		std::ofstream ofstream;
+
+		if(open_out){
+			ofstream.open(file_name_out);
+			buffer_out = ofstream.rdbuf();
+		}
+		else{
+			buffer_out = std::cout.rdbuf();
+		}
+
+		std::ostream ostream(buffer_out);
+
 
 		uint lcm = os::task_system_period_lcm<uint, os::task_system_t>(task_system);
 		uint preempted, idle;
@@ -120,9 +144,9 @@ int main(int argc, char* argv[]){
 
 		std::function<void(size_t, size_t, size_t, size_t)> callback = [](size_t, size_t, size_t, size_t){};
 		if(pipe){
-			std::cout << task_system.size() << ' ' << lcm << std::endl;
-			callback = [](size_t event, size_t task, size_t i, size_t j){
-				std::cout << event << ' ' << task << ' ' << i << ' ' << j << std::endl;
+			ostream << task_system.size() << ' ' << lcm << std::endl;
+			callback = [&](size_t event, size_t task, size_t i, size_t j){
+				ostream << event << ' ' << task << ' ' << i << ' ' << j << std::endl;
 			};
 		}
 
@@ -148,13 +172,15 @@ int main(int argc, char* argv[]){
 		}
 
 		if(!pipe){
-			std::cout << vcolor;
-			std::cout << "study interval [" << 0 << ", " << lcm << '[' << std::endl;
-			std::cout << "# preemptions : " << preempted << std::endl;
-			std::cout << "# idle : " << idle << std::endl;
-			std::cout << "b schedulable : " << schedulable << std::endl;
-			std::cout << rcolor;
+			ostream << vcolor;
+			ostream << "study interval [" << 0 << ", " << lcm << '[' << std::endl;
+			ostream << "# preemptions : " << preempted << std::endl;
+			ostream << "# idle : " << idle << std::endl;
+			ostream << "b schedulable : " << schedulable << std::endl;
+			ostream << rcolor;
 		}
+
+		if(open_out) ofstream.close();
 
 	}
 	catch(const std::exception& e){
