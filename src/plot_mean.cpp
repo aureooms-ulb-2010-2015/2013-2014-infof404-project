@@ -174,8 +174,6 @@ int main(int argc, char *argv[]){
 		os::study::plot_axis(doc, "u", vector_u, u_width, x_res, "d", vector_d, d_width, y_res, axis_stroke, axis_color, 75, 75);
 		doc.save();
 
-		std::cout << std::endl;
-
 	}
 	catch(const std::exception& e){
 		std::cout << ecolor << "error -> " << e.what() << rcolor << std::endl;

@@ -63,7 +63,6 @@ namespace os{
 			for(size_t i = 0; i < u_width; ++i){
 				for(size_t j = 0; j < d_width; ++j){
 					const double value = (mean[i][j] - v_min) / v_range;
-					std::cout << v_min << ',' << value << ',' << v_max << std::endl;
 					const int r = compute_color(value, start.r, stop.r);
 					const int g = compute_color(value, start.g, stop.g);
 					const int b = compute_color(value, start.b, stop.b);
