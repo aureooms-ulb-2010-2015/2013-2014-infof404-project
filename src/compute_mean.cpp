@@ -5,7 +5,7 @@
 
 #include "os/benchmark_t.h"
 #include "os/io.h"
-#include "os/study/plot.h"
+#include "os/study/compute_mean.h"
 #include "lib/pinput.h"
 #include "lib/ansi.h"
 
