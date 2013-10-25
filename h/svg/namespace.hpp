@@ -261,11 +261,16 @@ namespace svg
 
             std::stringstream ss;
             ss << attribute("stroke-width", translateScale(width, layout)) << attribute("stroke", color.toString(layout));
+            if(linecap != "") ss << attribute("stroke-linecap", linecap);
+            if(dasharray != "") ss << attribute("stroke-dasharray", dasharray);
             return ss.str();
         }
     private:
         double width;
         Color color;
+    public:
+        std::string linecap;
+        std::string dasharray;
     };
 
     class Font : public Serializeable

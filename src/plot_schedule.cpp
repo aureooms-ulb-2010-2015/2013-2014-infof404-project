@@ -17,6 +17,7 @@ int main(){
 
 	draw_axis(doc,scale); 
 	draw_task_lines(doc,scale);
+	draw_time_unit_lines(doc,scale);
 
 	while(std::cin.good() and not over){
 

@@ -12,6 +12,8 @@
 namespace os{ 
 	namespace schedule{
 
+		const uint x_offset = 20;
+
 		typedef struct svg_scale{
 				int lcm = 200;
 				int time_unit = 15;
@@ -21,13 +23,13 @@ namespace os{
 
 				svg_scale(){
 					width =25 + lcm*time_unit;
-					height =25*task_nbr + 50*task_nbr+12;//25 for arrows 25 for blocks, 25 between tasks , 12 for axis border
+					height =25*task_nbr + 50*task_nbr+x_offset;//25 for arrows 25 for blocks, 25 between tasks , x_offset for axis border
 
 				}
 
 				svg_scale(int lcm, int time_unit, int task_nbr):lcm(lcm), time_unit(time_unit), task_nbr(task_nbr){
-					width =25 + lcm*time_unit+12;//12 for axis border
-					height =25*task_nbr + 50*task_nbr+12;//25 for arrows 25 for blocks, 25 between tasks , 12 for axis border
+					width =25 + lcm*time_unit+x_offset;//x_offset for axis border
+					height =25*task_nbr + 50*task_nbr+x_offset;//25 for arrows 25 for blocks, 25 between tasks , x_offset for axis border
 				}
 
 
@@ -43,33 +45,42 @@ namespace os{
 
 			}
 
+		void draw_time_unit_lines(svg::Document& doc, svg_scale scale){
+			svg::Stroke stroke(1,svg::Color(0,0,0));
+			//stroke.linecap = "round";
+			stroke.dasharray = "1,3";
+			for(int i = 0; i <= scale.lcm; ++i){
+				doc << svg::Line(svg::Point(x_offset + i * scale.time_unit, x_offset), svg::Point(x_offset + i * scale.time_unit, scale.height-x_offset), stroke);
+			}
+		}
+
 		void draw_task_lines (svg::Document& doc, svg_scale scale ){
 			std::stringstream value_s;
-			for (int i = 0; i < scale.task_nbr; ++i)
-			{
-				svg::Line separator_one(svg::Point(12, 25*(i+1) + 50 *i), svg::Point(scale.width-12, 25*(i+1) + 50 *i), svg::Stroke(1,svg::Color(0,0,0)));
+			for (int i = 0; i < scale.task_nbr; ++i){
+				//svg::Line separator_one(svg::Point(x_offset, 25*(i+1) + 50 *i), svg::Point(scale.width-x_offset, 25*(i+1) + 50 *i), svg::Stroke(1,svg::Color(0,0,0)));
 
 				value_s.precision(0);
-				value_s  << "t"<<i;
-				svg::Text text(svg::Point(0, (25*(i+1)+50*i) +25), value_s.str(), svg::Color(0,0,0));
+				value_s  << "t" <<i;
+				svg::Text text(svg::Point(0, (25*(i+1)+50*i)+25 - x_offset + 3), value_s.str(), svg::Color(0,0,0));
 
-				svg::Line separator_two(svg::Point(12, (25*(i+1)+50*i) +50), svg::Point(scale.width-12, (25*(i+1)+50*i) +50), svg::Stroke(1,svg::Color(0,0,0)));
+				//svg::Line separator_two(svg::Point(x_offset, (25*(i+1)+50*i) +50), svg::Point(scale.width-x_offset, (25*(i+1)+50*i) +50), svg::Stroke(1,svg::Color(0,0,0)));
 				value_s.str("");
-				doc << separator_one<< text<<separator_two;
+				//doc << separator_one<< text<<separator_two;
+				doc << text;
 			}
 
 		}
 
 		void draw_axis (svg::Document& doc, svg_scale scale ){
-			svg::Line vert_axis(svg::Point(12, 12), svg::Point(12, scale.height-12), svg::Stroke(1,svg::Color(0,0,0)));
-			svg::Line hor_axis(svg::Point(12, 12), svg::Point(scale.width-12, 12), svg::Stroke(1,svg::Color(0,0,0)));
+			//svg::Line vert_axis(svg::Point(x_offset, x_offset), svg::Point(x_offset, scale.height-x_offset), svg::Stroke(1,svg::Color(0,0,0)));
+			//svg::Line hor_axis(svg::Point(x_offset, x_offset), svg::Point(scale.width-x_offset, x_offset), svg::Stroke(1,svg::Color(0,0,0)));
 
-			svg::Polygon hor_arrow(svg::Color(0,0,0));
-			hor_arrow << svg::Point(scale.width-8, 12) << svg::Point(scale.width-18, 6) << svg::Point(scale.width-18, 18);
+			// svg::Polygon hor_arrow(svg::Color(0,0,0));
+			// hor_arrow << svg::Point(scale.width-8, x_offset) << svg::Point(scale.width-18, 6) << svg::Point(scale.width-18, 18);
 
 
 
-			doc << vert_axis << hor_axis << hor_arrow ;
+			// doc << vert_axis << hor_axis << hor_arrow ;
 
 
 			//draw graduation
@@ -81,7 +92,7 @@ namespace os{
 				value_s.precision(0);
 				value_s << i;
 				std::string value = value_s.str();
-				int offset = 9;
+				int offset = x_offset - 3;
 				if(value.size() > 1) offset += (value.size() - 1) * (-5);
 				svg::Text text(svg::Point( i*scale.time_unit+offset , 2), value_s.str(), svg::Color(0,0,0));
 				doc <<  text;
@@ -102,16 +113,16 @@ namespace os{
 
 		}
 
-		void draw_rectangle(svg::Document& doc, svg::Point top_left_corner, svg_scale scale){
+		void draw_rectangle(svg::Document& doc, svg::Point top_left_corner, svg_scale scale, uint width = 1){
 			std::cout <<"drawing Rectangle on  "<<" x="<<top_left_corner.get_x() << " y="<<top_left_corner.get_y() <<std::endl;
 
-			svg::Rectangle rect = svg::Rectangle(top_left_corner, scale.time_unit,25,  svg::Fill(svg::Color(30,30,30)),svg::Stroke(1, svg::Color::White ));
+			svg::Rectangle rect = svg::Rectangle(top_left_corner, width * scale.time_unit,25,  svg::Fill(svg::Color::Transparent),svg::Stroke(1, svg::Color::Black ));
 		    doc<<rect;
 		}
 		void draw_circle(svg::Document& doc, svg::Point center){
 			std::cout <<"drawing circle on  "<<" x="<<center.get_x() << " y="<<center.get_y() <<std::endl;
 
-			int circle_diameter = 12;
+			int circle_diameter = x_offset;
 			svg::Circle circle(center, circle_diameter, svg::Fill(svg::Color::Transparent),svg::Stroke(1, svg::Color(0, 0, 0) ) );
 			doc << circle;
 		}
@@ -130,24 +141,19 @@ namespace os{
 			if(event_id==0){//new job
 
 				std::cout << "new job"<<std::endl;
-				svg::Point head ( beg*scale.time_unit+12,get_svg_task_line(task_id)-21);
+				svg::Point head ( beg*scale.time_unit+x_offset,get_svg_task_line(task_id)-21);
 				draw_vert_arrow(doc, head);
 
 			}
 			else if(event_id==1){//new dead line
 				std::cout << "new dead line"<<std::endl;
 
-				svg::Point center = svg::Point(beg*scale.time_unit+12,get_svg_task_line(task_id)-50);
+				svg::Point center = svg::Point(beg*scale.time_unit+x_offset,get_svg_task_line(task_id)-50);
 				draw_circle(doc, center);
 			}
 			else if(event_id==2){//work between
 				std::cout << "new work"<<std::endl;
-
-				while(beg<end){
-					draw_rectangle(doc, svg::Point ( beg*scale.time_unit+12,get_svg_task_line(task_id)-25),scale);
-					beg+=1;
-				}
-
+				draw_rectangle(doc, svg::Point ( beg*scale.time_unit+x_offset,get_svg_task_line(task_id)-25),scale, end-beg);
 			}
 			else if(event_id==3){//non scheduable
 				std::cout << "non scheduable"<<std::endl;
