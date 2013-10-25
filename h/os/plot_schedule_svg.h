@@ -26,8 +26,8 @@ typedef struct svg_scale{
 		}
 
 		svg_scale(int lcm, int time_unit, int task_nbr):lcm(lcm), time_unit(time_unit), task_nbr(task_nbr){
-			width =25 + lcm*time_unit;
-			height =100 + 50*task_nbr;//25 for arrows 25 for blocks
+			width =25 + lcm*time_unit+12;//12 for axis border
+			height =25*task_nbr + 50*task_nbr+12;//25 for arrows 25 for blocks, 25 between tasks , 12 for axis border
 		}
 
 
@@ -96,31 +96,75 @@ void draw_circle(svg::Document& doc, svg::Point center){
 	doc << circle;
 }
 
+int get_svg_task_line(svg_scale scale, uint task_id ){
 
+	return scale.get
+}
 
+bool plot(svg::Document doc,uint task_id, uint event_id, uint beg, uint end, svg_scale scale){
 
-void make_schedule (int lcm =200, int task_nbr=3,int time_unit=15 , std::string file_name=""){
+	bool over= false;
+
+	if(event_id==0){//new job
+
+		//draw_vert_arrow(doc,)
+
+	}
+	else if(event_id==1){//new dead line
+
+	}
+	else if(event_id==2){//work between
+
+	}
+	else if(event_id==3){//non scheduable
+		over=true;
+	}
+	else if(event_id==4){//EOF
+		over=true;
+	}
+
+		
+}
+
+int main (){
  	
- 	//ATTRIBUTS
-	svg_scale scale=svg_scale(lcm,time_unit,task_nbr);
+ 	
 
+ 	int time_unit=15;
+
+
+	svg_scale scale;
 	svg::Document doc = make_SVG_doc(scale);
 	draw_axis(doc,scale); 
     
 
+	
+	uint task_id,event_id,beg,end;
+	bool over=false,got_scale_values = false;
+
 	std::ifstream ifstream;
 	ifstream.open(file_name);
+	while(std::cin.good() and not over){
 
-	while(ifstream.good()){
-		ifstream >> a;
-		ifstream >> b;
-		ifstream >> c;
-		plot(doc, a, b, c);
+		if (not got_scale_values)
+		{
+			std::cin >> task_nbr;
+			std::cin >> lcm;
+			scale=svg_scale(lcm,time_unit,task_nbr);
+			got_scale_values= true;
+		}
+
+		std::cin >> task_id;
+		std::cin >> event_id;
+		std::cin >> beg;
+		std::cin >> end;
+
+		over = plot(doc, task_id, event_id, beg,end,scale );
 	}
 
 	ifstream.close();
 	doc.save();
-	 
+	return 0;
 	}
 }//end namespaces
 }
