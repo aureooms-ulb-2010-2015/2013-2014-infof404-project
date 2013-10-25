@@ -35,11 +35,11 @@ namespace os{
 
 			} svg_scale;
 
-		svg::Document make_SVG_doc(svg_scale scale){
+		svg::Document make_SVG_doc(svg_scale scale, const std::string& filename){
 				//lcm total number of time unit needed
 
 				svg::Dimensions dimensions(scale.width , scale.height);//width,height
-				svg::Document doc("svg/plot_res.svg", svg::Layout(dimensions, svg::Layout::BottomLeft));
+				svg::Document doc(filename, svg::Layout(dimensions, svg::Layout::BottomLeft));
 
 				return doc;
 
