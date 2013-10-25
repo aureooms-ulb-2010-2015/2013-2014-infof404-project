@@ -61,11 +61,11 @@ namespace os{
 		}
 
 		void draw_axis (svg::Document& doc, svg_scale scale ){
-			svg::Line vert_axis(svg::Point(12, 12), svg::Point(12, scale.height-12), svg::Stroke(2,svg::Color(0,0,0)));
-			svg::Line hor_axis(svg::Point(12, 12), svg::Point(scale.width-12, 12), svg::Stroke(2,svg::Color(0,0,0)));
+			svg::Line vert_axis(svg::Point(12, 12), svg::Point(12, scale.height-12), svg::Stroke(1,svg::Color(0,0,0)));
+			svg::Line hor_axis(svg::Point(12, 12), svg::Point(scale.width-12, 12), svg::Stroke(1,svg::Color(0,0,0)));
 
 			svg::Polygon hor_arrow(svg::Color(0,0,0));
-			hor_arrow << svg::Point(scale.width-12, 12) << svg::Point(scale.width-18, 6) << svg::Point(scale.width-18, 18);
+			hor_arrow << svg::Point(scale.width-8, 12) << svg::Point(scale.width-18, 6) << svg::Point(scale.width-18, 18);
 
 
 
@@ -79,10 +79,10 @@ namespace os{
 			{
 				std::stringstream value_s;
 				value_s.precision(0);
-				value_s  << i;
+				value_s << i;
+				std::string value = value_s.str();
 				int offset = 9;
-				if (i>9){offset=0;}
-				else if (i>99){offset=-9;}
+				if(value.size() > 1) offset += (value.size() - 1) * (-5);
 				svg::Text text(svg::Point( i*scale.time_unit+offset , 2), value_s.str(), svg::Color(0,0,0));
 				doc <<  text;
 			}
@@ -93,11 +93,11 @@ namespace os{
 		void draw_vert_arrow (svg::Document& doc, svg::Point head){
 		std::cout <<"drawing arrow on  "<<" x="<<head.get_x() << " y="<<head.get_y() <<std::endl;
 
-			svg::Point tail (head.get_x(), head.get_y()+25);
+			svg::Point tail (head.get_x(), head.get_y()+21);
 
-			svg::Line arrow_body(head, tail, svg::Stroke(2,svg::Color(0,0,0)));
+			svg::Line arrow_body(head, tail, svg::Stroke(1,svg::Color(0,0,0)));
 			svg::Polygon arrow_head(svg::Color(0,0,0));
-			arrow_head << head << svg::Point(head.get_x()+3, head.get_y()+7) << svg::Point(head.get_x()-3, head.get_y()+7);
+			arrow_head << svg::Point(head.get_x(), head.get_y()-4) << svg::Point(head.get_x()+3, head.get_y()+7) << svg::Point(head.get_x()-3, head.get_y()+7);
 			doc << arrow_body << arrow_head;
 
 		}
@@ -105,7 +105,7 @@ namespace os{
 		void draw_rectangle(svg::Document& doc, svg::Point top_left_corner, svg_scale scale){
 			std::cout <<"drawing Rectangle on  "<<" x="<<top_left_corner.get_x() << " y="<<top_left_corner.get_y() <<std::endl;
 
-			svg::Rectangle rect = svg::Rectangle(top_left_corner, scale.time_unit,25,  svg::Fill(svg::Color(0,0,0)),svg::Stroke(1, svg::Color::White ));
+			svg::Rectangle rect = svg::Rectangle(top_left_corner, scale.time_unit,25,  svg::Fill(svg::Color(30,30,30)),svg::Stroke(1, svg::Color::White ));
 		    doc<<rect;
 		}
 		void draw_circle(svg::Document& doc, svg::Point center){
@@ -130,20 +130,20 @@ namespace os{
 			if(event_id==0){//new job
 
 				std::cout << "new job"<<std::endl;
-				svg::Point head ( beg*scale.time_unit+12,get_svg_task_line(task_id)-25);
+				svg::Point head ( beg*scale.time_unit+12,get_svg_task_line(task_id)-21);
 				draw_vert_arrow(doc, head);
 
 			}
 			else if(event_id==1){//new dead line
 				std::cout << "new dead line"<<std::endl;
 
-				svg::Point  ( beg*scale.time_unit+12,get_svg_task_line(task_id)-50);
-				draw_circle(doc,svg::Point ( (beg*scale.time_unit) + 12 ,get_svg_task_line(task_id)-12 ) );
+				svg::Point center = svg::Point(beg*scale.time_unit+12,get_svg_task_line(task_id)-50);
+				draw_circle(doc, center);
 			}
 			else if(event_id==2){//work between
 				std::cout << "new work"<<std::endl;
 
-				while(beg<=end){
+				while(beg<end){
 					draw_rectangle(doc, svg::Point ( beg*scale.time_unit+12,get_svg_task_line(task_id)-25),scale);
 					beg+=1;
 				}
