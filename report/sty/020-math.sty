@@ -14,20 +14,20 @@
 	\renewcommand{\conjecturename}{Conjecture}
 }
 
-\newtheorem{theorem}{\theoremname}[chapter]
+\newtheorem{theorem}{\theoremname}[section]
 \newtheorem{lemma}[theorem]{\lemmaname}
 \newtheorem{conjecture}[theorem]{\conjecturename}
 
 \newcommand\makethm[0]{
 	\newpage\cleardoublepage\phantomsection
-	\addcontentsline{toc}{chapter}{\listtheoremname}
+	\addcontentsline{toc}{section}{\listtheoremname}
 	\listoftheorems
 }
 
 \renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
 
 
-\numberwithin{equation}{chapter}
+\numberwithin{equation}{section}
 
 % we use this for our refernces as well
 \AtBeginDocument{\renewcommand{\ref}[1]{\mbox{\autoref{#1}}}}
@@ -59,7 +59,7 @@
 
 \newcommand\makeequ[0]{
 	\newpage\cleardoublepage\phantomsection
-	\addcontentsline{toc}{chapter}{\listequationsname}
+	\addcontentsline{toc}{section}{\listequationsname}
 	\listofequations
 }
 

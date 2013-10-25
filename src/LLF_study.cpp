@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <random>
+#include <fstream>
 
 #include "os/generator.h"
 #include "os/benchmark_t.h"
@@ -15,7 +16,7 @@
 #include "lib/pinput.h"
 #include "lib/exception.h"
 
-#include "os/study/plot.h" // TODO REMOVEZ
+#include "lib/ansi.h"
 
 template<typename O, typename U, typename D, typename N, typename K, typename P, typename V, typename S>
 void fill_parameters(const O& options, U& u, D& d, N& n, K& k, P& p_min, P& p_max, V& s, S& mode, S& file_name, bool& open){
@@ -72,9 +73,8 @@ void fill_parameters(const O& options, U& u, D& d, N& n, K& k, P& p_min, P& p_ma
 
 template<typename U, typename D, typename N, typename P, typename S>
 void check_parameters(const U& u, const D& d, const N& n, const P& p_min, const S& mode){
-	for(auto& x : d){
-		if(x < 1) throw lib::exception("E d[i] < 1");
-	}
+	for(auto& x : d) if(x < 1) throw lib::exception("E d[i] < 1");
+	for(auto& x : u) if(x > 1) throw lib::exception("E u[i] > 1");
 	for(auto& x : n){
 		if(x > p_min) throw lib::exception("E n[i] > p_min");
 		for(auto& y : u){
@@ -86,48 +86,59 @@ void check_parameters(const U& u, const D& d, const N& n, const P& p_min, const 
 
 void help(){
 	std::cout << " - flags" << std::endl << std::endl;
-	std::cout << "   " << "[-h | --help]" << std::endl;
-	std::cout << "   " << "[-v | --verbose]" << std::endl << std::endl;
+	std::cout << "   " << "[-h | --help        ]" << std::endl;
+	std::cout << "   " << "[-v | --verbose     ]" << std::endl;
+	std::cout << "   " << "[--nocolor          ]" << std::endl << std::endl;
 	std::cout << " - mandatory parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-u | --utilization] ... (double[] | v[i] >= 0)" << std::endl;
-	std::cout << "   " << "[-d | --delta      ] ... (uint[])" << std::endl;
-	std::cout << "   " << "-n                   ... (uint[])" << std::endl;
-	std::cout << "   " << "-k                   ... (uint)" << std::endl << std::endl;
+	std::cout << "   " << "[-u | --utilization ] ... (double[] | v[i] >= 0)" << std::endl;
+	std::cout << "   " << "[-d | --delta       ] ... (uint[])" << std::endl;
+	std::cout << "   " << "-n                    ... (uint[])" << std::endl;
+	std::cout << "   " << "-k                    ... (uint)" << std::endl << std::endl;
 	std::cout << " - optional parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-p | --period] #0 [#1] (int[2], #1 >= #0)" << std::endl;
-	std::cout << "   " << "[-s | --seed  ] #0 (uint)" << std::endl;
-	std::cout << "   " << "[-o | --output] #0 (string)" << std::endl << std::endl;
-	std::cout << "   " << "[-m | --mode  ] #0 (string)" << std::endl << std::endl;
+	std::cout << "   " << "[-p | --period      ] #0 [#1] (int[2], #1 >= #0)" << std::endl;
+	std::cout << "   " << "[-s | --seed        ] #0 (uint)" << std::endl;
+	std::cout << "   " << "[-o | --output      ] #0 (string)" << std::endl << std::endl;
+	std::cout << "   " << "[-m | --mode        ] #0 (string)" << std::endl << std::endl;
 }
 
 int main(int argc, char* argv[]){
+
+	std::vector<std::string> params;
+	std::map<std::string, std::vector<std::string>> options;
+	std::set<std::string> flags;
+	std::set<std::string> option_set = {
+		"-u", "--utilization",
+		"-d", "--delta",
+		"-n",
+		"-k",
+		"-p", "--period",
+		"-s", "--seed",
+		"-o", "--output"
+	};
+	std::set<std::string> flag_set = {
+		"-h", "--help",
+		"-v", "--verbose",
+		"--nocolor"
+	};
+
+	pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
+
+	const bool nocolor = flags.count("--nocolor");
+
+	const char* vcolor = (nocolor)? "" : ansi::blue;
+	const char* ecolor = (nocolor)? "" : ansi::red;
+	const char* rcolor = (nocolor)? "" : ansi::reset;
+
+	const bool show_help = flags.count("-h") || flags.count("--help");
+	if(show_help){
+		help();
+		return 0;
+	}
+
+	const bool verbose = flags.count("-v") || flags.count("--verbose");
+
+
 	try{
-
-		std::vector<std::string> params;
-		std::map<std::string, std::vector<std::string>> options;
-		std::set<std::string> flags;
-		std::set<std::string> option_set = {
-			"-u", "--utilization",
-			"-d", "--delta",
-			"-n",
-			"-k",
-			"-p", "--period",
-			"-s", "--seed",
-			"-o", "--output"
-		};
-		std::set<std::string> flag_set = {
-			"-h", "--help",
-			"-v", "--verbose"
-		};
-
-		pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
-
-		if(flags.count("-h") || flags.count("--help")){
-			help();
-			return 0;
-		}
-
-
 
 		std::vector<double> vector_u;
 		std::vector<uint> vector_d;
@@ -165,40 +176,67 @@ int main(int argc, char* argv[]){
 
 		generator.seed(seed);
 
-		if(mode == "event"){
-			os::llf_scheduler_event_based<os::task_system_t, os::job_t> scheduler;
-			os::study_scheduler(task_system_generator, scheduler, vector_n, vector_u, vector_d, k, benchmark, task_system, os::task_system_period_lcm<uint, os::task_system_t>);
-		}
-		else{
-			os::llf_scheduler_time_based<os::task_system_t, os::job_t> scheduler;
-			os::study_scheduler(task_system_generator, scheduler, vector_n, vector_u, vector_d, k, benchmark, task_system, os::task_system_period_lcm<uint, os::task_system_t>);
-		}
+		std::function<void(uint, uint, uint, bool, double)> callback;
 
-		double avg = 0, tot = 0;
-		for(os::benchmark_node_t& x : benchmark){
-			if(x.schedulable) ++avg;
-			++tot;
-		}
-
-		std::cout << avg << " / " << tot << " : " << (avg/tot*100) << "%"<< std::endl;
-
-		std::cout << std::endl;
 
 		const size_t u_width = vector_u.size();
 		const size_t d_width = vector_d.size();
+		const size_t n_width = vector_n.size();
 
-		std::vector<std::vector<double>> p_mean(u_width, std::vector<double>(d_width, 0));
-		std::vector<std::vector<double>> s_mean(u_width, std::vector<double>(d_width, 0));
-		std::vector<std::vector<double>> counter(u_width, std::vector<double>(d_width, 0));
+		if(verbose){
+			const size_t total = u_width * d_width * n_width * k;
+			size_t processed = 0;
+			callback = [&](uint i, uint j, uint k, bool s, double p){
+				benchmark.emplace_back(i,j,k,s,p);
+				++processed;
+				std::cout << vcolor << processed << " / " << total << rcolor << std::endl;
+			};
+		}
+		else{
+			callback = [&](uint i, uint j, uint k, bool s, double p){
+				benchmark.emplace_back(i,j,k,s,p);
+			};
+		}
 
-		os::study::compute_mean(benchmark, u_width, d_width, p_mean, s_mean, counter);
+		if(mode == "event"){
+			os::llf_scheduler_event_based<os::task_system_t, os::job_t> scheduler;
+			os::study_scheduler(task_system_generator, scheduler, vector_n, vector_u, vector_d, k, task_system, os::task_system_period_lcm<uint, os::task_system_t>, callback);
+		}
+		else{
+			os::llf_scheduler_time_based<os::task_system_t, os::job_t> scheduler;
+			os::study_scheduler(task_system_generator, scheduler, vector_n, vector_u, vector_d, k, task_system, os::task_system_period_lcm<uint, os::task_system_t>, callback);
+		}
 
-		os::store_mean(std::cout, p_mean, vector_u, vector_d, u_width, d_width);
-		os::store_mean(std::cout, s_mean, vector_u, vector_d, u_width, d_width);
+		// double avg = 0, tot = 0;
+		// for(os::benchmark_node_t& x : benchmark){
+		// 	if(x.schedulable) ++avg;
+		// 	++tot;
+		// }
 
+		// std::cout << avg << " / " << tot << " : " << (avg/tot*100) << "%"<< std::endl;
+
+		// std::cout << std::endl;
+
+
+		// OUTPUT
+		std::streambuf* buffer;
+		std::ofstream ofstream;
+
+		if(open){
+			ofstream.open(file_name);
+			buffer = ofstream.rdbuf();
+		}
+		else{
+			buffer = std::cout.rdbuf();
+		}
+
+		std::ostream ostream(buffer);
+		os::store_benchmark(ostream, benchmark, vector_u, vector_d, vector_n, u_width, d_width, n_width, k);
+
+		if(open) ofstream.close();
 	}
 	catch(const std::exception& e){
-		std::cout << "error -> " << e.what() << std::endl;
+		std::cout << ecolor << "error -> " << e.what() << rcolor << std::endl;
 		return 1;
 	}
 

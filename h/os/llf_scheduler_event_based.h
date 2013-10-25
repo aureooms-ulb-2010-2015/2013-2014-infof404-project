@@ -5,6 +5,8 @@
 #include <map>
 #include <queue>
 #include <iostream>
+#include <functional>
+
 #include "lib/io.h"
 
 namespace os{
@@ -24,9 +26,10 @@ namespace os{
 
 		typedef struct event_t{
 			event_id id;
+			size_t task_id;
 			task_t* task;
 
-			event_t(event_id id, task_t* task):id(id),task(task){}
+			event_t(event_id id, size_t task_id, task_t* task):id(id),task_id(task_id),task(task){}
 			template<typename O>
 			friend O& operator<< (O &out, const event_t& event) {
 				out << '(';
@@ -58,37 +61,40 @@ namespace os{
 		typedef std::pair<typename events_t::iterator, typename events_t::iterator> events_r;
 
 	public:
-		uint idle = 0, preempted = 0;
+		uint idle = 0, preempted = 0, i = 0;
 		bool schedulable = true;
 
 		void reset(){
 			queue.clear();
 			events.clear();
 			current = queue.begin();
+			idle = 0;
 			preempted = 0;
+			i = 0;
 			schedulable = true;
 		}
 		void init(S& task_system){
 			this->task_system = &task_system;
 
+			size_t task_id = 0;
 			for(task_t& task : task_system){
-				events.insert(event_p(task.offset, event_t(NEW_JOB, &task)));
+				events.insert(event_p(task.offset, event_t(NEW_JOB, task_id, &task)));
+				++task_id;
 			}
-			events.insert(event_p(0, event_t(CHECK_PRIORITIES, nullptr)));
+			events.insert(event_p(0, event_t(CHECK_PRIORITIES, -1, nullptr)));
 
 		}
-		void run(uint delta, uint lcm){
 
-			events.insert(event_p(lcm - 1, event_t(END_OF_INTERVAL, nullptr)));
+		void run(uint delta, uint lcm){
+			run(delta, lcm, [](size_t, size_t, size_t, size_t){});
+		}
+
+		void run(uint delta, uint lcm, std::function<void(size_t, size_t, size_t, size_t)> callback){
+
+			events.insert(event_p(lcm - 1, event_t(END_OF_INTERVAL, -1, nullptr)));
 
 			uint next = 0;
-			uint i = 0;
 			while(i < lcm){
-
-				::operator<<(std::cout << "queue -> ", queue) << std::endl;
-				::operator<<(std::cout << "events -> ", events) << std::endl;
-				std::cout << i << " -> ";
-
 
 				bool new_job = false;
 				bool check_priorities = false;
@@ -99,21 +105,21 @@ namespace os{
 				for(;j < count; ++j){
 					switch(it->second.id){
 						case NEW_JOB:{
-							queue.insert(node_t(i + it->second.task->deadline - it->second.task->wcet, J(i, it->second.task->wcet, i + it->second.task->deadline)));
-							std::cout << "new job, ";
+							queue.insert(node_t(i + it->second.task->deadline - it->second.task->wcet, J(it->second.task_id, i, it->second.task->wcet, i + it->second.task->deadline)));
+							callback(0, it->second.task_id, i, 0);
+							callback(1, it->second.task_id, i + it->second.task->deadline, 0);
 							new_job = true;
-							events.insert(event_p(i + it->second.task->period, event_t(NEW_JOB, it->second.task)));
+							events.insert(event_p(i + it->second.task->period, event_t(NEW_JOB, it->second.task_id, it->second.task)));
 							break;
 						}
 
 						case CHECK_PRIORITIES:{
 							check_priorities = true;
-							events.insert(event_p(i + delta, event_t(CHECK_PRIORITIES, nullptr)));
+							events.insert(event_p(i + delta, event_t(CHECK_PRIORITIES, -1, nullptr)));
 							break;
 						}
 
 						case END_OF_INTERVAL:{
-							std::cout << "end of interval, ";
 						}
 					}
 					typename events_t::iterator prev = it;
@@ -127,7 +133,6 @@ namespace os{
 				// else if there was a current job and it's time to check priorities
 				else if(check_priorities && current != queue.begin() && current != queue.end()){
 					++preempted;
-					std::cout << "preempted, ";
 					current = queue.begin();
 				}
 
@@ -137,8 +142,9 @@ namespace os{
 				if(current != queue.end()){
 					// deadline missed
 					if(i > current->first){
+						++i;
 						schedulable = false;
-						std::cout << "error" << std::endl;
+						callback(3, current->second.id, i, 0);
 						break;
 					}
 					// there is still work to do
@@ -146,12 +152,12 @@ namespace os{
 						queue_iterator it = queue.insert(node_t(current->first + (next - i), current->second));
 						queue.erase(current);
 						current = it;
-						std::cout << "work * " << (next - i) << std::endl;
+						callback(2, current->second.id, i, next);
 						i = next;
 					}
 					// current job done
 					else{
-						std::cout << "work * " << (current->second.d - current->first) << ", free" << std::endl;
+						callback(2, current->second.id, i, i + current->second.d - current->first);
 						i += current->second.d - current->first;
 						queue.erase(current);
 						current = queue.begin();
@@ -159,10 +165,10 @@ namespace os{
 				}
 				else{
 					idle += next - i;
-					std::cout << "idle * " << (next - i) << std::endl;
 					i = next;
 				}
 			}
+			callback(4, 0, i, 0);
 		}
 
 	};

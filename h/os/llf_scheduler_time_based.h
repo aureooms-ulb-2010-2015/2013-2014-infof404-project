@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <map>
 #include <iostream>
+#include <functional>
+
 #include "lib/io.h"
 
 namespace os{
@@ -20,34 +22,40 @@ namespace os{
 		S* task_system;
 
 	public:
-		uint idle = 0, preempted = 0;
+		uint idle = 0, preempted = 0, i = 0;
 		bool schedulable = true;
 
 		void reset(){
 			queue.clear();
 			current = queue.begin();
+			idle = 0;
 			preempted = 0;
+			i = 0;
 			schedulable = true;
 		}
 		void init(S& task_system){
 			this->task_system = &task_system;
 		}
-		void run(uint delta, uint lcm){
-			for(uint i = 0; i < lcm; ++i){
 
-				::operator<<(std::cout << "queue -> ", queue) << std::endl;
-				std::cout << i << " -> ";
+		void run(uint delta, uint lcm){
+			run(delta, lcm, [](size_t, size_t, size_t, size_t){});
+		}
+
+		void run(uint delta, uint lcm, std::function<void(size_t, size_t, size_t, size_t)> callback){
+			for(; i < lcm; ++i){
+
 
 				// check for new jobs
-
 				bool new_job = false;
-
+				size_t id = 0;
 				for(task_t& task : *task_system){
 					if(i >= task.offset && (i - task.offset) % task.period == 0){
-						queue.insert(node_t(i + task.deadline - task.wcet, J(i, task.wcet, i + task.deadline)));
-						std::cout << "new job, ";
+						queue.insert(node_t(i + task.deadline - task.wcet, J(id, i, task.wcet, i + task.deadline)));
+						callback(0, id, i, 0);
+						callback(1, id, i + task.deadline, 0);
 						new_job = true;
 					}
+					++id;
 				}
 
 				// if there was no current job and a new job arrived
@@ -56,7 +64,6 @@ namespace os{
 				// else if there was a current job and it's time to check priorities
 				else if(i % delta == 0 && current != queue.begin() && current != queue.end()){
 					++preempted;
-					std::cout << "preempted, ";
 					current = queue.begin();
 				}
 
@@ -64,8 +71,9 @@ namespace os{
 				if(current != queue.end()){
 					// deadline missed
 					if(i > current->first){
+						++i;
 						schedulable = false;
-						std::cout << "error" << std::endl;
+						callback(3, current->second.id, i, 0);
 						break;
 					}
 					// there is still work to do
@@ -73,20 +81,20 @@ namespace os{
 						queue_iterator it = queue.insert(node_t(current->first + 1, current->second));
 						queue.erase(current);
 						current = it;
-						std::cout << "work" << std::endl;
+						callback(2, current->second.id, i, i+1);
 					}
 					// current job done
 					else{
+						callback(2, current->second.id, i, i+1);
 						queue.erase(current);
 						current = queue.begin();
-						std::cout << "free" << std::endl;
 					}
 				}
 				else{
 					++idle;
-					std::cout << "idle" << std::endl;
 				}
 			}
+			callback(4, 0, i, 0);
 		}
 
 	};

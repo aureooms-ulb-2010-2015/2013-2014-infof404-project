@@ -1,0 +1,84 @@
+\subsection{Uniform distribution}
+
+\subsubsection{Random partitioning}
+
+We focused on producing uniformely distributed utilizations.
+
+Suppose we want to generate a system $\tau = \{\tau_1 , \tau_2 , \dots , \tau_n \}$ with
+
+\begin{equation}
+	C_i \geq 1 \qquad \forall 1 \leq i \leq n
+	\label{eq:WCET minimum}
+\end{equation}
+
+\begin{equation}
+	\sum_{i=1}^{n} U_i + \epsilon = U
+	\label{eq:Usage shift}
+\end{equation}
+
+\begin{equation}
+	\text{minimize}~\epsilon
+	\label{eq:Economic function of the generator}
+\end{equation}
+
+\begin{equation}
+	\epsilon \geq 0
+	\label{eq:Usage shift polarity}
+\end{equation}
+
+We choose $n-1$ partition $p_j \in P = ~]0, U[$ with
+
+\begin{equation}
+	|p_j - p_k| \geq \frac{1}{T_{min}} \qquad \forall p_j \in P, p_k \in P \cup \{0, U\}, p_j \neq p_k
+	\label{eq:Discrete partition condition}
+\end{equation}
+
+To achieve \ref{eq:Discrete partition condition} we define the \emph{floor\_min\_uniform} function (see \ref{code:gen:1}).
+
+\myinputminted[firstline=10,lastline=17]{c++}{../h/os/generator.h}{The \emph{floor\_min\_uniform} function}{code:gen:1}{1}
+
+An example of utilization can be seen in \ref{code:app:4}.
+
+(\href{../h/os/generator.h}{Link to the source code}.)
+
+\subsubsection{Limits}
+
+The \emph{lowest common multiple} is exponential in $n$. If we use only the primitive types provided by the \CXX~language we are bounded to a \emph{max} value.
+
+Sufficient condition for the feasability of lcm calculus
+
+\begin{equation}
+	T_{max}^n \leq 2^b-1
+	\label{eq:Lowest common multiple condition}
+\end{equation}
+
+Where
+\begin{conditions}
+	T_{max}		&	the maximum value of the period distribution\\
+	n			&	number of tasks in the system \\
+	2^b-1		&	the maximum value for an integer
+\end{conditions}
+
+Another requirement was to never overflow the $U$ asked by the user.
+
+Sufficient condition for a non-overflowing total usage
+
+\begin{equation}
+	U_i \geq \frac{1}{T_i}
+	\label{eq:Usage no-overflow warranty}
+\end{equation}
+
+Where
+\begin{conditions}
+	U_i	&	usage of $\tau_i$ \\
+	T_i	&	period of $\tau_i$
+\end{conditions}
+
+For \ref{eq:Economic function of the generator} we can note that
+
+\begin{equation}
+	\epsilon_{max} = \frac{n}{T_{max}}
+	\label{eq:Usage shift maximum}
+\end{equation}
+
+We decided to not attach many importance to \ref{eq:Economic function of the generator} because of the spectrum of study considered (see \ref{sec:study}).

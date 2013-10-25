@@ -10,6 +10,7 @@
 #include "lib/pinput.h"
 #include "lib/io.h"
 #include "lib/exception.h"
+#include "lib/ansi.h"
 
 template<typename O, typename U, typename N, typename P, typename V, typename S>
 void fill_parameters(const O& options, U& u, N& n, P& p_min, P& p_max, V& s, S& file_name, bool& open){
@@ -58,43 +59,54 @@ void check_parameters(U& u, N& n, P& p_min, P& /*p_max*/){
 
 void help(){
 	std::cout << " - flags" << std::endl << std::endl;
-	std::cout << "   " << "[-h | --help]" << std::endl;
-	std::cout << "   " << "[-v | --verbose]" << std::endl << std::endl;
+	std::cout << "   " << "[-h | --help        ]" << std::endl;
+	std::cout << "   " << "[-v | --verbose     ]" << std::endl;
+	std::cout << "   " << "[--nocolor          ]" << std::endl << std::endl;
 	std::cout << " - mandatory parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-u | --utilization] #0 (double >= 0)" << std::endl;
+	std::cout << "   " << "[-u | --utilization ] #0 (double >= 0)" << std::endl;
 	std::cout << "   " << "-n #0 (int >= 0)" << std::endl << std::endl;
 	std::cout << " - optional parameters" << std::endl << std::endl;
-	std::cout << "   " << "[-p | --period] #0 [#1] (int[2], #1 >= #0)" << std::endl;
-	std::cout << "   " << "[-s | --seed  ] #0 (uint)" << std::endl;
-	std::cout << "   " << "[-o | --output] #0 (string)" << std::endl << std::endl;
+	std::cout << "   " << "[-p | --period      ] #0 [#1] (int[2], #1 >= #0)" << std::endl;
+	std::cout << "   " << "[-s | --seed        ] #0 (uint)" << std::endl;
+	std::cout << "   " << "[-o | --output      ] #0 (string)" << std::endl << std::endl;
 }
 
 int main(int argc, char* argv[]){
 
+
+	std::vector<std::string> params;
+	std::map<std::string, std::vector<std::string>> options;
+	std::set<std::string> flags;
+	std::set<std::string> option_set = {
+		"-u", "--utilization",
+		"-n",
+		"-p", "--period",
+		"-s", "--seed",
+		"-o", "--output"
+	};
+	std::set<std::string> flag_set = {
+		"-h", "--help",
+		"-v", "--verbose",
+		"--nocolor"
+	};
+
+	pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
+
+	const bool nocolor = flags.count("--nocolor");
+
+	const char* vcolor = (nocolor)? "" : ansi::blue;
+	const char* ecolor = (nocolor)? "" : ansi::red;
+	const char* rcolor = (nocolor)? "" : ansi::reset;
+
+	const bool show_help = flags.count("-h") || flags.count("--help");
+	if(show_help){
+		help();
+		return 0;
+	}
+
+	const bool verbose = flags.count("-v") || flags.count("--verbose");
+		
 	try{
-
-		std::vector<std::string> params;
-		std::map<std::string, std::vector<std::string>> options;
-		std::set<std::string> flags;
-		std::set<std::string> option_set = {
-			"-u", "--utilization",
-			"-n",
-			"-p", "--period",
-			"-s", "--seed",
-			"-o", "--output"
-		};
-		std::set<std::string> flag_set = {
-			"-h", "--help",
-			"-v", "--verbose"
-		};
-
-		pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
-
-		if(flags.count("-h") || flags.count("--help")){
-			help();
-			return 0;
-		}
-
 
 		double u;
 		uint n;
@@ -137,10 +149,26 @@ int main(int argc, char* argv[]){
 
 		if(open) ofstream.close();
 
+		if(verbose){
+			double t = 0;
+			for(auto task : task_system){
+				t += (double)task.wcet/(double)task.period;
+			}
+
+			std::cout << vcolor << std::endl;
+			std::cout << "u = " << t << std::endl;
+			std::cout.precision(2);
+			std::cout << std::fixed;
+			std::cout << "abs error = " << (u - t)*100 << "%" << std::endl;
+			std::cout << "rel error = " << (1 - t/u)*100 << "%" << std::endl;
+			std::cout << "worst abs error that could happen = " << (100./p_min*n) << "%" << std::endl;
+			std::cout << rcolor;
+		}
+
 
 	}
 	catch(const std::exception& e){
-		std::cout << "error -> " << e.what() << std::endl;
+		std::cout << ecolor << "error -> " << e.what() << rcolor << std::endl;
 		return 1;
 	}
 

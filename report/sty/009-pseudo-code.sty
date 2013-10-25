@@ -1,5 +1,5 @@
 % pseudo code%
-\usepackage[algochapter]{algorithm2e}
+\usepackage[algosection]{algorithm2e}
 
 \addto\captionsenglish{
   \renewcommand{\listalgorithmcfname}{List of Algorithms}
@@ -23,11 +23,11 @@
   \renewcommand{\algobjectname}{Algorithme}
 }
 
-\numberwithin{algobject}{chapter}
+\numberwithin{algobject}{section}
 
 \newcommand\makealg[0]{
   \newpage\cleardoublepage\phantomsection
-  \addcontentsline{toc}{chapter}{\listalgobjectname}
+  \addcontentsline{toc}{section}{\listalgobjectname}
   \listofalgobjects
 }
 

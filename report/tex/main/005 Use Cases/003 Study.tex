@@ -1,1 +1,50 @@
-\section{Study}
+\subsection{Study}
+
+
+\subsubsection{Command line used for \ref{sec:study}}
+
+\shellcmd{./run/LLF\_study -u 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 -d 1 2 3 4 5 6 7 8 9 10 -n 2 3 4 -k 1000 > benchmark/1}
+
+
+
+\subsubsection{Splitting data for \emph{gnuplot}}
+
+\shellcmd{cat benchmark/1 | ./run/gnuplot -o gnuplot/data/1 gnuplot/data/2 gnuplot/data/3}
+
+
+
+\subsubsection{Plot data with \emph{gnuplot}}
+
+\shellcmd{./tools/gnuplot/render u gnuplot/data/1 gnuplot/svg/1.svg}
+
+\shellcmd{./tools/gnuplot/render d gnuplot/data/2 gnuplot/svg/2.svg}
+
+\shellcmd{./tools/gnuplot/render n gnuplot/data/3 gnuplot/svg/3.svg}
+
+
+
+\subsubsection{Splitting data for custom color plot}
+
+\shellcmd{cat benchmark/1 | ./run/split\_benchmark -o benchmark/2 benchmark/3 benchmark/4}
+
+\shellcmd{cat benchmark/2 | ./run/compute\_mean -o mean/data/2p mean/data/2s}
+
+\shellcmd{cat benchmark/3 | ./run/compute\_mean -o mean/data/3p mean/data/3s}
+
+\shellcmd{cat benchmark/4 | ./run/compute\_mean -o mean/data/4p mean/data/4s}
+
+
+
+\subsubsection{Plot data with custom color plot}
+
+\shellcmd{cat mean/data/2p | ./run/plot\_mean -o mean/svg/2p --color 255 255 255 0 0 0}
+
+\shellcmd{cat mean/data/2s | ./run/plot\_mean -o mean/svg/2s --color 0 0 0 255 255 255}
+
+\shellcmd{cat mean/data/3p | ./run/plot\_mean -o mean/svg/3p --color 255 255 255 0 0 0}
+
+\shellcmd{cat mean/data/3s | ./run/plot\_mean -o mean/svg/3s --color 0 0 0 255 255 255}
+
+\shellcmd{cat mean/data/4p | ./run/plot\_mean -o mean/svg/4p --color 255 255 255 0 0 0}
+
+\shellcmd{cat mean/data/4s | ./run/plot\_mean -o mean/svg/4s --color 0 0 0 255 255 255}
