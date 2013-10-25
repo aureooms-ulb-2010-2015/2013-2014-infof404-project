@@ -1,58 +1,38 @@
 <?xml version="1.0" standalone="no" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="10025px" height="250px" xmlns="http://www.w3.org/2000/svg" version="1.1" >
-	<line x1="12" y1="238" x2="12" y2="12" stroke-width="2" stroke="rgb(20,30,40)" />
-	<line x1="12" y1="238" x2="10013" y2="238" stroke-width="2" stroke="rgb(20,30,40)" />
-	<polygon points="10013,238 10007,244 10007,232 " fill="rgb(20,30,40)" />
-	<text x="9" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >0</text>
-	<text x="200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >20</text>
-	<text x="400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >40</text>
-	<text x="600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >60</text>
-	<text x="800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >80</text>
-	<text x="1000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >100</text>
-	<text x="1200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >120</text>
-	<text x="1400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >140</text>
-	<text x="1600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >160</text>
-	<text x="1800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >180</text>
-	<text x="2000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >200</text>
-	<text x="2200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >220</text>
-	<text x="2400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >240</text>
-	<text x="2600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >260</text>
-	<text x="2800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >280</text>
-	<text x="3000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >300</text>
-	<text x="3200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >320</text>
-	<text x="3400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >340</text>
-	<text x="3600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >360</text>
-	<text x="3800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >380</text>
-	<text x="4000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >400</text>
-	<text x="4200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >420</text>
-	<text x="4400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >440</text>
-	<text x="4600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >460</text>
-	<text x="4800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >480</text>
-	<text x="5000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >500</text>
-	<text x="5200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >520</text>
-	<text x="5400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >540</text>
-	<text x="5600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >560</text>
-	<text x="5800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >580</text>
-	<text x="6000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >600</text>
-	<text x="6200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >620</text>
-	<text x="6400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >640</text>
-	<text x="6600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >660</text>
-	<text x="6800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >680</text>
-	<text x="7000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >700</text>
-	<text x="7200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >720</text>
-	<text x="7400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >740</text>
-	<text x="7600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >760</text>
-	<text x="7800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >780</text>
-	<text x="8000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >800</text>
-	<text x="8200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >820</text>
-	<text x="8400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >840</text>
-	<text x="8600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >860</text>
-	<text x="8800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >880</text>
-	<text x="9000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >900</text>
-	<text x="9200" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >920</text>
-	<text x="9400" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >940</text>
-	<text x="9600" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >960</text>
-	<text x="9800" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >980</text>
-	<text x="10000" y="248" fill="rgb(20,30,40)" font-size="12" font-family="Verdana" >1000</text>
+<svg width="1837px" height="162px" xmlns="http://www.w3.org/2000/svg" version="1.1" >
+	<line x1="12" y1="150" x2="12" y2="12" stroke-width="2" stroke="rgb(0,0,0)" />
+	<line x1="12" y1="150" x2="1825" y2="150" stroke-width="2" stroke="rgb(0,0,0)" />
+	<polygon points="1825,150 1819,156 1819,144 " fill="rgb(0,0,0)" />
+	<text x="9" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >0</text>
+	<text x="150" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >10</text>
+	<text x="300" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >20</text>
+	<text x="450" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >30</text>
+	<text x="600" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >40</text>
+	<text x="750" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >50</text>
+	<text x="900" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >60</text>
+	<text x="1050" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >70</text>
+	<text x="1200" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >80</text>
+	<text x="1350" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >90</text>
+	<text x="1500" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >100</text>
+	<text x="1650" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >110</text>
+	<text x="1800" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >120</text>
+	<line x1="12" y1="137" x2="1825" y2="137" stroke-width="1" stroke="rgb(0,0,0)" />
+	<text x="0" y="112" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >t0</text>
+	<line x1="12" y1="87" x2="1825" y2="87" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="12" y1="62" x2="1825" y2="62" stroke-width="1" stroke="rgb(0,0,0)" />
+	<text x="0" y="37" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >t1</text>
+	<line x1="12" y1="12" x2="1825" y2="12" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="12" y1="112" x2="12" y2="87" stroke-width="2" stroke="rgb(0,0,0)" />
+	<polygon points="12,112 15,105 9,105 " fill="rgb(0,0,0)" />
+	<circle cx="237" cy="99" r="6" fill="transparent" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="12" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="27" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="42" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<circle cx="87" cy="24" r="6" fill="transparent" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="57" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="72" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="87" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<line x1="57" y1="37" x2="57" y2="12" stroke-width="2" stroke="rgb(0,0,0)" />
+	<polygon points="57,37 60,30 54,30 " fill="rgb(0,0,0)" />
 </svg>
