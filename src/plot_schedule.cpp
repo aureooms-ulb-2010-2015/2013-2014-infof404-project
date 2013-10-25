@@ -2,8 +2,7 @@
 #include "../h/os/plot_schedule_svg.h"
 
 
-int main()
-{
+int main(){
 	
 	int time_unit=15;
 
@@ -21,8 +20,8 @@ int main()
 
 	while(std::cin.good() and not over){
 
-		std::cin >> task_id;
 		std::cin >> event_id;
+		std::cin >> task_id;
 		std::cin >> beg;
 		std::cin >> end;
 

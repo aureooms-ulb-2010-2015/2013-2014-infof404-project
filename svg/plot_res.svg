@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone="no" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="1837px" height="162px" xmlns="http://www.w3.org/2000/svg" version="1.1" >
+<svg width="1537px" height="162px" xmlns="http://www.w3.org/2000/svg" version="1.1" >
 	<line x1="12" y1="150" x2="12" y2="12" stroke-width="2" stroke="rgb(0,0,0)" />
-	<line x1="12" y1="150" x2="1825" y2="150" stroke-width="2" stroke="rgb(0,0,0)" />
-	<polygon points="1825,150 1819,156 1819,144 " fill="rgb(0,0,0)" />
+	<line x1="12" y1="150" x2="1525" y2="150" stroke-width="2" stroke="rgb(0,0,0)" />
+	<polygon points="1525,150 1519,156 1519,144 " fill="rgb(0,0,0)" />
 	<text x="9" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >0</text>
 	<text x="150" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >10</text>
 	<text x="300" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >20</text>
@@ -15,24 +15,118 @@
 	<text x="1200" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >80</text>
 	<text x="1350" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >90</text>
 	<text x="1500" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >100</text>
-	<text x="1650" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >110</text>
-	<text x="1800" y="160" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >120</text>
-	<line x1="12" y1="137" x2="1825" y2="137" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="12" y1="137" x2="1525" y2="137" stroke-width="1" stroke="rgb(0,0,0)" />
 	<text x="0" y="112" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >t0</text>
-	<line x1="12" y1="87" x2="1825" y2="87" stroke-width="1" stroke="rgb(0,0,0)" />
-	<line x1="12" y1="62" x2="1825" y2="62" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="12" y1="87" x2="1525" y2="87" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="12" y1="62" x2="1525" y2="62" stroke-width="1" stroke="rgb(0,0,0)" />
 	<text x="0" y="37" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >t1</text>
-	<line x1="12" y1="12" x2="1825" y2="12" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="12" y1="12" x2="1525" y2="12" stroke-width="1" stroke="rgb(0,0,0)" />
 	<line x1="12" y1="112" x2="12" y2="87" stroke-width="2" stroke="rgb(0,0,0)" />
 	<polygon points="12,112 15,105 9,105 " fill="rgb(0,0,0)" />
-	<circle cx="237" cy="99" r="6" fill="transparent" stroke-width="1" stroke="rgb(0,0,0)" />
+	<circle cx="762" cy="99" r="6" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="12" y1="37" x2="12" y2="12" stroke-width="2" stroke="rgb(0,0,0)" />
+	<polygon points="12,37 15,30 9,30 " fill="rgb(0,0,0)" />
+	<circle cx="1062" cy="24" r="6" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
 	<rect x="12" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
 	<rect x="27" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
 	<rect x="42" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
-	<circle cx="87" cy="24" r="6" fill="transparent" stroke-width="1" stroke="rgb(0,0,0)" />
-	<rect x="57" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
-	<rect x="72" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
-	<rect x="87" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
-	<line x1="57" y1="37" x2="57" y2="12" stroke-width="2" stroke="rgb(0,0,0)" />
-	<polygon points="57,37 60,30 54,30 " fill="rgb(0,0,0)" />
+	<rect x="57" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="72" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="87" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="102" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="117" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="132" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="147" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="162" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="162" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="177" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="192" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="207" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="222" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="237" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="252" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="267" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="282" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="297" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="312" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="312" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="327" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="342" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="357" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="372" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="387" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="402" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="417" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="432" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="447" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="462" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="462" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="477" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="492" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="507" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="522" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="537" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="552" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="567" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="582" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="597" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="612" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="612" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="627" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="642" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="657" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="672" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="687" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="702" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="717" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="732" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="747" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="762" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<line x1="762" y1="112" x2="762" y2="87" stroke-width="2" stroke="rgb(0,0,0)" />
+	<polygon points="762,112 765,105 759,105 " fill="rgb(0,0,0)" />
+	<circle cx="1512" cy="99" r="6" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="762" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="777" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="792" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="807" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="822" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="837" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="852" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="867" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="882" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="897" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="912" y="37" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="912" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="927" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="942" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="957" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="972" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="987" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1002" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1017" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1032" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1047" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1062" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1062" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1077" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1092" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1107" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1122" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1137" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1152" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1167" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1182" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1197" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1212" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1212" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1227" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1242" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1257" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1272" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1287" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1302" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1317" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1332" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1347" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
+	<rect x="1362" y="112" width="15" height="25" fill="rgb(0,0,0)" stroke-width="1" stroke="rgb(255,255,255)" />
 </svg>
