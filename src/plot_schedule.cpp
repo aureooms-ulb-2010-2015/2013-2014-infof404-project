@@ -21,8 +21,9 @@ int main()
 
 	while(std::cin.good() and not over){
 
-		std::cin >> task_id;
+		
 		std::cin >> event_id;
+		std::cin >> task_id;
 		std::cin >> beg;
 		std::cin >> end;
 
