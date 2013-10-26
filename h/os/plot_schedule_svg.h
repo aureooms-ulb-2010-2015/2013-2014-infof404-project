@@ -71,7 +71,7 @@ namespace os{
 
 		}
 
-		void draw_axis (svg::Document& doc, svg_scale scale ){
+		void draw_axis (svg::Document& doc, svg_scale scale , int grad){
 			//svg::Line vert_axis(svg::Point(x_offset, x_offset), svg::Point(x_offset, scale.height-x_offset), svg::Stroke(1,svg::Color(0,0,0)));
 			//svg::Line hor_axis(svg::Point(x_offset, x_offset), svg::Point(scale.width-x_offset, x_offset), svg::Stroke(1,svg::Color(0,0,0)));
 
@@ -86,8 +86,7 @@ namespace os{
 			//draw graduation
 
 
-			for (int i = 0; i <= scale.lcm ; i+= 2 )
-			{
+			for (int i = 0; i <= scale.lcm ; i += grad){
 				std::stringstream value_s;
 				value_s.precision(0);
 				value_s << i;
