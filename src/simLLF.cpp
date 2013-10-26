@@ -176,7 +176,7 @@ int main(int argc, char* argv[]){
 			ostream << "study interval [" << 0 << ", " << lcm << '[' << std::endl;
 			ostream << "# preemptions : " << preempted << std::endl;
 			ostream << "# idle : " << idle << std::endl;
-			ostream << "b schedulable : " << schedulable << std::endl;
+			ostream << "b schedulable : " << std::boolalpha << schedulable << std::endl;
 			ostream << rcolor;
 		}
 
