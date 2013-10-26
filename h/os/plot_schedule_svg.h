@@ -86,7 +86,7 @@ namespace os{
 			//draw graduation
 
 
-			for (int i = 0; i <= scale.lcm ; i+= 10 )
+			for (int i = 0; i <= scale.lcm ; i+= 2 )
 			{
 				std::stringstream value_s;
 				value_s.precision(0);
@@ -102,7 +102,6 @@ namespace os{
 
 
 		void draw_vert_arrow (svg::Document& doc, svg::Point head){
-		std::cout <<"drawing arrow on  "<<" x="<<head.get_x() << " y="<<head.get_y() <<std::endl;
 
 			svg::Point tail (head.get_x(), head.get_y()+21);
 
@@ -114,13 +113,11 @@ namespace os{
 		}
 
 		void draw_rectangle(svg::Document& doc, svg::Point top_left_corner, svg_scale scale, uint width = 1){
-			std::cout <<"drawing Rectangle on  "<<" x="<<top_left_corner.get_x() << " y="<<top_left_corner.get_y() <<std::endl;
 
 			svg::Rectangle rect = svg::Rectangle(top_left_corner, width * scale.time_unit,25,  svg::Fill(svg::Color::Transparent),svg::Stroke(1, svg::Color::Black ));
 		    doc<<rect;
 		}
 		void draw_circle(svg::Document& doc, svg::Point center){
-			std::cout <<"drawing circle on  "<<" x="<<center.get_x() << " y="<<center.get_y() <<std::endl;
 
 			int circle_diameter = x_offset;
 			svg::Circle circle(center, circle_diameter, svg::Fill(svg::Color::Transparent),svg::Stroke(1, svg::Color(0, 0, 0) ) );
@@ -134,34 +131,29 @@ namespace os{
 		}
 
 		bool plot(svg::Document& doc,uint task_id, uint event_id, uint beg, uint end, svg_scale scale){
-			std::cout <<"Tid "<<task_id << " event "<<event_id << " beg "<<beg<<" end "<<end<<std::endl;
 
 			bool over= false;
 
 			if(event_id==0){//new job
 
-				std::cout << "new job"<<std::endl;
 				svg::Point head ( beg*scale.time_unit+x_offset,get_svg_task_line(task_id)-21);
 				draw_vert_arrow(doc, head);
 
 			}
 			else if(event_id==1){//new dead line
-				std::cout << "new dead line"<<std::endl;
 
 				svg::Point center = svg::Point(beg*scale.time_unit+x_offset,get_svg_task_line(task_id)-50);
 				draw_circle(doc, center);
 			}
 			else if(event_id==2){//work between
-				std::cout << "new work"<<std::endl;
 				draw_rectangle(doc, svg::Point ( beg*scale.time_unit+x_offset,get_svg_task_line(task_id)-25),scale, end-beg);
 			}
 			else if(event_id==3){//non scheduable
-				std::cout << "non scheduable"<<std::endl;
+				std::cout << "system non scheduable"<<std::endl;
 
 				over=true;
 			}
 			else if(event_id==4){//EOF
-				std::cout << "OVER"<<std::endl;
 				over=true;
 			}
 			else{
