@@ -22,7 +22,8 @@ int main(int argc, char const *argv[]){
 			std::cout << k << std::endl;
 			++i;
 			prime.push_back(k);
-			mul.push_back(k);
+			mul.push_back(k*k);
+			continue;
 		}
 		for(size_t j = 0; j < i; ++j) if(mul[j] <= k) mul[j] += prime[j];
 	}
