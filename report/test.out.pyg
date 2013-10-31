@@ -1,0 +1,106 @@
+\begin{Verbatim}[commandchars=\\\{\}, ,fontsize=\footnotesize ,firstline=\myinputmintedfirstline ,lastline=\myinputmintedlastline ,tabsize=\myinputmintedtabsize ,numbersep=\myinputmintednumbersep ]
+\PY{c+cp}{def OS\PYZus{}LLF\PYZus{}SCHEDULER\PYZus{}TIME\PYZus{}BASED\PYZus{}H}
+\PY{c+cp}{ine OS\PYZus{}LLF\PYZus{}SCHEDULER\PYZus{}TIME\PYZus{}BASED\PYZus{}H}
+
+\PY{c+cp}{lude \PYZlt{}algorithm\PYZgt{}}
+\PY{c+cp}{lude \PYZlt{}map\PYZgt{}}
+\PY{c+cp}{lude \PYZlt{}iostream\PYZgt{}}
+\PY{c+cp}{lude \PYZlt{}functional\PYZgt{}}
+
+\PY{c+cp}{lude "lib/io.h"}
+
+\PY{k}{space} \PY{n}{os}\PY{p}{\PYZob{}}
+\PY{k}{plate}\PY{o}{\PYZlt{}}\PY{k}{typename} \PY{n}{S}\PY{p}{,} \PY{k}{typename} \PY{n}{J}\PY{o}{\PYZgt{}}
+\PY{k}{ss} \PY{n+nc}{llf\PYZus{}scheduler\PYZus{}time\PYZus{}based}\PY{p}{\PYZob{}}
+\PY{k}{vate}\PY{o}{:}
+\PY{k}{pedef} \PY{k}{typename} \PY{n}{S}\PY{o}{::}\PY{n}{value\PYZus{}type} \PY{n}{task\PYZus{}t}\PY{p}{;}
+\PY{k}{pedef} \PY{n}{std}\PY{o}{::}\PY{n}{pair}\PY{o}{\PYZlt{}}\PY{n}{uint}\PY{p}{,} \PY{n}{J}\PY{o}{\PYZgt{}} \PY{n}{node\PYZus{}t}\PY{p}{;}
+\PY{k}{pedef} \PY{n}{std}\PY{o}{::}\PY{n}{multimap}\PY{o}{\PYZlt{}}\PY{n}{uint}\PY{p}{,} \PY{n}{J}\PY{o}{\PYZgt{}} \PY{n}{queue\PYZus{}t}\PY{p}{;}
+\PY{k}{pedef} \PY{k}{typename} \PY{n}{queue\PYZus{}t}\PY{o}{::}\PY{n}{iterator} \PY{n}{queue\PYZus{}iterator}\PY{p}{;}
+\PY{k}{pedef} \PY{k}{typename} \PY{n}{queue\PYZus{}t}\PY{o}{::}\PY{n}{const\PYZus{}iterator} \PY{n}{queue\PYZus{}const\PYZus{}iterator}\PY{p}{;}
+\PY{n}{eue\PYZus{}t} \PY{n}{queue}\PY{p}{;}
+\PY{n}{eue\PYZus{}iterator} \PY{n}{current}\PY{p}{;}
+ \PY{n}{task\PYZus{}system}\PY{p}{;}
+
+\PY{k}{lic}\PY{o}{:}
+\PY{n}{nt} \PY{n}{idle} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{preempted} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{i} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{;}
+\PY{k+kt}{ol} \PY{n}{schedulable} \PY{o}{=} \PY{k+kc}{true}\PY{p}{;}
+
+\PY{k+kt}{id} \PY{n}{reset}\PY{p}{()\PYZob{}}
+\PY{n}{ueue}\PY{p}{.}\PY{n}{clear}\PY{p}{();}
+\PY{n}{urrent} \PY{o}{=} \PY{n}{queue}\PY{p}{.}\PY{n}{begin}\PY{p}{();}
+\PY{n}{dle} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{;}
+\PY{n}{reempted} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{;}
+ \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{;}
+\PY{n}{chedulable} \PY{o}{=} \PY{k+kc}{true}\PY{p}{;}
+
+\PY{k+kt}{id} \PY{n}{init}\PY{p}{(}\PY{n}{S}\PY{o}{\PYZam{}} \PY{n}{task\PYZus{}system}\PY{p}{)\PYZob{}}
+\PY{k}{his}\PY{o}{-\PYZgt{}}\PY{n}{task\PYZus{}system} \PY{o}{=} \PY{o}{\PYZam{}}\PY{n}{task\PYZus{}system}\PY{p}{;}
+
+
+\PY{k+kt}{id} \PY{n}{run}\PY{p}{(}\PY{n}{uint} \PY{n}{delta}\PY{p}{,} \PY{n}{uint} \PY{n}{lcm}\PY{p}{)\PYZob{}}
+\PY{n}{un}\PY{p}{(}\PY{n}{delta}\PY{p}{,} \PY{n}{lcm}\PY{p}{,} \PY{p}{[](}\PY{n}{size\PYZus{}t}\PY{p}{,} \PY{n}{size\PYZus{}t}\PY{p}{,} \PY{n}{size\PYZus{}t}\PY{p}{,} \PY{n}{size\PYZus{}t}\PY{p}{)\PYZob{}\PYZcb{});}
+
+
+\PY{k+kt}{id} \PY{n}{run}\PY{p}{(}\PY{n}{uint} \PY{n}{delta}\PY{p}{,} \PY{n}{uint} \PY{n}{lcm}\PY{p}{,} \PY{n}{std}\PY{o}{::}\PY{n}{function}\PY{o}{\PYZlt{}}\PY{k+kt}{void}\PY{p}{(}\PY{n}{size\PYZus{}t}\PY{p}{,} \PY{n}{size\PYZus{}t}\PY{p}{,} \PY{n}{size\PYZus{}t}\PY{p}{,} \PY{n}{size\PYZus{}t}\PY{p}{)}\PY{o}{\PYZgt{}} \PY{n}{callback}\PY{p}{)\PYZob{}}
+\PY{k}{or}\PY{p}{(;} \PY{n}{i} \PY{o}{\PYZlt{}} \PY{n}{lcm}\PY{p}{;} \PY{o}{++}\PY{n}{i}\PY{p}{)\PYZob{}}
+
+
+\PY{c+c1}{// check for new jobs}
+\PY{k+kt}{bool} \PY{n}{new\PYZus{}job} \PY{o}{=} \PY{k+kc}{false}\PY{p}{;}
+\PY{n}{size\PYZus{}t} \PY{n}{id} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{;}
+\PY{k}{for}\PY{p}{(}\PY{n}{task\PYZus{}t}\PY{o}{\PYZam{}} \PY{n}{task} \PY{o}{:} \PY{o}{*}\PY{n}{task\PYZus{}system}\PY{p}{)\PYZob{}}
+	\PY{k}{if}\PY{p}{(}\PY{n}{i} \PY{o}{\PYZgt{}=} \PY{n}{task}\PY{p}{.}\PY{n}{offset} \PY{o}{\PYZam{}\PYZam{}} \PY{p}{(}\PY{n}{i} \PY{o}{-} \PY{n}{task}\PY{p}{.}\PY{n}{offset}\PY{p}{)} \PY{o}{\PYZpc{}} \PY{n}{task}\PY{p}{.}\PY{n}{period} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{)\PYZob{}}
+		\PY{n}{queue}\PY{p}{.}\PY{n}{insert}\PY{p}{(}\PY{n}{node\PYZus{}t}\PY{p}{(}\PY{n}{i} \PY{o}{+} \PY{n}{task}\PY{p}{.}\PY{n}{deadline} \PY{o}{-} \PY{n}{task}\PY{p}{.}\PY{n}{wcet}\PY{p}{,} \PY{n}{J}\PY{p}{(}\PY{n}{id}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{task}\PY{p}{.}\PY{n}{wcet}\PY{p}{,} \PY{n}{i} \PY{o}{+} \PY{n}{task}\PY{p}{.}\PY{n}{deadline}\PY{p}{)));}
+		\PY{n}{callback}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{id}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{);}
+		\PY{n}{callback}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{id}\PY{p}{,} \PY{n}{i} \PY{o}{+} \PY{n}{task}\PY{p}{.}\PY{n}{deadline}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{);}
+		\PY{n}{new\PYZus{}job} \PY{o}{=} \PY{k+kc}{true}\PY{p}{;}
+	\PY{p}{\PYZcb{}}
+	\PY{o}{++}\PY{n}{id}\PY{p}{;}
+\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{// if there was no current job and a new job arrived}
+\PY{k}{if}\PY{p}{(}\PY{n}{current} \PY{o}{==} \PY{n}{queue}\PY{p}{.}\PY{n}{end}\PY{p}{()} \PY{o}{\PYZam{}\PYZam{}} \PY{n}{new\PYZus{}job}\PY{p}{)} \PY{n}{current} \PY{o}{=} \PY{n}{queue}\PY{p}{.}\PY{n}{begin}\PY{p}{();}
+
+\PY{c+c1}{// else if there was a current job and it's time to check priorities}
+\PY{k}{else} \PY{k}{if}\PY{p}{(}\PY{n}{i} \PY{o}{\PYZpc{}} \PY{n}{delta} \PY{o}{==} \PY{l+m+mi}{0} \PY{o}{\PYZam{}\PYZam{}} \PY{n}{current} \PY{o}{!=} \PY{n}{queue}\PY{p}{.}\PY{n}{begin}\PY{p}{()} \PY{o}{\PYZam{}\PYZam{}} \PY{n}{current} \PY{o}{!=} \PY{n}{queue}\PY{p}{.}\PY{n}{end}\PY{p}{())\PYZob{}}
+	\PY{o}{++}\PY{n}{preempted}\PY{p}{;}
+	\PY{n}{current} \PY{o}{=} \PY{n}{queue}\PY{p}{.}\PY{n}{begin}\PY{p}{();}
+\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{// if there is a current job}
+\PY{k}{if}\PY{p}{(}\PY{n}{current} \PY{o}{!=} \PY{n}{queue}\PY{p}{.}\PY{n}{end}\PY{p}{())\PYZob{}}
+	\PY{c+c1}{// deadline missed}
+	\PY{k}{if}\PY{p}{(}\PY{n}{i} \PY{o}{\PYZgt{}} \PY{n}{current}\PY{o}{-\PYZgt{}}\PY{n}{first}\PY{p}{)\PYZob{}}
+		\PY{o}{++}\PY{n}{i}\PY{p}{;}
+		\PY{n}{schedulable} \PY{o}{=} \PY{k+kc}{false}\PY{p}{;}
+		\PY{n}{callback}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{current}\PY{o}{-\PYZgt{}}\PY{n}{second}\PY{p}{.}\PY{n}{id}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{);}
+		\PY{k}{break}\PY{p}{;}
+	\PY{p}{\PYZcb{}}
+	\PY{c+c1}{// there is still work to do}
+	\PY{k}{else} \PY{k}{if}\PY{p}{(}\PY{n}{current}\PY{o}{-\PYZgt{}}\PY{n}{second}\PY{p}{.}\PY{n}{d} \PY{o}{-} \PY{n}{current}\PY{o}{-\PYZgt{}}\PY{n}{first} \PY{o}{\PYZgt{}} \PY{l+m+mi}{1}\PY{p}{)\PYZob{}}
+		\PY{n}{queue\PYZus{}iterator} \PY{n}{it} \PY{o}{=} \PY{n}{queue}\PY{p}{.}\PY{n}{insert}\PY{p}{(}\PY{n}{node\PYZus{}t}\PY{p}{(}\PY{n}{current}\PY{o}{-\PYZgt{}}\PY{n}{first} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{current}\PY{o}{-\PYZgt{}}\PY{n}{second}\PY{p}{));}
+		\PY{n}{queue}\PY{p}{.}\PY{n}{erase}\PY{p}{(}\PY{n}{current}\PY{p}{);}
+		\PY{n}{current} \PY{o}{=} \PY{n}{it}\PY{p}{;}
+		\PY{n}{callback}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{current}\PY{o}{-\PYZgt{}}\PY{n}{second}\PY{p}{.}\PY{n}{id}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{);}
+	\PY{p}{\PYZcb{}}
+	\PY{c+c1}{// current job done}
+	\PY{k}{else}\PY{p}{\PYZob{}}
+		\PY{n}{callback}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{current}\PY{o}{-\PYZgt{}}\PY{n}{second}\PY{p}{.}\PY{n}{id}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{);}
+		\PY{n}{queue}\PY{p}{.}\PY{n}{erase}\PY{p}{(}\PY{n}{current}\PY{p}{);}
+		\PY{n}{current} \PY{o}{=} \PY{n}{queue}\PY{p}{.}\PY{n}{begin}\PY{p}{();}
+	\PY{p}{\PYZcb{}}
+\PY{p}{\PYZcb{}}
+\PY{k}{else}\PY{p}{\PYZob{}}
+	\PY{o}{++}\PY{n}{idle}\PY{p}{;}
+\PY{p}{\PYZcb{}}
+
+\PY{n}{allback}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{);}
+
+
+
+
+
+
+\PY{c+cp}{if }\PY{c+c1}{// OS\PYZus{}LLF\PYZus{}SCHEDULER\PYZus{}TIME\PYZus{}BASED\PYZus{}H}
+\end{Verbatim}
