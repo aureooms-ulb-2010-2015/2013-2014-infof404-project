@@ -21,7 +21,7 @@ int main(int argc, char const *argv[]){
 
 	size_t k = 3;
 	while(k * k < last){
-		size_t i = eratosthene::number_to_index(k*k);
+		const size_t i = eratosthene::number_to_index(k*k);
 		eratosthene::go_through(i, k, count, prime);
 		k += 2;
 	}

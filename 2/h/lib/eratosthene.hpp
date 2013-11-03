@@ -16,6 +16,39 @@ namespace eratosthene{
 	inline size_t index_to_number(size_t i){
 		return 2 * (i + 1) + 1;
 	}
+
+	template<typename A>
+	class worker{
+
+	};
+
+	template<typename A, typename S>
+	class scheduler{
+	public:
+		S current; // should be std::map<size_t, size_t>
+		size_t next;
+		A* prime;
+
+		scheduler(A& prime):prime(&prime){}
+
+		size_t get(){
+			while(true){
+				// wait for signal
+				while(!prime[next]) ++next;
+				size_t i = current.begin()->first;
+				if(i * i > next){
+					if(prime[next]) break;
+					else continue;
+				}
+				for(auto& it = current.begin(); it->first * it->first < next; ++it){
+					if(it->second < next) continue;
+				}
+				if(prime[next]) break;
+			}
+			return next;
+		}
+
+	};
 }
 
 #endif // ERATOSTHENE_HPP
