@@ -26,7 +26,7 @@ namespace prime{
 	 */
 
 	template<typename A, typename V>
-	bool linear_search(const A& array, size_t i, size_t j, const V& value){
+	bool linear_search(const A& array, size_t i, const size_t j, const V& value){
 		for(; i < j; ++i){
 			if(array[i] == value) return true;
 		}
