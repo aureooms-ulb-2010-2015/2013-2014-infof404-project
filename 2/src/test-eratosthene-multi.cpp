@@ -9,18 +9,25 @@ int main(int argc, char const *argv[]){
 		return 1;
 	}
 
-	const size_t count = std::stoull(argv[1]);
-	std::vector<bool> prime(count, true);
-	prime[0] = prime[1] = false;
+	const size_t last = std::stoull(argv[1]);
 
-	size_t k = 2;
-	while(k * k < count){
-		eratosthene::go_through(k * k, k, count, prime);
-		++k;
+	if(last < 2) return 0;
+	std::cout << 2 << std::endl;
+	if(last == 2) return 0;
+
+	const size_t count = last / 2 + last % 2 - 1;
+
+	std::vector<bool> prime(count, true);
+
+	size_t k = 3;
+	while(k * k < last){
+		size_t i = eratosthene::number_to_index(k*k);
+		eratosthene::go_through(i, k, count, prime);
+		k += 2;
 	}
 
-	// for(size_t i = 2; i < count; ++i){
-	// 	if(prime[i]) std::cout << i << std::endl;
+	// for(size_t i = 0; i < count; ++i){
+	// 	if(prime[i]) std::cout << eratosthene::index_to_number(i) << std::endl;
 	// }
 
 	return 0;
