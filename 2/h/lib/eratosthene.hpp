@@ -32,20 +32,25 @@ namespace eratosthene{
 		scheduler(A& prime):prime(&prime){}
 
 		size_t get(){
+			//lock
 			while(true){
 				// wait for signal
 				while(!prime[next]) ++next;
-				size_t i = current.begin()->first;
+				auto& it = current.begin();
+				size_t i = it->first;
 				if(i * i > next){
 					if(prime[next]) break;
 					else continue;
 				}
-				for(auto& it = current.begin(); it->first * it->first < next; ++it){
+				for(; it->first * it->first <= next; ++it){
 					if(it->second < next) continue;
 				}
 				if(prime[next]) break;
 			}
-			return next;
+			size_t ret = next;
+			++next;
+			//release
+			return ret;
 		}
 
 	};
