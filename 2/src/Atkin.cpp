@@ -59,7 +59,7 @@ int main(int argc, char const *argv[]){
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
-	std::cout<<"done in "<<time_spent<<std::endl;
+	std::cout << "done in " << time_spent << std::endl;
 	
 
 	return 0;
