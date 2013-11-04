@@ -1,8 +1,0 @@
-\select@language {english}
-\contentsline {figure}{\numberline {1}{\ignorespaces Interface of a scheduler\relax }}{3}{figure.caption.3}
-\contentsline {figure}{\numberline {2}{\ignorespaces Schedulability and preemption rate depending on $u$\relax }}{9}{figure.caption.9}
-\contentsline {figure}{\numberline {3}{\ignorespaces Schedulability and preemption rate depending on $\Delta _r$\relax }}{9}{figure.caption.10}
-\contentsline {figure}{\numberline {4}{\ignorespaces Schedulability and preemption rate depending on $n$\relax }}{10}{figure.caption.11}
-\contentsline {figure}{\numberline {5}{\ignorespaces Preemption rate for $n = 4$\relax }}{11}{figure.caption.12}
-\contentsline {figure}{\numberline {6}{\ignorespaces Schedulability rate for $n = 4$\relax }}{12}{figure.caption.13}
-\contentsline {figure}{\numberline {7}{\ignorespaces Output of the event pipe mode\relax }}{13}{figure.caption.15}
