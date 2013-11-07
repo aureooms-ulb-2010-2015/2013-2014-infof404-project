@@ -1,0 +1,8 @@
+\renewcommand\lstlistingname{Source code}
+\renewcommand\lstlistlistingname{List of source code}
+\def\lstlistingautorefname{Src.}
+\newcommand\makesrc[0]{
+	\newpage\cleardoublepage\phantomsection
+	\addcontentsline{toc}{section}{Source code}
+	\lstlistoflistings
+}

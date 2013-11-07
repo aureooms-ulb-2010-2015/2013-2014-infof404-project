@@ -1,0 +1,68 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="345px" height="170px" xmlns="http://www.w3.org/2000/svg" version="1.1" >
+	<text x="17" y="168" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >0</text>
+	<text x="162" y="168" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >10</text>
+	<text x="312" y="168" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >20</text>
+	<text x="0" y="137" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >t0</text>
+	<text x="0" y="62" fill="rgb(0,0,0)" font-size="12" font-family="Verdana" >t1</text>
+	<line x1="20" y1="150" x2="20" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="35" y1="150" x2="35" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="50" y1="150" x2="50" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="65" y1="150" x2="65" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="80" y1="150" x2="80" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="95" y1="150" x2="95" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="110" y1="150" x2="110" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="125" y1="150" x2="125" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="140" y1="150" x2="140" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="155" y1="150" x2="155" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="170" y1="150" x2="170" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="185" y1="150" x2="185" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="200" y1="150" x2="200" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="215" y1="150" x2="215" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="230" y1="150" x2="230" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="245" y1="150" x2="245" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="260" y1="150" x2="260" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="275" y1="150" x2="275" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="290" y1="150" x2="290" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="305" y1="150" x2="305" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="320" y1="150" x2="320" y2="20" stroke-width="1" stroke="rgb(0,0,0)" stroke-dasharray="1,3" />
+	<line x1="20" y1="116" x2="20" y2="95" stroke-width="1" stroke="rgb(0,0,0)" />
+	<polygon points="20,120 23,109 17,109 " fill="rgb(0,0,0)" />
+	<circle cx="80" cy="145" r="10" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="20" y1="41" x2="20" y2="20" stroke-width="1" stroke="rgb(0,0,0)" />
+	<polygon points="20,45 23,34 17,34 " fill="rgb(0,0,0)" />
+	<circle cx="80" cy="70" r="10" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="20" y="120" width="30" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="50" y="45" width="30" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="80" y1="41" x2="80" y2="20" stroke-width="1" stroke="rgb(0,0,0)" />
+	<polygon points="80,45 83,34 77,34 " fill="rgb(0,0,0)" />
+	<circle cx="140" cy="70" r="10" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="80" y="45" width="15" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="95" y1="116" x2="95" y2="95" stroke-width="1" stroke="rgb(0,0,0)" />
+	<polygon points="95,120 98,109 92,109 " fill="rgb(0,0,0)" />
+	<circle cx="155" cy="145" r="10" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="95" y="45" width="15" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="110" y="120" width="30" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="140" y1="41" x2="140" y2="20" stroke-width="1" stroke="rgb(0,0,0)" />
+	<polygon points="140,45 143,34 137,34 " fill="rgb(0,0,0)" />
+	<circle cx="200" cy="70" r="10" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="140" y="45" width="30" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="170" y1="116" x2="170" y2="95" stroke-width="1" stroke="rgb(0,0,0)" />
+	<polygon points="170,120 173,109 167,109 " fill="rgb(0,0,0)" />
+	<circle cx="230" cy="145" r="10" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="170" y="120" width="30" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="200" y1="41" x2="200" y2="20" stroke-width="1" stroke="rgb(0,0,0)" />
+	<polygon points="200,45 203,34 197,34 " fill="rgb(0,0,0)" />
+	<circle cx="260" cy="70" r="10" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="200" y="45" width="30" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="245" y1="116" x2="245" y2="95" stroke-width="1" stroke="rgb(0,0,0)" />
+	<polygon points="245,120 248,109 242,109 " fill="rgb(0,0,0)" />
+	<circle cx="305" cy="145" r="10" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="245" y="120" width="15" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<line x1="260" y1="41" x2="260" y2="20" stroke-width="1" stroke="rgb(0,0,0)" />
+	<polygon points="260,45 263,34 257,34 " fill="rgb(0,0,0)" />
+	<circle cx="320" cy="70" r="10" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="260" y="120" width="15" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+	<rect x="275" y="45" width="30" height="25" fill="none" stroke-width="1" stroke="rgb(0,0,0)" />
+</svg>

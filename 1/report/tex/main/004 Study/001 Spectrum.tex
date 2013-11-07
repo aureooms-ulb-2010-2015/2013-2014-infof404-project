@@ -1,0 +1,21 @@
+\subsection{Spectrum}
+
+We studied the following ranges of values
+\begin{itemize}
+	\item{$U$} [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+	\item{$\Delta_r$} [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	\item{$n$} [2, 3, 4]
+	\item{$k$} 1000
+	\item{$T_{min}$} 50
+	\item{$T_{max}$} 100
+\end{itemize}
+
+The systems are generated with the technique explained in \ref{sec:gen}.
+
+Reading \ref{eq:Usage no-overflow warranty} we have the warranty that $\epsilon_{max} = \frac{n}{T_{min}} \leq 0.08 < 0.1$.
+We can thus consider that results for $U$ will be a biased mean of values in the interval $[U-0.08, U]$.
+
+We choose $n$ and $T_{max}$ small because of \ref{eq:Lowest common multiple condition}.
+
+
+\nb{A system is generated for each triple $(U, n, k)$, this system is tested against the range of $\Delta_r$ values.}

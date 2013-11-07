@@ -1,0 +1,9 @@
+\subsection{Time vs Event}
+
+There are pros and cons considering both implementations. Here are listed some observations:
+
+\begin{enumerate}
+	\item The event based approach consumes more memory because of the (small) overhead of the event queue.
+	\item The event based approach is much faster for $\Delta_r > 1$ (asymptotic $\Delta_r$ speed up factor).
+	\item The time based approach has to check very often if new jobs appeared. This is very inconvenient in the case of long long period tasks (1 check per time unit).
+\end{enumerate}

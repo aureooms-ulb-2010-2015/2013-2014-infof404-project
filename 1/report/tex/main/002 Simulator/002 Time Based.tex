@@ -1,0 +1,12 @@
+\subsection{Time based}
+
+We first implemented the time based simulator for it's simplicity (\href{../h/os/llf_scheduler_time_based.h}{See file}).
+
+A run of the scheduler looks like \ref{alg:sim:1}
+
+\inputalgorithm[H]{Run of the time based scheduler}{alg:sim:1}{alg/sim/1}
+
+Jobs are queued in an \emph{std::multimap<uint, os::job\_t>} where the key is the point in time where the job should imperatively be scheduled (start deadline) or else the system is not schedulable.
+This is better (from the implementation point of view) than directly considering the slack time because the start deadline will only increment for the current job whereas slack times would decrement for all idle jobs (not optimal for priority queues).
+
+$\Delta_r$ has been interpreted as : \emph{priorities of jobs are checked with a frequency of $\frac{1}{\Delta_r}$. However, if a job finishes, the cpu is left free and a new job can be handled without regards to $\Delta_r$.}

@@ -1,0 +1,50 @@
+% pseudo code%
+\usepackage[algosection]{algorithm2e}
+
+\addto\captionsenglish{
+  \renewcommand{\listalgorithmcfname}{List of Algorithms}
+  \def\algorithmautorefname{Algorithm}
+}
+\addto\captionsfrench{
+  \renewcommand{\listalgorithmcfname}{Table des algorithmes}
+  \def\algorithmautorefname{Algorithme}
+}
+
+\DeclareCaptionType[within=none]{algobject}
+\DeclareCaptionFormat{algobjectformat}{}
+\captionsetup[algobject]{format=algobjectformat, labelformat=empty}
+
+\addto\captionsenglish{
+  \renewcommand{\listalgobjectname}{List of Algorithms}
+  \renewcommand{\algobjectname}{Algorithm}
+}
+\addto\captionsfrench{
+  \renewcommand{\listalgobjectname}{Table des algorithmes}
+  \renewcommand{\algobjectname}{Algorithme}
+}
+
+\numberwithin{algobject}{section}
+
+\newcommand\makealg[0]{
+  \newpage\cleardoublepage\phantomsection
+  \addcontentsline{toc}{section}{\listalgobjectname}
+  \listofalgobjects
+}
+
+
+\newcommand\inputalgorithm[4][]{%
+  \begin{algobject}[#1]
+  \caption{#2}
+  \label{#3}
+  \begin{algorithm}[#1]
+  \caption{#2}
+  \input{#4}
+  \end{algorithm}
+  \end{algobject}
+}
+
+%\newcommand\makealg[0]{
+%	\newpage\cleardoublepage\phantomsection
+%	\addcontentsline{toc}{chapter}{\listalgorithmcfname}
+%	\listofalgorithms
+%}

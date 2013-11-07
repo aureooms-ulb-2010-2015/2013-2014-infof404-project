@@ -1,0 +1,15 @@
+\subsection{Event based}
+
+The event based scheduler can be easily obtained by modifying the time based scheduler, the only changes to make are:
+\begin{enumerate}
+	\item adding an event priority queue
+	\item adding triggers for events
+	\item computing the $i$ steps as $i = hpe.i$ where $hpe$ is the \emph{highest priority event}
+\end{enumerate}
+
+An example of the differences of implementations can be seen in \ref{code:app:1} and \ref{code:app:2}.
+
+The event loop can be seen in \ref{code:app:3}.
+
+
+(\href{../h/os/llf_scheduler_event_based.h}{Link to the source code}.)
