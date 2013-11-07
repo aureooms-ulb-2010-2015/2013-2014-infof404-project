@@ -95,9 +95,9 @@ S& operator<<(S& out, const std::set<T>& set){
 	out << "[";
 	if(set.size() > 0){
 		bool first = true;
-		for(const T& val : set){
+		for(auto& it = set.begin(); it != set.end(); ++it){
 			if(!first) out << ", ";
-			out << val;
+			out << *it;
 			first = false;
 		}
 	}

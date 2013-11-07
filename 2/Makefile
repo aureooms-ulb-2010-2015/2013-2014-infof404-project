@@ -43,7 +43,7 @@ ifeq ($(O),3)
 endif
 
 AR = ar -rcs
-CXX = g++ $(INCLUDE_PATH) $(FLAGS)
+CXX = g++ -std=c++0x $(INCLUDE_PATH) $(FLAGS)
 TOOL = $(CXX) -o
 TOOL_OPT = $(LIBS)
 ifeq ($(TYPE),lib)
