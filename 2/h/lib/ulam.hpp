@@ -21,15 +21,18 @@ namespace ulam{
 		if(col < n - line){
 			ring_index = std::min(line, col);
 		}
-		else{
+		else if(col > line){
 			ring_index = n - col - 1;
-			if(col > line) side_line = -1;
-			if(col <= line) side_col = -1;
+			side_line = -1;
+		}
+		else{
+			ring_index = n - line - 1;
+			side_col = -1;
 		}	
 
 		size_t sub_size = n - ring_index * 2;
 
-		return sub_size * sub_size - (sub_size - 1) * 2 + side_line * line - side_col * col; // -1
+		return sub_size * sub_size - (sub_size - 1) * 2 + side_line * (line - ring_index) - side_col * (col - ring_index) - 1;
 	}
 
 
