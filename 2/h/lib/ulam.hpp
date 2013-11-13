@@ -7,7 +7,7 @@ namespace ulam{
 
 
 	/**
-	 * Converts a prime list index to a spiral index (n is odd) (4)
+	 * Converts a prime list index to a spiral index (n is odd or even) (4)
 	 *
 	 *
 	 */
@@ -15,6 +15,11 @@ namespace ulam{
 	size_t stol(size_t i, size_t n){
 		size_t line = i / n;
 		size_t col = i % n;
+
+		if(n % 2 == 0){
+			line = n - line - 1;
+			col = n - col - 1;
+		}
 
 		size_t ring_index, side_col = 1, side_line = 1;
 
