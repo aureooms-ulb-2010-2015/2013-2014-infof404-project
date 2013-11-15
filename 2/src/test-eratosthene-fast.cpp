@@ -3,6 +3,7 @@
 
 #include "lib/eratosthene.hpp"
 #include "lib/prime.hpp"
+#include "lib/ppm.hpp"
 
 int main(int argc, char const *argv[]){
 	if(argc != 2){
