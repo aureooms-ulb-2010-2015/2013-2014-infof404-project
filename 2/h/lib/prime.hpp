@@ -33,6 +33,17 @@ namespace prime{
 		return false;
 	}
 
+	/**
+	 * Upper bound for computing the nth prime number. (4)
+	 *
+	 *
+	 */
+
+	size_t upper_bound(const size_t nth){
+		// TODO 
+		return nth;
+	}
+
 
 
 }
