@@ -1,6 +1,8 @@
 #ifndef PRIME_HPP
 #define PRIME_HPP
 
+#include <cmath>
+
 namespace prime{
 
 
@@ -39,9 +41,8 @@ namespace prime{
 	 *
 	 */
 
-	size_t upper_bound(const size_t nth){
-		// TODO 
-		return nth;
+	size_t upper_bound(const size_t n){
+		return n * (std::log(n) + std::log(std::log(n))) + 3;
 	}
 
 
