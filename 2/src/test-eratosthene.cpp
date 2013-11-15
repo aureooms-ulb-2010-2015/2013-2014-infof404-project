@@ -13,9 +13,7 @@ int main(int argc, char const *argv[]){
 
 	size_t k = 2;
 	while(k * k < count){
-		for(size_t i = k * k; i < count; i += k){
-			prime[i] = false;
-		}
+		if(prime[k]) for(size_t i = k * k; i < count; i += k) prime[i] = false;
 		++k;
 	}
 
