@@ -28,6 +28,7 @@ int main(int argc, char const *argv[]){
 	else{
 		const size_t count = last / 2 + last % 2 - 1;
 
+
 		prime.resize(count, true);
 
 		size_t k = 3;
@@ -50,21 +51,21 @@ int main(int argc, char const *argv[]){
 		}
 	}
 
-	// const size_t size = std::sqrt(nth_val) + 1;
-	// const size_t pixels = size * size;
+	const size_t size = std::sqrt(nth_val) + 1;
+	const size_t pixels = size * size;
 
-	// ppm::write_header(std::cout, 3, size, size, 1);
-	// std::cout << std::endl;
-	// for(size_t i = 0; i < pixels;){
-	// 	size_t k = ulam::stol(i, size) + 1;
-	// 	if(k == 1) std::cout << ppm::pixel_t(0, 0, 0) << ' ';
-	// 	else if(k == 2) std::cout << ppm::pixel_t(1, 1, 1) << ' ';
-	// 	else if(k % 2 == 0) std::cout << ppm::pixel_t(0, 0, 0) << ' ';
-	// 	else if(prime[eratosthene::number_to_index(k)]) std::cout << ppm::pixel_t(1, 1, 1) << ' ';
-	// 	else std::cout << ppm::pixel_t(0, 0, 0) << ' ';
-	// 	++i;
-	// 	if(i % size == 0) std::cout << std::endl;
-	// }
+	ppm::write_header(std::cout, 3, size, size, 1);
+	std::cout << std::endl;
+	for(size_t i = 0; i < pixels;){
+		size_t k = ulam::stol(i, size) + 1;
+		if(k == 1) std::cout << ppm::pixel_t(0, 0, 0) << ' ';
+		else if(k == 2) std::cout << ppm::pixel_t(1, 1, 1) << ' ';
+		else if(k % 2 == 0) std::cout << ppm::pixel_t(0, 0, 0) << ' ';
+		else if(prime[eratosthene::number_to_index(k)]) std::cout << ppm::pixel_t(1, 1, 1) << ' ';
+		else std::cout << ppm::pixel_t(0, 0, 0) << ' ';
+		++i;
+		if(i % size == 0) std::cout << std::endl;
+	}
 
 
 

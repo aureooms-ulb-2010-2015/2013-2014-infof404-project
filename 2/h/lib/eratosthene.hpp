@@ -5,7 +5,7 @@ namespace eratosthene{
 
 
 	template<typename A>
-	inline void go_through(size_t i, size_t k, const size_t count, A& prime){
+	inline void go_through(size_t i, const size_t k, const size_t count, A& prime){
 		for(; i < count; i += k) prime[i] = false;
 	}
 
@@ -15,6 +15,22 @@ namespace eratosthene{
 
 	inline size_t index_to_number(size_t i){
 		return 2 * (i + 1) + 1;
+	}
+
+
+	inline size_t number_to_index_23_0(size_t n){
+		return (n + 1) / 3 - 2;
+	}
+
+	inline size_t number_to_index_23_1(size_t n){
+		return (n - 1) / 3 - 1;
+	}
+
+	inline size_t index_to_number_23_0(size_t i){
+		return 6 * (i / 2 + 1) - 1;
+	}
+	inline size_t index_to_number_23_1(size_t i){
+		return 6 * (i / 2 + 1) + 1;
 	}
 
 	template<typename A>
