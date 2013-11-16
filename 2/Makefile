@@ -57,7 +57,7 @@ endif
 OUTPUTDIR = o
 DEPENDENCYDIR = d
 LIBDIR = lib
-OUTPUT_NAMES = $(patsubst $(SRC)/%.cpp,run/%,$(shell find $(SRC) -regex .*\\.cpp | sed 's/ /\\ /g'))
+OUTPUT_NAMES = $(patsubst $(SRC)/%.cpp,$(ROOT)run/%,$(shell find $(SRC) -regex .*\\.cpp | sed 's/ /\\ /g'))
 OBJFILES = $(patsubst $(SRC)/%,$(ROOT)$(OUTPUTDIR)/%,$(patsubst %.cpp,%.o,$(shell find $(SRC) | grep \\.cpp$$)))
 DEP = g++ -MM -MF
 DEPFILES = $(patsubst $(ROOT)$(OUTPUTDIR)/%,$(ROOT)$(DEPENDENCYDIR)/%,$(patsubst %.o,%.d,$(OBJFILES)))
