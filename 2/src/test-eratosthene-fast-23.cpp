@@ -7,6 +7,7 @@
 #include "lib/ppm.hpp"
 #include "lib/ulam.hpp"
 #include "lib/io.hpp"
+#include "lib/bits_t.hpp"
 
 int main(int argc, char const *argv[]){
 	if(argc != 2){
