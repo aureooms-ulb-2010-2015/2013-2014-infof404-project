@@ -27,17 +27,19 @@ int main (int argc, char *argv[]){
 	const size_t nth = std::stoull(argv[1]);
 	const size_t last = prime::upper_bound(nth);
 	size_t nth_val = 0;
+	std::string file_name = "ppm/mpi.ppm";
 
 
-	bits_t<unsigned int> prime;
+	std::vector<bool> prime;
 
-	if(nth < 1) return 0;
-	else if(nth == 1){
-		nth_val = 2;
-	}
-	else if(nth == 2){
-		nth_val = 3;
-	}
+	MPI_File file;
+	MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &file);
+	MPI_Offset offset = sizeof(unsigned int) * rank;
+	MPI_Status status;
+
+	if(nth == 0); //nop
+	else if(nth == 1) nth_val = 2;
+	else if(nth == 2) nth_val = 3;
 	else{
 		size_t count = last / 6;
 
@@ -87,6 +89,10 @@ int main (int argc, char *argv[]){
 	}
 
 	std::cout << nth_val << std::endl;
+
+	MPI_File_seek(file, offset, MPI_SEEK_SET);
+	MPI_File_write(file, &nth_val, 1, MPI_UNSIGNED, &status);
+	MPI_File_close(&file);
 
 	// double PI;
 
