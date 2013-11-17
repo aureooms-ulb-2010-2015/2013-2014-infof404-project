@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]){
 		size_t i;
 		std::cout << "> ";
 		std::cin >> i;
-		std::cout << i << ", " << ulam::stol(i, n) << std::endl;
+		std::cout << i << ", " << ulam::ltos(i, n) << std::endl;
 	}
 
 

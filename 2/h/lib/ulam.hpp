@@ -2,12 +2,13 @@
 #define ULAM_HPP
 
 #include <algorithm>
+#include <cmath>
 
 namespace ulam{
 
 
 	/**
-	 * Converts a prime list index to a spiral index (n is odd or even) (4)
+	 * Converts list index to a spiral index. (2)
 	 *
 	 *
 	 */
@@ -38,6 +39,38 @@ namespace ulam{
 		size_t sub_size = n - ring_index * 2;
 
 		return sub_size * sub_size - (sub_size - 1) * 2 + side_line * (line - ring_index) - side_col * (col - ring_index) - 1;
+	}
+
+	/**
+	 * Converts a spiral index to a list index. (4)
+	 *
+	 *
+	 */
+
+	size_t ltos(size_t i, size_t n){
+		size_t s = std::sqrt(i), l = s, r = s + 1, L = l * l, R = r * r, x = n / 2, y = x;
+		if(s % 2 == 1){
+			if(i < (L + R) / 2){
+				x += s / 2 + 1;
+				y += l / 2 + L - i;
+			}
+			else{
+				x += -r / 2 + R - i;
+				y -= s / 2 + 1;
+			}
+		}
+		else{
+			if(i < (L + R) / 2){
+				x -= s / 2;
+				y -= l / 2 + L - i;
+			}
+			else{
+				x += r / 2 + 1 - R + i;
+				y += s / 2;
+			}
+		}
+
+		return n * y + x;
 	}
 
 
