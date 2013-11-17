@@ -55,7 +55,7 @@ namespace ulam{
 				y += l / 2 + L - i;
 			}
 			else{
-				x += -r / 2 + R - i;
+				x -= r / 2 - R + i;
 				y -= s / 2 + 1;
 			}
 		}
