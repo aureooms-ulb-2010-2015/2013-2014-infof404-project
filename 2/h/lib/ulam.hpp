@@ -48,7 +48,7 @@ namespace ulam{
 	 */
 
 	size_t ltos(size_t i, size_t n){
-		size_t s = std::sqrt(i), l = s, r = s + 1, L = l * l, R = r * r, x = n / 2, y = x;
+		size_t s = std::sqrt(i), l = s, r = s + 1, L = l * l, R = r * r, x = (n - 1) / 2, y = n / 2;
 		if(s % 2 == 1){
 			if(i < (L + R) / 2){
 				x += s / 2 + 1;
