@@ -36,7 +36,7 @@ namespace ppm{
 	 */
 
 	template<typename F, typename S>
-	void write(F& file, const pixel_t& c, S& status){
+	void write(F& file, pixel_t c, S& status){
 		MPI_File_write(file, &c.r, 1, MPI_BYTE, &status);
 		MPI_File_write(file, &c.g, 1, MPI_BYTE, &status);
 		MPI_File_write(file, &c.b, 1, MPI_BYTE, &status);
@@ -94,8 +94,8 @@ namespace ppm{
 	 *
 	 */
 	template<typename F, typename S>
-	size_t write_header(F& file, const char magic, const size_t width, const size_t height, const uint16_t max, S& status, const char sep = ' '){
-		const char P = 'P';
+	size_t write_header(F& file,  char magic,  size_t width,  size_t height,  uint16_t max, S& status, char sep = ' '){
+		char P = 'P';
 		std::string repr;
 		size_t offset = 6;
 
@@ -105,17 +105,17 @@ namespace ppm{
 
 		repr = std::to_string(width);
 		offset += repr.size();
-		MPI_File_write(file, &repr.c_srt(), repr.size(), MPI_CHAR, &status);
+		MPI_File_write(file, (char*) repr.c_str(), repr.size(), MPI_CHAR, &status);
 		MPI_File_write(file, &sep, 1, MPI_CHAR, &status);
 
 		repr = std::to_string(height);
 		offset += repr.size();
-		MPI_File_write(file, &repr.c_srt(), repr.size(), MPI_CHAR, &status);
+		MPI_File_write(file, (char*) repr.c_str(), repr.size(), MPI_CHAR, &status);
 		MPI_File_write(file, &sep, 1, MPI_CHAR, &status);
 
 		repr = std::to_string(max);
 		offset += repr.size();
-		MPI_File_write(file, &repr.c_srt(), repr.size(), MPI_CHAR, &status);
+		MPI_File_write(file, (char*) repr.c_str(), repr.size(), MPI_CHAR, &status);
 		MPI_File_write(file, &sep, 1, MPI_CHAR, &status);
 
 		return offset;
