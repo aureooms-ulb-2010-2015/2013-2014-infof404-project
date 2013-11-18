@@ -62,12 +62,12 @@ int main (int argc, char *argv[]){
 	else{
 		if(count % 2 == 1){
 			if((mpi_rank - r) % 2 == 0){
+				o = r * (count + 1) + (mpi_rank - r) * count;
 				++count;
-				o = r * (count + 1) + (mpi_rank - r) * (count - 1);
 			}
 			else{
+				o = r * (count + 1) + (mpi_rank - r) * count + 1;
 				--count;
-				o = r * (count + 1) + (mpi_rank - r) * (count + 1) + 1;
 			}
 		}
 		else if(r % 2 == 0){
@@ -79,7 +79,7 @@ int main (int argc, char *argv[]){
 		
 	}
 
-	std::cout << mpi_rank << " my size := " << count << std::endl;
+	std::cout << mpi_rank << " my size := " << count << ", my offset :=" << o  << '(' << eratosthene::index_to_number_23_0(o) << ')' << std::endl;
 
 	if(nth == 0) last = 0, count = 0;
 	else if(nth == 1) last = 4, count = 0;
@@ -106,17 +106,31 @@ int main (int argc, char *argv[]){
 
 				std::cout << "received, " << tmp << ',' << i << ',' << k << ',' << l << ',' << which << std::endl;
 
-
-				i = 2 * k - (o - i) % (2 * k);
-
-				if(which == left){
-					eratosthene::go_through(i, 2 * k, count, prime);
-					eratosthene::go_through(i + k - l, 2 * k, count, prime);
+				size_t j;
+				if(i < o){
+					if(which == left){
+						if(i + k - l < o) j = (2 * k - (o - i - k + l) % (2 * k)) % (2 * k);
+						else j = i + k - l - o;
+					}
+					else{
+						if(i + k + l < o)j = (2 * k - (o - i - k - l) % (2 * k)) % (2 * k);
+						else j = i + k + l - o;
+					}
+					i = (2 * k - (o - i) % (2 * k)) % (2 * k);
 				}
 				else{
-					eratosthene::go_through(i, 2 * k, count, prime);
-					eratosthene::go_through(i + k + l, 2 * k, count, prime);
+					i -= o;
+					if(which == left) j = i + k - l;
+					else j = i + k + l;
 				}
+
+				std::cout << "computed i : " << i << std::endl;
+				std::cout << "computed j : " << j << std::endl;
+
+				std::cout << eratosthene::index_to_number_23_1(i + o) << std::endl;
+				std::cout << eratosthene::index_to_number_23_0(j + o) << std::endl;
+				eratosthene::go_through(i, 2 * k, count, prime);
+				eratosthene::go_through(j, 2 * k, count, prime);
 			}
 			while(mpi_rank > current);
 
@@ -126,36 +140,42 @@ int main (int argc, char *argv[]){
 		else{
 			k = 5, l = 2;
 		}
-
-		for(; k * k < last; l += 2) {
+		std::cout << "I'm the leader with " << k << ", " << l << std::endl;
+		for(; k * k < last && l <= count; l += 2) {
 			size_t i = eratosthene::number_to_index_23_1(k * k) - o;
-			if(i >= count) break;
-			if(prime[i]){
+			std::cout << i << std::endl;
+			if(prime[l - 2 - o]){
 				MPI_Bcast(&mpi_rank, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&i, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&k, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&l, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&left, 1, MPI_BYTE, mpi_rank, MPI_COMM_WORLD);
-				eratosthene::go_through(i, 2 * k, count, prime);
-				eratosthene::go_through(i + k - l, 2 * k, count, prime);
+				if(i < count){
+					eratosthene::go_through(i, 2 * k, count, prime);
+					eratosthene::go_through(i + k - l, 2 * k, count, prime);
+				}
 			}
 
 			k += 2;
 			if(k * k >= last) break;
 			size_t j = eratosthene::number_to_index_23_1(k * k) - o;
-			if(j >= count) break;
-			if(prime[j]){
+			std::cout << j << std::endl;
+			if(prime[l - 1 - o]){
 				MPI_Bcast(&mpi_rank, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&j, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&k, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&l, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&right, 1, MPI_BYTE, mpi_rank, MPI_COMM_WORLD);
-				eratosthene::go_through(j, 2 * k, count, prime);
-				eratosthene::go_through(j + k + l, 2 * k, count, prime);
+				if(j < count){
+					eratosthene::go_through(j, 2 * k, count, prime);
+					eratosthene::go_through(j + k + l, 2 * k, count, prime);
+				}
 			}
 
 			k += 4;
 		}
+
+		std::cout << "I finished with " << k << ',' << last << std::endl;
 
 		if(mpi_rank + 1 < mpi_size){
 			++current;
@@ -187,18 +207,25 @@ int main (int argc, char *argv[]){
 
 	}
 	size_t k = eratosthene::index_to_number_23_0(o) - 1;
+	std::cout << "k : " << k << std::endl;
 	for(size_t i = 0; i < count; ++i){
 		if(k >= pixels) break;
 		size_t j = ulam::ltos(k, size);
-		std::cout << j << std::endl;
+		std::cout << mpi_rank << " writes " << j << std::endl;
 		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-		if(prime[i]) ppm::write(file, ppm::pixel_t(1, 1, 1), status);
-		else ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+		if(prime[i]){
+			std::cout << (k + 1) << " is prime" << std::endl;
+			ppm::write(file, ppm::pixel_t(1, 1, 1), status);
+		}
+		else{
+			std::cout << (k + 1) << " is not prime" << std::endl;
+			ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+		}
 		++k;
 
 		if(k >= pixels) break;
 		j = ulam::ltos(k, size);
-		std::cout << j << std::endl;
+		std::cout << mpi_rank << " writes " << j << std::endl;
 		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
 		ppm::write(file, ppm::pixel_t(0, 0, 0), status);
 		++k;
@@ -208,17 +235,23 @@ int main (int argc, char *argv[]){
 		++i;
 		if(i == count) break;
 		j = ulam::ltos(k, size);
-		std::cout << j << std::endl;
+		std::cout << mpi_rank << " writes " << j << std::endl;
 		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-		if(prime[i]) ppm::write(file, ppm::pixel_t(1, 1, 1), status);
-		else ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+		if(prime[i]){
+			std::cout << (k + 1) << " is prime" << std::endl;
+			ppm::write(file, ppm::pixel_t(1, 1, 1), status);
+		}
+		else{
+			std::cout << (k + 1) << " is not prime" << std::endl;
+			ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+		}
 		++k;
 
 
 		for(size_t t = 0; t < 3; ++t){
 			if(k >= pixels) break;
 			j = ulam::ltos(k, size);
-			std::cout << j << std::endl;
+			std::cout << mpi_rank << " writes " << j << std::endl;
 			MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
 			ppm::write(file, ppm::pixel_t(0, 0, 0), status);
 			++k;
