@@ -24,7 +24,7 @@ int main (int argc, char *argv[]){
 
 
 	if(argc != 2){
-		std::cout << "#0 missing" << std::endl;
+		// std::cout << "#0 missing" << std::endl;
 		return 1;
 	}
 
@@ -33,13 +33,13 @@ int main (int argc, char *argv[]){
 
 
 	std::vector<bool> prime;
-	std::cout << last << std::endl;
+	// std::cout << last << std::endl;
 	size_t count = last / 6;
 
 	if(last % 6 <= 4) count = 2 * count + 1;
 	else count = 2 * count + 2;
 
-	std::cout << "total size := " << count << std::endl;
+	// std::cout << "total size := " << count << std::endl;
 
 	size_t r = count % mpi_size;
 	count /= mpi_size;
@@ -79,7 +79,7 @@ int main (int argc, char *argv[]){
 		
 	}
 
-	std::cout << mpi_rank << " my size := " << count << ", my offset :=" << o  << '(' << eratosthene::index_to_number_23_0(o) << ')' << std::endl;
+	// std::cout << mpi_rank << " my size := " << count << ", my offset :=" << o  << '(' << eratosthene::index_to_number_23_0(o) << ')' << std::endl;
 
 	if(nth == 0) last = 0, count = 0;
 	else if(nth == 1) last = 4, count = 0;
@@ -104,7 +104,7 @@ int main (int argc, char *argv[]){
 				MPI_Bcast(&l, 1, MPI_INTEGER8, current, MPI_COMM_WORLD);
 				MPI_Bcast(&which, 1, MPI_BYTE, current, MPI_COMM_WORLD);
 
-				std::cout << "received, " << tmp << ',' << i << ',' << k << ',' << l << ',' << which << std::endl;
+				// std::cout << "received, " << tmp << ',' << i << ',' << k << ',' << l << ',' << which << std::endl;
 
 				size_t j;
 				if(i < o){
@@ -124,11 +124,11 @@ int main (int argc, char *argv[]){
 					else j = i + k + l;
 				}
 
-				std::cout << "computed i : " << i << std::endl;
-				std::cout << "computed j : " << j << std::endl;
+				// std::cout << "computed i : " << i << std::endl;
+				// std::cout << "computed j : " << j << std::endl;
 
-				std::cout << eratosthene::index_to_number_23_1(i + o) << std::endl;
-				std::cout << eratosthene::index_to_number_23_0(j + o) << std::endl;
+				// std::cout << eratosthene::index_to_number_23_1(i + o) << std::endl;
+				// std::cout << eratosthene::index_to_number_23_0(j + o) << std::endl;
 				eratosthene::go_through(i, 2 * k, count, prime);
 				eratosthene::go_through(j, 2 * k, count, prime);
 			}
@@ -140,10 +140,10 @@ int main (int argc, char *argv[]){
 		else{
 			k = 5, l = 2;
 		}
-		std::cout << "I'm the leader with " << k << ", " << l << std::endl;
+		// std::cout << "I'm the leader with " << k << ", " << l << std::endl;
 		for(; k * k < last && l <= count; l += 2) {
 			size_t i = eratosthene::number_to_index_23_1(k * k) - o;
-			std::cout << i << std::endl;
+			// std::cout << i << std::endl;
 			if(prime[l - 2 - o]){
 				MPI_Bcast(&mpi_rank, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&i, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
@@ -159,7 +159,7 @@ int main (int argc, char *argv[]){
 			k += 2;
 			if(k * k >= last) break;
 			size_t j = eratosthene::number_to_index_23_1(k * k) - o;
-			std::cout << j << std::endl;
+			// std::cout << j << std::endl;
 			if(prime[l - 1 - o]){
 				MPI_Bcast(&mpi_rank, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&j, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
@@ -175,7 +175,7 @@ int main (int argc, char *argv[]){
 			k += 4;
 		}
 
-		std::cout << "I finished with " << k << ',' << last << std::endl;
+		// std::cout << "I finished with " << k << ',' << last << std::endl;
 
 		if(mpi_rank + 1 < mpi_size){
 			++current;
@@ -194,7 +194,7 @@ int main (int argc, char *argv[]){
 	const size_t size = (last == 0) ? 0 : std::sqrt(last - 1) + 1, pixels = size * size;
 
 	MPI_Offset offset = ppm::write_header(file, '6', size, size, 1, status);
-	std::cout << offset << ',' << count << std::endl;
+	// std::cout << offset << ',' << count << std::endl;
 	if(mpi_rank == 0){
 		MPI_File_set_size(file, offset + size * size * 3);
 		if(pixels >= 2){
@@ -207,25 +207,25 @@ int main (int argc, char *argv[]){
 
 	}
 	size_t k = eratosthene::index_to_number_23_0(o) - 1;
-	std::cout << "k : " << k << std::endl;
+	// std::cout << "k : " << k << std::endl;
 	for(size_t i = 0; i < count; ++i){
 		if(k >= pixels) break;
 		size_t j = ulam::ltos(k, size);
-		std::cout << mpi_rank << " writes " << j << std::endl;
+		// std::cout << mpi_rank << " writes " << j << std::endl;
 		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
 		if(prime[i]){
-			std::cout << (k + 1) << " is prime" << std::endl;
+			// std::cout << (k + 1) << " is prime" << std::endl;
 			ppm::write(file, ppm::pixel_t(1, 1, 1), status);
 		}
 		else{
-			std::cout << (k + 1) << " is not prime" << std::endl;
+			// std::cout << (k + 1) << " is not prime" << std::endl;
 			ppm::write(file, ppm::pixel_t(0, 0, 0), status);
 		}
 		++k;
 
 		if(k >= pixels) break;
 		j = ulam::ltos(k, size);
-		std::cout << mpi_rank << " writes " << j << std::endl;
+		// std::cout << mpi_rank << " writes " << j << std::endl;
 		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
 		ppm::write(file, ppm::pixel_t(0, 0, 0), status);
 		++k;
@@ -235,14 +235,14 @@ int main (int argc, char *argv[]){
 		++i;
 		if(i == count) break;
 		j = ulam::ltos(k, size);
-		std::cout << mpi_rank << " writes " << j << std::endl;
+		// std::cout << mpi_rank << " writes " << j << std::endl;
 		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
 		if(prime[i]){
-			std::cout << (k + 1) << " is prime" << std::endl;
+			// std::cout << (k + 1) << " is prime" << std::endl;
 			ppm::write(file, ppm::pixel_t(1, 1, 1), status);
 		}
 		else{
-			std::cout << (k + 1) << " is not prime" << std::endl;
+			// std::cout << (k + 1) << " is not prime" << std::endl;
 			ppm::write(file, ppm::pixel_t(0, 0, 0), status);
 		}
 		++k;
@@ -251,7 +251,7 @@ int main (int argc, char *argv[]){
 		for(size_t t = 0; t < 3; ++t){
 			if(k >= pixels) break;
 			j = ulam::ltos(k, size);
-			std::cout << mpi_rank << " writes " << j << std::endl;
+			// std::cout << mpi_rank << " writes " << j << std::endl;
 			MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
 			ppm::write(file, ppm::pixel_t(0, 0, 0), status);
 			++k;

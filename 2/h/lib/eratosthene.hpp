@@ -7,7 +7,7 @@ namespace eratosthene{
 	template<typename A>
 	inline void go_through(size_t i, const size_t k, const size_t count, A& prime){
 		for(; i < count; i += k){
-			std::cout << "cross " << i << std::endl;
+			// std::cout << "cross " << i << std::endl;
 			prime[i] = false;
 		}
 	}
