@@ -39,17 +39,47 @@ int main (int argc, char *argv[]){
 	if(last % 6 <= 4) count = 2 * count + 1;
 	else count = 2 * count + 2;
 
+	std::cout << "total size := " << count << std::endl;
+
 	size_t r = count % mpi_size;
 	count /= mpi_size;
 
 	size_t o;
 	if(r > mpi_rank){
-		++count;
-		o = mpi_rank * count;
+		if(count % 2 == 1){
+			++count;
+			o = mpi_rank * count;
+		}
+		else if(mpi_rank % 2 == 0){
+			count += 2;
+			o = mpi_rank * (count - 1);
+		}
+		else{
+			o = mpi_rank * (count + 1) + 1;
+		}
+		
 	}
 	else{
-		o = r * (count + 1) + (mpi_rank - r) * count;
+		if(count % 2 == 1){
+			if((mpi_rank - r) % 2 == 0){
+				++count;
+				o = r * (count + 1) + (mpi_rank - r) * (count - 1);
+			}
+			else{
+				--count;
+				o = r * (count + 1) + (mpi_rank - r) * (count + 1) + 1;
+			}
+		}
+		else if(r % 2 == 0){
+			o = r * (count + 1) + (mpi_rank - r) * count;
+		}
+		else{
+			o = r * (count + 1) + (mpi_rank - r) * count + 1;
+		}
+		
 	}
+
+	std::cout << mpi_rank << " my size := " << count << std::endl;
 
 	if(nth == 0) last = 0, count = 0;
 	else if(nth == 1) last = 4, count = 0;
@@ -62,17 +92,19 @@ int main (int argc, char *argv[]){
 		size_t current = 0, tmp = 0;
 		if(mpi_rank > current){
 			do{
-				MPI_Bcast(&tmp, 1, MPI_UNSIGNED, current, MPI_COMM_WORLD);
+				MPI_Bcast(&tmp, 1, MPI_INTEGER8, current, MPI_COMM_WORLD);
 				if(tmp > current){
 					current = tmp;
 					continue;
 				}
 				size_t i;
 
-				MPI_Bcast(&i, 1, MPI_UNSIGNED, current, MPI_COMM_WORLD);
-				MPI_Bcast(&k, 1, MPI_UNSIGNED, current, MPI_COMM_WORLD);
-				MPI_Bcast(&l, 1, MPI_UNSIGNED, current, MPI_COMM_WORLD);
+				MPI_Bcast(&i, 1, MPI_INTEGER8, current, MPI_COMM_WORLD);
+				MPI_Bcast(&k, 1, MPI_INTEGER8, current, MPI_COMM_WORLD);
+				MPI_Bcast(&l, 1, MPI_INTEGER8, current, MPI_COMM_WORLD);
 				MPI_Bcast(&which, 1, MPI_BYTE, current, MPI_COMM_WORLD);
+
+				std::cout << "received, " << tmp << ',' << i << ',' << k << ',' << l << ',' << which << std::endl;
 
 
 				i = 2 * k - (o - i) % (2 * k);
@@ -88,8 +120,8 @@ int main (int argc, char *argv[]){
 			}
 			while(mpi_rank > current);
 
-			MPI_Recv(&k, 1, MPI_UNSIGNED, mpi_rank - 1, SETUP, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-			MPI_Recv(&l, 1, MPI_UNSIGNED, mpi_rank - 1, SETUP, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			MPI_Recv(&k, 1, MPI_INTEGER8, mpi_rank - 1, SETUP, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			MPI_Recv(&l, 1, MPI_INTEGER8, mpi_rank - 1, SETUP, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 		}
 		else{
 			k = 5, l = 2;
@@ -99,10 +131,10 @@ int main (int argc, char *argv[]){
 			size_t i = eratosthene::number_to_index_23_1(k * k) - o;
 			if(i >= count) break;
 			if(prime[i]){
-				MPI_Bcast(&mpi_rank, 1, MPI_UNSIGNED, mpi_rank, MPI_COMM_WORLD);
-				MPI_Bcast(&i, 1, MPI_UNSIGNED, mpi_rank, MPI_COMM_WORLD);
-				MPI_Bcast(&k, 1, MPI_UNSIGNED, mpi_rank, MPI_COMM_WORLD);
-				MPI_Bcast(&l, 1, MPI_UNSIGNED, mpi_rank, MPI_COMM_WORLD);
+				MPI_Bcast(&mpi_rank, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
+				MPI_Bcast(&i, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
+				MPI_Bcast(&k, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
+				MPI_Bcast(&l, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&left, 1, MPI_BYTE, mpi_rank, MPI_COMM_WORLD);
 				eratosthene::go_through(i, 2 * k, count, prime);
 				eratosthene::go_through(i + k - l, 2 * k, count, prime);
@@ -113,10 +145,10 @@ int main (int argc, char *argv[]){
 			size_t j = eratosthene::number_to_index_23_1(k * k) - o;
 			if(j >= count) break;
 			if(prime[j]){
-				MPI_Bcast(&mpi_rank, 1, MPI_UNSIGNED, mpi_rank, MPI_COMM_WORLD);
-				MPI_Bcast(&j, 1, MPI_UNSIGNED, mpi_rank, MPI_COMM_WORLD);
-				MPI_Bcast(&k, 1, MPI_UNSIGNED, mpi_rank, MPI_COMM_WORLD);
-				MPI_Bcast(&l, 1, MPI_UNSIGNED, mpi_rank, MPI_COMM_WORLD);
+				MPI_Bcast(&mpi_rank, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
+				MPI_Bcast(&j, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
+				MPI_Bcast(&k, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
+				MPI_Bcast(&l, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
 				MPI_Bcast(&right, 1, MPI_BYTE, mpi_rank, MPI_COMM_WORLD);
 				eratosthene::go_through(j, 2 * k, count, prime);
 				eratosthene::go_through(j + k + l, 2 * k, count, prime);
@@ -127,13 +159,13 @@ int main (int argc, char *argv[]){
 
 		if(mpi_rank + 1 < mpi_size){
 			++current;
-			MPI_Bcast(&current, 1, MPI_UNSIGNED, mpi_rank, MPI_COMM_WORLD);
-			MPI_Send(&k, 1, MPI_UNSIGNED, mpi_rank + 1, SETUP, MPI_COMM_WORLD);
-			MPI_Send(&l, 1, MPI_UNSIGNED, mpi_rank + 1, SETUP, MPI_COMM_WORLD);
+			MPI_Bcast(&current, 1, MPI_INTEGER8, mpi_rank, MPI_COMM_WORLD);
+			MPI_Send(&k, 1, MPI_INTEGER8, mpi_rank + 1, SETUP, MPI_COMM_WORLD);
+			MPI_Send(&l, 1, MPI_INTEGER8, mpi_rank + 1, SETUP, MPI_COMM_WORLD);
 		}
 	}
 
-	std::string file_name = "ppm/mpi.ppm";
+	std::string file_name = "ppm/mpi1.ppm";
 	MPI_File file;
 	MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &file);
 	MPI_Status status;
