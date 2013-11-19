@@ -14,6 +14,9 @@
 const int SETUP = 0;
 
 int main (int argc, char *argv[]){
+
+	double start = MPI_Wtime();
+
 	MPI_Init(&argc, &argv);
 
 	int tmp_rank, tmp_size;
@@ -262,6 +265,9 @@ int main (int argc, char *argv[]){
 
 
 
+	double stop = MPI_Wtime();
+
+	std::cout << "Process " << mpi_rank << " : " << (stop - start) << " sec" << std::endl;
 
 
 	// MPI_File_close(&file);
