@@ -185,86 +185,86 @@ int main (int argc, char *argv[]){
 		}
 	}
 
-	std::string file_name = "ppm/mpi1.ppm";
-	MPI_File file;
-	MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &file);
-	MPI_Status status;
+	// std::string file_name = "ppm/mpi1.ppm";
+	// MPI_File file;
+	// MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &file);
+	// MPI_Status status;
 
 
-	const size_t size = (last == 0) ? 0 : std::sqrt(last - 1) + 1, pixels = size * size;
+	// const size_t size = (last == 0) ? 0 : std::sqrt(last - 1) + 1, pixels = size * size;
 
-	MPI_Offset offset = ppm::write_header(file, '6', size, size, 1, status);
-	// std::cout << offset << ',' << count << std::endl;
-	if(mpi_rank == 0){
-		MPI_File_set_size(file, offset + size * size * 3);
-		if(pixels >= 2){
-			for(size_t i = 1; i < 3; ++i){
-				size_t j = ulam::ltos(i, size);
-				MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-				ppm::write(file, ppm::pixel_t(1, 1, 1), status);
-			}
-		}
+	// MPI_Offset offset = ppm::write_header(file, '6', size, size, 1, status);
+	// // std::cout << offset << ',' << count << std::endl;
+	// if(mpi_rank == 0){
+	// 	MPI_File_set_size(file, offset + size * size * 3);
+	// 	if(pixels >= 2){
+	// 		for(size_t i = 1; i < 3; ++i){
+	// 			size_t j = ulam::ltos(i, size);
+	// 			MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
+	// 			ppm::write(file, ppm::pixel_t(1, 1, 1), status);
+	// 		}
+	// 	}
 
-	}
-	size_t k = eratosthene::index_to_number_23_0(o) - 1;
-	// std::cout << "k : " << k << std::endl;
-	for(size_t i = 0; i < count; ++i){
-		if(k >= pixels) break;
-		size_t j = ulam::ltos(k, size);
-		// std::cout << mpi_rank << " writes " << j << std::endl;
-		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-		if(prime[i]){
-			// std::cout << (k + 1) << " is prime" << std::endl;
-			ppm::write(file, ppm::pixel_t(1, 1, 1), status);
-		}
-		else{
-			// std::cout << (k + 1) << " is not prime" << std::endl;
-			ppm::write(file, ppm::pixel_t(0, 0, 0), status);
-		}
-		++k;
+	// }
+	// size_t k = eratosthene::index_to_number_23_0(o) - 1;
+	// // std::cout << "k : " << k << std::endl;
+	// for(size_t i = 0; i < count; ++i){
+	// 	if(k >= pixels) break;
+	// 	size_t j = ulam::ltos(k, size);
+	// 	// std::cout << mpi_rank << " writes " << j << std::endl;
+	// 	MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
+	// 	if(prime[i]){
+	// 		// std::cout << (k + 1) << " is prime" << std::endl;
+	// 		ppm::write(file, ppm::pixel_t(1, 1, 1), status);
+	// 	}
+	// 	else{
+	// 		// std::cout << (k + 1) << " is not prime" << std::endl;
+	// 		ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+	// 	}
+	// 	++k;
 
-		if(k >= pixels) break;
-		j = ulam::ltos(k, size);
-		// std::cout << mpi_rank << " writes " << j << std::endl;
-		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-		ppm::write(file, ppm::pixel_t(0, 0, 0), status);
-		++k;
-
-
-		if(k >= pixels) break;
-		++i;
-		if(i == count) break;
-		j = ulam::ltos(k, size);
-		// std::cout << mpi_rank << " writes " << j << std::endl;
-		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-		if(prime[i]){
-			// std::cout << (k + 1) << " is prime" << std::endl;
-			ppm::write(file, ppm::pixel_t(1, 1, 1), status);
-		}
-		else{
-			// std::cout << (k + 1) << " is not prime" << std::endl;
-			ppm::write(file, ppm::pixel_t(0, 0, 0), status);
-		}
-		++k;
+	// 	if(k >= pixels) break;
+	// 	j = ulam::ltos(k, size);
+	// 	// std::cout << mpi_rank << " writes " << j << std::endl;
+	// 	MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
+	// 	ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+	// 	++k;
 
 
-		for(size_t t = 0; t < 3; ++t){
-			if(k >= pixels) break;
-			j = ulam::ltos(k, size);
-			// std::cout << mpi_rank << " writes " << j << std::endl;
-			MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-			ppm::write(file, ppm::pixel_t(0, 0, 0), status);
-			++k;
-		}
-	}
+	// 	if(k >= pixels) break;
+	// 	++i;
+	// 	if(i == count) break;
+	// 	j = ulam::ltos(k, size);
+	// 	// std::cout << mpi_rank << " writes " << j << std::endl;
+	// 	MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
+	// 	if(prime[i]){
+	// 		// std::cout << (k + 1) << " is prime" << std::endl;
+	// 		ppm::write(file, ppm::pixel_t(1, 1, 1), status);
+	// 	}
+	// 	else{
+	// 		// std::cout << (k + 1) << " is not prime" << std::endl;
+	// 		ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+	// 	}
+	// 	++k;
 
 
-
+	// 	for(size_t t = 0; t < 3; ++t){
+	// 		if(k >= pixels) break;
+	// 		j = ulam::ltos(k, size);
+	// 		// std::cout << mpi_rank << " writes " << j << std::endl;
+	// 		MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
+	// 		ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+	// 		++k;
+	// 	}
+	// }
 
 
 
 
-	MPI_File_close(&file);
+
+
+
+	// MPI_File_close(&file);
 	MPI_Finalize();
 
 	return 0;
