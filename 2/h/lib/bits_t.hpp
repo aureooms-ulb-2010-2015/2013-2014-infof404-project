@@ -11,7 +11,7 @@ public:
 	typedef B block_t;
 	static const size_t block_size = sizeof(block_t) * 8;
 
-	block_t* data = nullptr;
+	block_t* data;
 	size_t size;
 	size_t blocks;
 
@@ -34,7 +34,7 @@ public:
 
 
 
-	bits_t(){}
+	bits_t():data(nullptr){}
 
 	bits_t(const size_t n, const bool v){
 		resize(n, v);
