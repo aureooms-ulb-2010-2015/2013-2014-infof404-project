@@ -257,6 +257,11 @@ int main (int argc, char *argv[]){
 						MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
 						ppm::write(file, painter->get(j / size, j % size, size, size), status);
 					}
+					for(size_t i = 0; i < 4; i += 3){
+						size_t j = ulam::ltos(i, size);
+						MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
+						ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+					}
 				}
 
 			}
