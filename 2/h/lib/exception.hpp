@@ -8,6 +8,7 @@ namespace lib{
 		std::string msg;
 	public:
 		exception(const std::string& msg):msg(msg){}
+		virtual ~exception() noexcept {}
 		const char* what() const noexcept {return msg.c_str();}
 	};
 

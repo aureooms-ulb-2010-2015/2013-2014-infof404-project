@@ -8,6 +8,11 @@ TYPE = run
 
 #DONOTTOUCH
 
+
+ifneq ("$(shell which mpic++ 2>&1 1>/dev/null)","")
+export PATH := $(shell ./load-module)
+endif
+
 OK_STRING=$(OK_COLOR)✔
 ERROR_STRING=$(ERROR_COLOR)✖
 WARN_STRING=$(WARN_COLOR)⚑
@@ -73,6 +78,7 @@ _MKDIRS := $(shell for d in $(REQUIRED_DIRS); \
              do                               \
                [ -d $$d ] || mkdir -p $$d;  \
              done)
+
 
 SKIP = false
 ifeq (me a sandwich,$(MAKECMDGOALS))
