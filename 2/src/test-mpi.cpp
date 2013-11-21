@@ -230,7 +230,7 @@ int main (int argc, char *argv[]){
 				ppm::load(file, width * height, *array, status);
 				MPI_File_close(&file);
 
-				painter = new pixel::array_generator<image_t, ppm::pixel_t>(array, width, height);
+				painter = new pixel::square_generator<image_t, ppm::pixel_t>(array, height, width);
 			}
 			else{
 				max = 1;
