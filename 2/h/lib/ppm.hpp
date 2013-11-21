@@ -88,11 +88,7 @@ namespace ppm{
 
 	template<typename F, typename S, typename A>
 	F& load(F& file, const size_t n, A& array, S& status){
-		for(size_t i = 0; i < n; ++i){
-			MPI_File_read(file, &array[i].r, 1, MPI_CHAR, &status);
-			MPI_File_read(file, &array[i].g, 1, MPI_CHAR, &status);
-			MPI_File_read(file, &array[i].b, 1, MPI_CHAR, &status);
-		};
+		MPI_File_read(file, &array[0], n * 3, MPI_CHAR, &status);
 		return file;
 	}
 
