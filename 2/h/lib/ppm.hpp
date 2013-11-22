@@ -62,10 +62,22 @@ namespace ppm{
 	 */
 
 	template<typename S, typename A>
-	S& flush(S& out, const A& array, const size_t n){
+	S& flush(S& out, const size_t n, const A& array){
 		if(out.flags() & std::ios::binary) for(size_t i = 0; i < n; ++i) out << array[i];
 		else for(size_t i = 0; i < n; ++i) out << array[i] << ' ';
 		return out;
+	}
+
+	/**
+	 * Function template to flush an array to a ppm binary file over MPI. (4)
+	 *
+	 *
+	 */
+
+	template<typename F, typename S, typename A>
+	F& flush(F& file, const size_t n, const A& array, S& status){		
+		MPI_File_write(file, &array[0], n * 3, MPI_CHAR, &status);
+		return file;
 	}
 
 	/**
