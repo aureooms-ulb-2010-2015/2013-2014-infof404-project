@@ -88,7 +88,8 @@ int main (int argc, char *argv[]){
 		if(params.size() < 2 && !speed) throw lib::exception("#1 missing");
 		const size_t nth = std::stoull(params[0]);
 		size_t last = prime::upper_bound(nth);
-		size_t size = last = (last == 0) ? 0 : std::sqrt(last - 1) + 1;
+		size_t size = (last == 0) ? 0 : std::sqrt(last - 1) + 1;
+		last = size * size;
 
 		bits_t<size_t> prime;
 		// std::vector<bool> prime;
@@ -110,8 +111,8 @@ int main (int argc, char *argv[]){
 		// std::cout << mpi_rank << " my size := " << count << ", my offset :=" << o  << '(' << eratosthene::index_to_number_23_0(o) << ')' << std::endl;
 
 		if(nth == 0) last = 0, count = 0, size = 0;
-		else if(nth == 1) last = 4, count = 0, size = 4;
-		else if(nth == 2) last = 4, count = 0, size = 4;
+		else if(nth == 1) last = 4, count = 0, size = 2;
+		else if(nth == 2) last = 4, count = 0, size = 2;
 		else{
 			prime.resize(count, true);
 			size_t k, l;
