@@ -358,13 +358,15 @@ int main (int argc, char *argv[]){
 					gather[0].size = prime.size;
 					gather[0].blocks = prime.blocks;
 					gather[0].data = prime.data;
-					for(size_t i = 1; i < mpi_size; ++i){
-						// std::cout << "recv " << i << std::endl;
-						MPI_Recv(&gather[i].blocks, 1, MPI_SIZE_T, i, GATHER, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-						// std::cout << gather[i].blocks << std::endl;
-						gather[i].data = new size_t[gather[i].blocks];
-						MPI_Recv(gather[i].data, gather[i].blocks, MPI_SIZE_T, i, GATHER, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-						// std::cout << "done" << std::endl;
+					if(nth > 2){
+						for(size_t i = 1; i < mpi_size; ++i){
+							// std::cout << "recv " << i << std::endl;
+							MPI_Recv(&gather[i].blocks, 1, MPI_SIZE_T, i, GATHER, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+							// std::cout << gather[i].blocks << std::endl;
+							gather[i].data = new size_t[gather[i].blocks];
+							MPI_Recv(gather[i].data, gather[i].blocks, MPI_SIZE_T, i, GATHER, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+							// std::cout << "done" << std::endl;
+						}
 					}
 
 					struct stat attrib;
@@ -424,7 +426,7 @@ int main (int argc, char *argv[]){
 					gather[0].data = nullptr;
 					delete[] gather;
 				}
-				else{
+				else if(nth > 2){
 					MPI_Send(&prime.blocks, 1, MPI_SIZE_T, 0, GATHER, MPI_COMM_WORLD);
 					MPI_Send(prime.data, prime.blocks, MPI_SIZE_T, 0, GATHER, MPI_COMM_WORLD);
 				}
