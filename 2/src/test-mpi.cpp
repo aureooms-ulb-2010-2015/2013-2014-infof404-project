@@ -43,7 +43,17 @@ int main (int argc, char *argv[]){
 	MPI_Comm_rank(MPI_COMM_WORLD, &tmp_rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &tmp_size);
 
+
 	size_t mpi_rank = tmp_rank, mpi_size = tmp_size;
+
+	MPI_Comm* forward = new MPI_Comm[mpi_size];
+	for(size_t i = 0; i < mpi_size; ++i){
+		MPI_Group group, orig;
+		int range[3] = {int(i), tmp_size - 1, 1};
+		MPI_Comm_group(MPI_COMM_WORLD, &orig);
+		MPI_Group_range_incl(orig, 1, &range, &group);
+		MPI_Comm_create(MPI_COMM_WORLD, group, &forward[i]);
+	}
 
 	std::vector<std::string> params;
 	std::map<std::string, std::vector<std::string>> options;
@@ -78,9 +88,10 @@ int main (int argc, char *argv[]){
 		if(params.size() < 2 && !speed) throw lib::exception("#1 missing");
 		const size_t nth = std::stoull(params[0]);
 		size_t last = prime::upper_bound(nth);
+		size_t size = last = (last == 0) ? 0 : std::sqrt(last - 1) + 1;
 
-
-		std::vector<bool> prime;
+		bits_t<size_t> prime;
+		// std::vector<bool> prime;
 		// std::cout << last << std::endl;
 		size_t count = last / 6;
 
@@ -98,9 +109,9 @@ int main (int argc, char *argv[]){
 
 		// std::cout << mpi_rank << " my size := " << count << ", my offset :=" << o  << '(' << eratosthene::index_to_number_23_0(o) << ')' << std::endl;
 
-		if(nth == 0) last = 0, count = 0;
-		else if(nth == 1) last = 4, count = 0;
-		else if(nth == 2) last = 4, count = 0;
+		if(nth == 0) last = 0, count = 0, size = 0;
+		else if(nth == 1) last = 4, count = 0, size = 4;
+		else if(nth == 2) last = 4, count = 0, size = 4;
 		else{
 			prime.resize(count, true);
 			size_t k, l;
@@ -109,17 +120,17 @@ int main (int argc, char *argv[]){
 			size_t current = 0, tmp = 0;
 			if(mpi_rank > current){
 				do{
-					MPI_Bcast(&tmp, 1, MPI_SIZE_T, current, MPI_COMM_WORLD);
+					MPI_Bcast(&tmp, 1, MPI_SIZE_T, 0, forward[current]);
 					if(tmp > current){
 						current = tmp;
 						continue;
 					}
 					size_t i;
 
-					MPI_Bcast(&i, 1, MPI_SIZE_T, current, MPI_COMM_WORLD);
-					MPI_Bcast(&k, 1, MPI_SIZE_T, current, MPI_COMM_WORLD);
-					MPI_Bcast(&l, 1, MPI_SIZE_T, current, MPI_COMM_WORLD);
-					MPI_Bcast(&which, 1, MPI_BYTE, current, MPI_COMM_WORLD);
+					MPI_Bcast(&i, 1, MPI_SIZE_T, 0, forward[current]);
+					MPI_Bcast(&k, 1, MPI_SIZE_T, 0, forward[current]);
+					MPI_Bcast(&l, 1, MPI_SIZE_T, 0, forward[current]);
+					MPI_Bcast(&which, 1, MPI_BYTE, 0, forward[current]);
 
 					// std::cout << "received, " << tmp << ',' << i << ',' << k << ',' << l << ',' << which << std::endl;
 
@@ -151,8 +162,11 @@ int main (int argc, char *argv[]){
 				}
 				while(mpi_rank > current);
 
-				MPI_Recv(&k, 1, MPI_SIZE_T, mpi_rank - 1, SETUP, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-				MPI_Recv(&l, 1, MPI_SIZE_T, mpi_rank - 1, SETUP, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+				// std::cout << "change current" << std::endl;
+
+				MPI_Recv(&k, 1, MPI_SIZE_T, 0, SETUP, forward[current - 1], MPI_STATUS_IGNORE);
+				MPI_Recv(&l, 1, MPI_SIZE_T, 0, SETUP, forward[current - 1], MPI_STATUS_IGNORE);
+				// std::cout << "change current" << std::endl;
 			}
 			else{
 				k = 5, l = 2;
@@ -162,11 +176,11 @@ int main (int argc, char *argv[]){
 				size_t i = eratosthene::number_to_index_23_1(k * k) - o;
 				// std::cout << i << std::endl;
 				if(prime[l - 2 - o]){
-					MPI_Bcast(&mpi_rank, 1, MPI_SIZE_T, mpi_rank, MPI_COMM_WORLD);
-					MPI_Bcast(&i, 1, MPI_SIZE_T, mpi_rank, MPI_COMM_WORLD);
-					MPI_Bcast(&k, 1, MPI_SIZE_T, mpi_rank, MPI_COMM_WORLD);
-					MPI_Bcast(&l, 1, MPI_SIZE_T, mpi_rank, MPI_COMM_WORLD);
-					MPI_Bcast(&left, 1, MPI_BYTE, mpi_rank, MPI_COMM_WORLD);
+					MPI_Bcast(&mpi_rank, 1, MPI_SIZE_T, 0, forward[mpi_rank]);
+					MPI_Bcast(&i, 1, MPI_SIZE_T, 0, forward[mpi_rank]);
+					MPI_Bcast(&k, 1, MPI_SIZE_T, 0, forward[mpi_rank]);
+					MPI_Bcast(&l, 1, MPI_SIZE_T, 0, forward[mpi_rank]);
+					MPI_Bcast(&left, 1, MPI_BYTE, 0, forward[mpi_rank]);
 					if(i < count){
 						eratosthene::go_through(i, 2 * k, count, prime);
 						eratosthene::go_through(i + k - l, 2 * k, count, prime);
@@ -178,11 +192,11 @@ int main (int argc, char *argv[]){
 				size_t j = eratosthene::number_to_index_23_1(k * k) - o;
 				// std::cout << j << std::endl;
 				if(prime[l - 1 - o]){
-					MPI_Bcast(&mpi_rank, 1, MPI_SIZE_T, mpi_rank, MPI_COMM_WORLD);
-					MPI_Bcast(&j, 1, MPI_SIZE_T, mpi_rank, MPI_COMM_WORLD);
-					MPI_Bcast(&k, 1, MPI_SIZE_T, mpi_rank, MPI_COMM_WORLD);
-					MPI_Bcast(&l, 1, MPI_SIZE_T, mpi_rank, MPI_COMM_WORLD);
-					MPI_Bcast(&right, 1, MPI_BYTE, mpi_rank, MPI_COMM_WORLD);
+					MPI_Bcast(&mpi_rank, 1, MPI_SIZE_T, 0, forward[mpi_rank]);
+					MPI_Bcast(&j, 1, MPI_SIZE_T, 0, forward[mpi_rank]);
+					MPI_Bcast(&k, 1, MPI_SIZE_T, 0, forward[mpi_rank]);
+					MPI_Bcast(&l, 1, MPI_SIZE_T, 0, forward[mpi_rank]);
+					MPI_Bcast(&right, 1, MPI_BYTE, 0, forward[mpi_rank]);
 					if(j < count){
 						eratosthene::go_through(j, 2 * k, count, prime);
 						eratosthene::go_through(j + k + l, 2 * k, count, prime);
@@ -196,11 +210,15 @@ int main (int argc, char *argv[]){
 
 			if(mpi_rank + 1 < mpi_size){
 				++current;
-				MPI_Bcast(&current, 1, MPI_SIZE_T, mpi_rank, MPI_COMM_WORLD);
-				MPI_Send(&k, 1, MPI_SIZE_T, mpi_rank + 1, SETUP, MPI_COMM_WORLD);
-				MPI_Send(&l, 1, MPI_SIZE_T, mpi_rank + 1, SETUP, MPI_COMM_WORLD);
+				MPI_Bcast(&current, 1, MPI_SIZE_T, 0, forward[mpi_rank]);
+				MPI_Send(&k, 1, MPI_SIZE_T, 1, SETUP, forward[mpi_rank]);
+				MPI_Send(&l, 1, MPI_SIZE_T, 1, SETUP, forward[mpi_rank]);
 			}
 		}
+
+		// std::cout << "hllo" << std::endl;
+
+		delete[] forward;
 
 		if(!speed){
 
@@ -230,14 +248,14 @@ int main (int argc, char *argv[]){
 			}
 
 			const std::string prefix = params[1];
-			const size_t size = (last == 0) ? 0 : std::sqrt(last - 1) + 1, pixels = size * size;
+			const size_t pixels = size * size;
 
 			std::string file_name = prefix + std::to_string(size) + ".ppm";
 			MPI_File file;
 			MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &file);
 			MPI_Status status;
 
-			MPI_Offset offset = ppm::write_header(file, '6', size, size, max, status);
+			size_t offset = ppm::write_header(file, '6', size, size, max, status);
 			// std::cout << offset << ',' << count << std::endl;
 
 			if(nobuffer){
@@ -313,6 +331,19 @@ int main (int argc, char *argv[]){
 
 			else{
 				if(mpi_rank == 0){
+					bits_t<size_t>* gather = new bits_t<size_t>[mpi_size];
+					gather[0].size = prime.size;
+					gather[0].blocks = prime.blocks;
+					gather[0].data = prime.data;
+					for(size_t i = 1; i < mpi_size; ++i){
+						// std::cout << "recv " << i << std::endl;
+						MPI_Recv(&gather[i].blocks, 1, MPI_SIZE_T, i, GATHER, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+						// std::cout << gather[i].blocks << std::endl;
+						gather[i].data = new size_t[gather[i].blocks];
+						MPI_Recv(gather[i].data, gather[i].blocks, MPI_SIZE_T, i, GATHER, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+						// std::cout << "done" << std::endl;
+					}
+
 					struct stat attrib;
 					stat(file_name.c_str(), &attrib);
 					const size_t block_size = attrib.st_blksize;
@@ -320,12 +351,12 @@ int main (int argc, char *argv[]){
 					ppm::pixel_t* buffer = new ppm::pixel_t[block_size];
 					size_t* partition = new size_t[mpi_size];
 					partition[0] = o;
-					for(size_t i = 1; i < mpi_size; ++i) compute_local_count(i, r, base_count, partition[i]);
+					for(size_t i = 1; i < mpi_size; ++i) gather[i].size = compute_local_count(i, r, base_count, partition[i]);
 
-					const size_t first_block_size = block_size - offset;
+					const size_t first_block_size = std::min(block_size - offset % block_size, pixels);
 					size_t current_block_size = first_block_size;
 					
-					const size_t blocks = (pixels - current_block_size - 1) / block_size + 2;
+					const size_t blocks = (pixels > first_block_size) ? (pixels - first_block_size - 1) / block_size + 2 : 1;
 					size_t pt = 0;
 					for(size_t j = 0; j < blocks; ++j){
 						// std::cout << "block n°" << j  << " (" << current_block_size << ")" << std::endl;
@@ -339,38 +370,24 @@ int main (int argc, char *argv[]){
 							else if(k % 3 == 0) buffer[i] = ppm::pixel_t(0, 0, 0);
 							else if(k % 6 == 5){
 								size_t j = eratosthene::number_to_index_23_0(k);
-								bool is_prime;
 								size_t who = compute_who(j, partition, mpi_size), where = j - partition[who];
 								// std::cout << "who " << who << std::endl;
-								if(who == 0) is_prime = prime[j];
-								else{
-									// std::cout << "what ???? 1" << std::endl;
-									MPI_Bcast(&who, 1, MPI_SIZE_T, 0, MPI_COMM_WORLD);
-									// std::cout << "what ???? who " << who << std::endl;
-									MPI_Send(&where, 1, MPI_SIZE_T, who, GATHER, MPI_COMM_WORLD);
-									// std::cout << "what ???? where " << where << std::endl;
-									MPI_Recv(&is_prime, 1, MPI_BYTE, who, GATHER, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-									// std::cout << "what ???? is_prime " << is_prime << std::endl;
-								}
-								if(is_prime) buffer[i] = painter->get(pt / size, pt % size, size, size);
+								// std::cout << "what ???? 1" << std::endl;
+								// std::cout << "what ???? who " << who << std::endl;
+								// std::cout << "what ???? where " << where << std::endl;
+								// std::cout << "what ???? is_prime " << gather[who][where] << std::endl;
+								if(gather[who][where]) buffer[i] = painter->get(pt / size, pt % size, size, size);
 								else buffer[i] = ppm::pixel_t(0, 0, 0);
 							}
 							else if(k % 6 == 1){
 								size_t j = eratosthene::number_to_index_23_1(k);
-								bool is_prime;
 								size_t who = compute_who(j, partition, mpi_size), where = j - partition[who];
 								// std::cout << "who " << who << " " << sizeof(who) << std::endl;
-								if(who == 0) is_prime = prime[j];
-								else{
-									// std::cout << "what ???? 1" << std::endl;
-									MPI_Bcast(&who, 1, MPI_SIZE_T, 0, MPI_COMM_WORLD);
-									// std::cout << "what ???? who " << who << std::endl;
-									MPI_Send(&where, 1, MPI_SIZE_T, who, GATHER, MPI_COMM_WORLD);
-									// std::cout << "what ???? where " << where << std::endl;
-									MPI_Recv(&is_prime, 1, MPI_BYTE, who, GATHER, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-									// std::cout << "what ???? is_prime " << is_prime << std::endl;
-								}
-								if(is_prime) buffer[i] = painter->get(pt / size, pt % size, size, size);
+								// std::cout << "what ???? 1" << std::endl;
+								// std::cout << "what ???? who " << who << std::endl;
+								// std::cout << "what ???? where " << where << std::endl;
+								// std::cout << "what ???? is_prime " << gather[who][where] << std::endl;
+								if(gather[who][where]) buffer[i] = painter->get(pt / size, pt % size, size, size);
 								else buffer[i] = ppm::pixel_t(0, 0, 0);
 							}
 							else buffer[i] = ppm::pixel_t(0, 0, 0);
@@ -379,33 +396,14 @@ int main (int argc, char *argv[]){
 						ppm::flush(file, current_block_size, buffer, status);
 						current_block_size = std::min(block_size, pixels - (j * block_size) - first_block_size);
 					}
-					MPI_Bcast(&mpi_rank, 1, MPI_SIZE_T, 0, MPI_COMM_WORLD);
 					delete[] buffer;
 					delete[] partition;
+					gather[0].data = nullptr;
+					delete[] gather;
 				}
 				else{
-					size_t i = 0;
-					while(true){
-						size_t current;
-						MPI_Bcast(&current, 1, MPI_SIZE_T, 0, MPI_COMM_WORLD);
-						++i;
-						// std::cout << mpi_rank << " total messages : " << i << std::endl;
-						if(current == 0){
-							// std::cout << mpi_rank << " : end => " << current << std::endl;
-							break;
-						}
-						if(current != mpi_rank){
-							// std::cout << mpi_rank << " : not me => " << current << std::endl;
-							continue;
-						}
-						// std::cout << mpi_rank << " : me" << std::endl;
-						size_t i;
-						MPI_Recv(&i, 1, MPI_SIZE_T, 0, GATHER, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-						// std::cout << mpi_rank << " : i " << i  << " / " << count << std::endl;
-						bool is_prime = prime[i];
-						MPI_Send(&is_prime, 1, MPI_BYTE, 0, GATHER, MPI_COMM_WORLD);
-						// std::cout << mpi_rank << " : send " << is_prime << std::endl;
-					}
+					MPI_Send(&prime.blocks, 1, MPI_SIZE_T, 0, GATHER, MPI_COMM_WORLD);
+					MPI_Send(prime.data, prime.blocks, MPI_SIZE_T, 0, GATHER, MPI_COMM_WORLD);
 				}
 			}
 
