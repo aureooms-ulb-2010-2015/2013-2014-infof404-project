@@ -56,10 +56,11 @@ namespace pixel{
 	private:
 		const A array;
 		const size_t n;
+		const size_t mw;
 		size_t ol, oc;
 
 	public:
-		square_generator(const A& array, const size_t mh, const size_t mw) : array(array), n(std::min(mh, mw)){
+		square_generator(const A& array, const size_t mh, const size_t mw) : array(array), n(std::min(mh, mw)), mw(mw){
 			if(n == mw){
 				oc = 0;
 				ol = (mh - n) / 2;
@@ -79,7 +80,7 @@ namespace pixel{
 			b *= n;
 			b += oc;
 			size_t i = a, j = b;
-			return (*array)[i * n + j];
+			return (*array)[i * mw + j];
 		};
 	};
 

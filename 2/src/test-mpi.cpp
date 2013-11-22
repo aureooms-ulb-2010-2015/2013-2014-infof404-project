@@ -84,6 +84,7 @@ int main (int argc, char *argv[]){
 		const bool speed = flags.count("--speed");
 		const bool nobuffer = flags.count("--nobuffer");
 		const bool filter = options.count("--filter") && options["--filter"].size() > 0;
+		const bool mix = filter && options["--filter"].size() > 1;
 		if(params.size() < 1) throw lib::exception("#0 missing");
 		if(params.size() < 2 && !speed) throw lib::exception("#1 missing");
 		const size_t nth = std::stoull(params[0]);
@@ -224,7 +225,7 @@ int main (int argc, char *argv[]){
 		if(!speed){
 
 			uint16_t max;
-			pixel::generator<ppm::pixel_t>* painter;
+			pixel::generator<ppm::pixel_t> *painter_p, *painter_c;
 			if(filter){
 				std::string file_name = options["--filter"][0];
 				MPI_File file;
@@ -241,11 +242,32 @@ int main (int argc, char *argv[]){
 				ppm::load(file, width * height, *array, status);
 				MPI_File_close(&file);
 
-				painter = new pixel::square_generator<image_t, ppm::pixel_t>(array, height, width);
+				painter_p = new pixel::square_generator<image_t, ppm::pixel_t>(array, height, width);
+				if(mix){
+					std::string file_name = options["--filter"][1];
+					MPI_File file;
+					MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_RDONLY, MPI_INFO_NULL, &file);
+					MPI_Status status;
+
+					int magic;
+					size_t width;
+					size_t height;
+
+					ppm::read_header(file, magic, width, height, max, status);
+					typedef std::shared_ptr<std::vector<ppm::pixel_t>> image_t; 
+					image_t array = image_t(new std::vector<ppm::pixel_t>(width * height));
+					ppm::load(file, width * height, *array, status);
+					MPI_File_close(&file);
+					painter_c = new pixel::square_generator<image_t, ppm::pixel_t>(array, height, width);
+				}
+				else{
+					painter_c = new pixel::unique_generator<ppm::pixel_t>(ppm::pixel_t(0, 0, 0));
+				}
 			}
 			else{
 				max = 1;
-				painter = new pixel::unique_generator<ppm::pixel_t>(ppm::pixel_t(1, 1, 1));
+				painter_p = new pixel::unique_generator<ppm::pixel_t>(ppm::pixel_t(1, 1, 1));
+				painter_c = new pixel::unique_generator<ppm::pixel_t>(ppm::pixel_t(0, 0, 0));
 			}
 
 			const std::string prefix = params[1];
@@ -267,12 +289,12 @@ int main (int argc, char *argv[]){
 						for(size_t i = 1; i < 3; ++i){
 							size_t j = ulam::ltos(i, size);
 							MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-							ppm::write(file, painter->get(j / size, j % size, size, size), status);
+							ppm::write(file, painter_p->get(j / size, j % size, size, size), status);
 						}
 						for(size_t i = 0; i < 4; i += 3){
 							size_t j = ulam::ltos(i, size);
 							MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-							ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+							ppm::write(file, painter_c->get(j / size, j % size, size, size), status);
 						}
 					}
 
@@ -286,11 +308,11 @@ int main (int argc, char *argv[]){
 					MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
 					if(prime[i]){
 						// std::cout << (k + 1) << " is prime" << std::endl;
-						ppm::write(file, painter->get(j / size, j % size, size, size), status);
+						ppm::write(file, painter_p->get(j / size, j % size, size, size), status);
 					}
 					else{
 						// std::cout << (k + 1) << " is not prime" << std::endl;
-						ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+						ppm::write(file, painter_c->get(j / size, j % size, size, size), status);
 					}
 					++k;
 
@@ -298,7 +320,7 @@ int main (int argc, char *argv[]){
 					j = ulam::ltos(k, size);
 					// std::cout << mpi_rank << " writes " << j << std::endl;
 					MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-					ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+					ppm::write(file, painter_c->get(j / size, j % size, size, size), status);
 					++k;
 
 
@@ -310,11 +332,11 @@ int main (int argc, char *argv[]){
 					MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
 					if(prime[i]){
 						// std::cout << (k + 1) << " is prime" << std::endl;
-						ppm::write(file, painter->get(j / size, j % size, size, size), status);
+						ppm::write(file, painter_p->get(j / size, j % size, size, size), status);
 					}
 					else{
 						// std::cout << (k + 1) << " is not prime" << std::endl;
-						ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+						ppm::write(file, painter_c->get(j / size, j % size, size, size), status);
 					}
 					++k;
 
@@ -324,7 +346,7 @@ int main (int argc, char *argv[]){
 						j = ulam::ltos(k, size);
 						// std::cout << mpi_rank << " writes " << j << std::endl;
 						MPI_File_seek(file, offset + j * 3, MPI_SEEK_SET);
-						ppm::write(file, ppm::pixel_t(0, 0, 0), status);
+						ppm::write(file, painter_c->get(j / size, j % size, size, size), status);
 						++k;
 					}
 				}
@@ -364,11 +386,11 @@ int main (int argc, char *argv[]){
 						for(size_t i = 0; i < current_block_size; ++i, ++pt){
 							// std::cout << "i := " << i  << " / " << current_block_size << std::endl;
 							size_t k = ulam::stol(pt, size) + 1;
-							if(k == 1) buffer[i] = ppm::pixel_t(0, 0, 0);
-							else if(k == 2) buffer[i] = painter->get(pt / size, pt % size, size, size);
-							else if(k == 3) buffer[i] = painter->get(pt / size, pt % size, size, size);
-							else if(k % 2 == 0) buffer[i] = ppm::pixel_t(0, 0, 0);
-							else if(k % 3 == 0) buffer[i] = ppm::pixel_t(0, 0, 0);
+							if(k == 1) buffer[i] = painter_c->get(pt / size, pt % size, size, size);
+							else if(k == 2) buffer[i] = painter_p->get(pt / size, pt % size, size, size);
+							else if(k == 3) buffer[i] = painter_p->get(pt / size, pt % size, size, size);
+							else if(k % 2 == 0) buffer[i] = painter_c->get(pt / size, pt % size, size, size);
+							else if(k % 3 == 0) buffer[i] = painter_c->get(pt / size, pt % size, size, size);
 							else if(k % 6 == 5){
 								size_t j = eratosthene::number_to_index_23_0(k);
 								size_t who = compute_who(j, partition, mpi_size), where = j - partition[who];
@@ -377,8 +399,8 @@ int main (int argc, char *argv[]){
 								// std::cout << "what ???? who " << who << std::endl;
 								// std::cout << "what ???? where " << where << std::endl;
 								// std::cout << "what ???? is_prime " << gather[who][where] << std::endl;
-								if(gather[who][where]) buffer[i] = painter->get(pt / size, pt % size, size, size);
-								else buffer[i] = ppm::pixel_t(0, 0, 0);
+								if(gather[who][where]) buffer[i] = painter_p->get(pt / size, pt % size, size, size);
+								else buffer[i] = painter_c->get(pt / size, pt % size, size, size);
 							}
 							else if(k % 6 == 1){
 								size_t j = eratosthene::number_to_index_23_1(k);
@@ -388,10 +410,10 @@ int main (int argc, char *argv[]){
 								// std::cout << "what ???? who " << who << std::endl;
 								// std::cout << "what ???? where " << where << std::endl;
 								// std::cout << "what ???? is_prime " << gather[who][where] << std::endl;
-								if(gather[who][where]) buffer[i] = painter->get(pt / size, pt % size, size, size);
-								else buffer[i] = ppm::pixel_t(0, 0, 0);
+								if(gather[who][where]) buffer[i] = painter_p->get(pt / size, pt % size, size, size);
+								else buffer[i] = painter_c->get(pt / size, pt % size, size, size);
 							}
-							else buffer[i] = ppm::pixel_t(0, 0, 0);
+							else buffer[i] = painter_c->get(pt / size, pt % size, size, size);
 						}
 
 						ppm::flush(file, current_block_size, buffer, status);
@@ -410,7 +432,8 @@ int main (int argc, char *argv[]){
 
 			MPI_File_close(&file);
 
-			delete painter;
+			delete painter_p;
+			delete painter_c;
 		}
 
 
