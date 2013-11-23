@@ -50,7 +50,7 @@ namespace os{
 					);
 					max = 255;
 				}
-				else pixel = ppm::pixel_t(1, 1, 1);
+				else pixel = ppm::pixel_t(0, 0, 0);
 				painter_p = new pixel::unique_generator<ppm::pixel_t>(pixel);
 			}
 			if(os::global::composite_filter){
@@ -77,7 +77,7 @@ namespace os{
 					std::stoi(os::global::options["--composite-color"][1]),
 					std::stoi(os::global::options["--composite-color"][2])
 				);
-				else pixel = ppm::pixel_t(0, 0, 0);
+				else pixel = ppm::pixel_t(1, 1, 1);
 				painter_c = new pixel::unique_generator<ppm::pixel_t>(pixel);
 			}
 		}

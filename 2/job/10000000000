@@ -1,0 +1,12 @@
+#!/bin/bash -l
+#PBS -l nodes=4:ppn=4
+#PBS -l walltime=48:00:00
+#PBS -l pmem=1Gb
+#PBS -j oe
+#PBS -N Prime_10000000000
+#PBS -o log/10000000000
+echo "Running job on $HOST - " ‘date‘
+cd ~/infof404/2
+make O=3 nocolor=true
+mpirun run/ulamSpiralGenerator 10000000000 ppm/hydra_
+echo "Done"
