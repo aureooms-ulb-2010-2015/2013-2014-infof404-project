@@ -3,6 +3,7 @@
 
 #include "lib/pinput.hpp"
 #include "lib/exception.hpp"
+#include "lib/pixel_generator.hpp"
 #include "os/global.hpp"
 
 namespace os{

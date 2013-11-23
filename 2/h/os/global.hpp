@@ -32,12 +32,12 @@ namespace os{
 			"--avoid-overflow"
 		};
 
-
-
+		
+		const int SETUP = 0;
+		const int GATHER = 1;
 
 	}
 }
-
 
 
 
