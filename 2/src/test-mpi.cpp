@@ -59,12 +59,15 @@ int main (int argc, char *argv[]){
 	std::map<std::string, std::vector<std::string>> options;
 	std::set<std::string> flags;
 	std::set<std::string> option_set = {
-		"--filter"
+		"--prime-filter",
+		"--composite-filter",
+		"--prime-color",
+		"--composite-color"
 	};
 	std::set<std::string> flag_set = {
 		"-h", "--help",
 		"--speed",
-		"--nobuffer",
+		"--ssd",
 	};
 
 	pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
@@ -83,8 +86,10 @@ int main (int argc, char *argv[]){
 
 		const bool speed = flags.count("--speed");
 		const bool nobuffer = flags.count("--nobuffer");
-		const bool filter = options.count("--filter") && options["--filter"].size() > 0;
-		const bool mix = filter && options["--filter"].size() > 1;
+		const bool prime_filter = options.count("--prime-filter") && options["--prime-filter"].size() > 0;
+		const bool composite_filter = options.count("--composite-filter") && options["--composite-filter"].size() > 0;
+		const bool prime_color = options.count("--prime-color") && options["--prime-color"].size() > 2;
+		const bool composite_color = options.count("--composite-color") && options["--composite-color"].size() > 2;
 		if(params.size() < 1) throw lib::exception("#0 missing");
 		if(params.size() < 2 && !speed) throw lib::exception("#1 missing");
 		const size_t nth = std::stoull(params[0]);
@@ -226,8 +231,8 @@ int main (int argc, char *argv[]){
 
 			uint16_t max;
 			pixel::generator<ppm::pixel_t> *painter_p, *painter_c;
-			if(filter){
-				std::string file_name = options["--filter"][0];
+			if(prime_filter){
+				std::string file_name = options["--prime-filter"][0];
 				MPI_File file;
 				MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_RDONLY, MPI_INFO_NULL, &file);
 				MPI_Status status;
@@ -243,31 +248,47 @@ int main (int argc, char *argv[]){
 				MPI_File_close(&file);
 
 				painter_p = new pixel::square_generator<image_t, ppm::pixel_t>(array, height, width);
-				if(mix){
-					std::string file_name = options["--filter"][1];
-					MPI_File file;
-					MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_RDONLY, MPI_INFO_NULL, &file);
-					MPI_Status status;
-
-					int magic;
-					size_t width;
-					size_t height;
-
-					ppm::read_header(file, magic, width, height, max, status);
-					typedef std::shared_ptr<std::vector<ppm::pixel_t>> image_t; 
-					image_t array = image_t(new std::vector<ppm::pixel_t>(width * height));
-					ppm::load(file, width * height, *array, status);
-					MPI_File_close(&file);
-					painter_c = new pixel::square_generator<image_t, ppm::pixel_t>(array, height, width);
-				}
-				else{
-					painter_c = new pixel::unique_generator<ppm::pixel_t>(ppm::pixel_t(0, 0, 0));
-				}
 			}
 			else{
 				max = 1;
-				painter_p = new pixel::unique_generator<ppm::pixel_t>(ppm::pixel_t(1, 1, 1));
-				painter_c = new pixel::unique_generator<ppm::pixel_t>(ppm::pixel_t(0, 0, 0));
+				ppm::pixel_t pixel;
+				if(prime_color){
+					pixel = ppm::pixel_t(
+						std::stoi(options["--prime-color"][0]),
+						std::stoi(options["--prime-color"][1]),
+						std::stoi(options["--prime-color"][2])
+					);
+					max = 255;
+				}
+				else pixel = ppm::pixel_t(1, 1, 1);
+				painter_p = new pixel::unique_generator<ppm::pixel_t>(pixel);
+			}
+			if(composite_filter){
+				std::string file_name = options["--composite-filter"][0];
+				MPI_File file;
+				MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_RDONLY, MPI_INFO_NULL, &file);
+				MPI_Status status;
+
+				int magic;
+				size_t width;
+				size_t height;
+
+				ppm::read_header(file, magic, width, height, max, status);
+				typedef std::shared_ptr<std::vector<ppm::pixel_t>> image_t; 
+				image_t array = image_t(new std::vector<ppm::pixel_t>(width * height));
+				ppm::load(file, width * height, *array, status);
+				MPI_File_close(&file);
+				painter_c = new pixel::square_generator<image_t, ppm::pixel_t>(array, height, width);
+			}
+			else{
+				ppm::pixel_t pixel;
+				if(composite_color) pixel = ppm::pixel_t(
+					std::stoi(options["--composite-color"][0]),
+					std::stoi(options["--composite-color"][1]),
+					std::stoi(options["--composite-color"][2])
+				);
+				else pixel = ppm::pixel_t(0, 0, 0);
+				painter_c = new pixel::unique_generator<ppm::pixel_t>(pixel);
 			}
 
 			const std::string prefix = params[1];
