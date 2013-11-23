@@ -100,8 +100,8 @@ int main (int argc, char *argv[]){
 			size_t offset = ppm::write_header(file, '6', size, size, max, status), prime_n;
 
 			if(os::global::ssd){
-				prime_n = os::output::apply_write_strategy_random(mpi_rank, file, status, offset, count, o, size, pixels, painter_p, painter_c, prime);
-				MPI_Reduce(&prime_n, &prime_n, 1, MPI_SIZE_T, MPI_SUM, 0, MPI_COMM_WORLD);
+				size_t tmp = os::output::apply_write_strategy_random(mpi_rank, file, status, offset, count, o, size, pixels, painter_p, painter_c, prime);
+				MPI_Reduce(&tmp, &prime_n, 1, MPI_SIZE_T, MPI_SUM, 0, MPI_COMM_WORLD);
 			}
 
 			else{
