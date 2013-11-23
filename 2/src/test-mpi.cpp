@@ -11,6 +11,7 @@
 #include "os/index.hpp"
 #include "os/mpi_size_t.hpp"
 #include "os/alg.hpp"
+#include "os/stat.hpp"
 
 #include "lib/eratosthene.hpp"
 #include "lib/prime.hpp"
@@ -96,20 +97,23 @@ int main (int argc, char *argv[]){
 			MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &file);
 			MPI_Status status;
 
-			size_t offset = ppm::write_header(file, '6', size, size, max, status);
+			size_t offset = ppm::write_header(file, '6', size, size, max, status), prime_n;
 
 			if(os::global::ssd){
-				os::output::apply_write_strategy_random(mpi_rank, file, status, offset, count, o, size, pixels, painter_p, painter_c, prime);
+				prime_n = os::output::apply_write_strategy_random(mpi_rank, file, status, offset, count, o, size, pixels, painter_p, painter_c, prime);
+				MPI_Reduce(&prime_n, &prime_n, 1, MPI_SIZE_T, MPI_SUM, 0, MPI_COMM_WORLD);
 			}
 
 			else{
-				os::output::apply_write_strategy_sequential(mpi_rank, mpi_size, file, status, offset, nth, base_count, o, r, size, pixels, painter_p, painter_c, prime, file_name);
+				prime_n = os::output::apply_write_strategy_sequential(mpi_rank, mpi_size, file, status, offset, nth, base_count, o, r, size, pixels, painter_p, painter_c, prime, file_name);
 			}
 
 			MPI_File_close(&file);
 
 			delete painter_p;
 			delete painter_c;
+
+			if(mpi_rank == 0) os::stat::print(last, prime_n);
 		}
 
 		MPI_Finalize();
