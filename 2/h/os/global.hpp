@@ -10,7 +10,7 @@
 namespace os{
 	namespace global{
 
-		double start, stop;
+		double start = 0, stop = 0;
 		bool help, speed, ssd,
 		prime_filter, composite_filter,
 		prime_color, composite_color, avoid_overflow;
