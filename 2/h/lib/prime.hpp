@@ -42,7 +42,15 @@ namespace prime{
 	 */
 
 	size_t upper_bound(const size_t n){
-		return n * (std::log(n) + std::log(std::log(n))) + 3;
+		if(n < 55){
+			return n * (std::log(n) + std::log(std::log(n))) + 3;
+		}
+		else if(n < 39018){
+			return n * (std::log(n) + std::log(std::log(n)) - 0.5);
+		}
+		else{
+			return n * (std::log(n) + std::log(std::log(n)) - 0.9484);
+		}
 	}
 
 
