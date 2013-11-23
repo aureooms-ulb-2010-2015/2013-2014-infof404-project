@@ -21,7 +21,6 @@
 #include "lib/exception.hpp"
 #include "lib/pixel_generator.hpp"
 
-void help();
 
 int main (int argc, char *argv[]){
 
@@ -36,7 +35,7 @@ int main (int argc, char *argv[]){
 	os::config::fill(argc, argv);
 
 	if(os::global::help){
-		if(mpi_rank == 0) help();
+		if(mpi_rank == 0) os::config::help();
 		MPI_Finalize();
 		return 0;
 	}
@@ -123,10 +122,4 @@ int main (int argc, char *argv[]){
 	}
 
 	return 0;
-}
-
-
-
-void help(){
-	std::cout << "helping you" << std::endl;
 }

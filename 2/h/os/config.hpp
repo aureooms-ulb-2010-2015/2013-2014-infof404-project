@@ -9,7 +9,7 @@
 namespace os{
 	namespace config{
 
-		void fill(int argc, char *argv[]){
+		inline void fill(int argc, char *argv[]){
 			pinput::parse(argc, argv, os::global::params, os::global::options, os::global::flags, os::global::option_set, os::global::flag_set);	
 			os::global::help = os::global::flags.count("-h") || os::global::flags.count("--help");
 			os::global::speed = os::global::flags.count("--speed");
@@ -21,9 +21,27 @@ namespace os{
 			os::global::avoid_overflow = os::global::flags.count("--avoid-overflow");
 		}
 
-		void check(){
+		inline void check(){
 			if(os::global::params.size() < 1) throw lib::exception("<nth> missing");
 			if(os::global::params.size() < 2 && !os::global::speed) throw lib::exception("<prefix> missing");
+		}
+
+
+		inline void help(){
+			std::cout << "> OPTION" << std::endl;
+			std::cout << std::endl;
+			std::cout << "  --prime-filter" << "      " << "#0 (string)" << std::endl;
+			std::cout << "  --composite-filter" << "  " << "#0 (string)" << std::endl;
+			std::cout << "  --prime-color" << "       " << "#0 #1 #2 (int)" << std::endl;
+			std::cout << "  --composite-color" << "   " << "#0 #1 #2 (int)" << std::endl;
+			std::cout << std::endl;
+			std::cout << "> FLAG" << std::endl;
+			std::cout << std::endl;
+			std::cout << "  -h | --help" << std::endl;
+			std::cout << "  --speed" << std::endl;
+			std::cout << "  --ssd" << std::endl;
+			std::cout << "  --avoid-overflow" << std::endl;
+			std::cout << std::endl;
 		}
 
 
