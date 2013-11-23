@@ -1,14 +1,15 @@
 #include <iostream>
 #include <mpi.h>
 
-#include <vector>
 #include <cmath>
-#include <map>
-#include <set>
 #include <string>
 #include <memory>
 
 #include <sys/stat.h>
+
+
+#include "os/global.hpp"
+#include "os/config.hpp"
 
 #include "lib/eratosthene.hpp"
 #include "lib/prime.hpp"
@@ -16,15 +17,17 @@
 #include "lib/ulam.hpp"
 #include "lib/io.hpp"
 #include "lib/bits_t.hpp"
-#include "lib/pinput.hpp"
 #include "lib/exception.hpp"
 #include "lib/pixel_generator.hpp"
 
 const int SETUP = 0;
 const int GATHER = 1;
 
-void show_help();
-inline size_t compute_local_count(size_t, size_t, size_t, size_t&);
+void help();
+inline size_t compute_local_count(const size_t, const size_t, size_t, size_t&);
+inline size_t compute_total_count(const size_t);
+inline size_t compute_last(const size_t);
+inline size_t compute_size(const size_t);
 
 template<typename A>
 inline size_t compute_who(size_t, const A&, size_t);
@@ -35,7 +38,7 @@ const MPI_Datatype MPI_SIZE_T = GET_MPI_SIZE_T();
 
 int main (int argc, char *argv[]){
 
-	double start = MPI_Wtime();
+	os::global::start = MPI_Wtime();
 
 	MPI_Init(&argc, &argv);
 
@@ -55,68 +58,30 @@ int main (int argc, char *argv[]){
 		MPI_Comm_create(MPI_COMM_WORLD, group, &forward[i]);
 	}
 
-	std::vector<std::string> params;
-	std::map<std::string, std::vector<std::string>> options;
-	std::set<std::string> flags;
-	std::set<std::string> option_set = {
-		"--prime-filter",
-		"--composite-filter",
-		"--prime-color",
-		"--composite-color"
-	};
-	std::set<std::string> flag_set = {
-		"-h", "--help",
-		"--speed",
-		"--ssd",
-		"--avoid-overflow"
-	};
 
-	pinput::parse(argc, argv, params, options, flags, option_set, flag_set);
+	os::config::fill(argc, argv);
+
+	if(os::global::help){
+		if(mpi_rank == 0) help();
+		MPI_Finalize();
+		return 0;
+	}
 
 	try{
+		os::config::check();
 
-		// check input
-		const bool help = flags.count("-h") || flags.count("--help");
-		if(help){
-			if(mpi_rank == 0) show_help();
-			MPI_Finalize();
-			return 0;
-		}
+		const size_t nth = std::stoull(os::global::params[0]);
+		size_t size = compute_size(nth);
+		size_t last = compute_last(size);
+		const size_t total_count = compute_total_count(last);
 
-
-
-		const bool speed = flags.count("--speed");
-		const bool ssd = flags.count("--ssd");
-		const bool prime_filter = options.count("--prime-filter") && options["--prime-filter"].size() > 0;
-		const bool composite_filter = options.count("--composite-filter") && options["--composite-filter"].size() > 0;
-		const bool prime_color = options.count("--prime-color") && options["--prime-color"].size() > 2;
-		const bool composite_color = options.count("--composite-color") && options["--composite-color"].size() > 2;
-		const bool avoid_overflow = flags.count("--avoid-overflow");
-		if(params.size() < 1) throw lib::exception("#0 missing");
-		if(params.size() < 2 && !speed) throw lib::exception("#1 missing");
-		const size_t nth = std::stoull(params[0]);
-		size_t last = prime::upper_bound(nth);
-		size_t size = (last == 0) ? 0 : std::sqrt(last - 1) + 1;
-		last = size * size;
-
-		bits_t<size_t> prime;
-		// std::vector<bool> prime;
-		// std::cout << last << std::endl;
-		size_t count = last / 6;
-
-		if(last % 6 <= 4) count = 2 * count + 1;
-		else count = 2 * count + 2;
-
-		// std::cout << "total size := " << count << std::endl;
-		const size_t total_count = count;
-		size_t r = count % mpi_size;
-		count /= mpi_size;
-		const size_t base_count = count;
+		const size_t r = total_count % mpi_size;
+		const size_t base_count = total_count / mpi_size;
 
 		size_t o;
-		count = compute_local_count(mpi_rank, r, base_count, o);
+		size_t count = compute_local_count(mpi_rank, r, base_count, o);
 
-		// std::cout << mpi_rank << " my size := " << count << ", my offset :=" << o  << '(' << eratosthene::index_to_number_23_0(o) << ')' << std::endl;
+		bits_t<size_t> prime;
 
 		if(nth == 0) last = 0, count = 0, size = 0;
 		else if(nth == 1) last = 4, count = 0, size = 2;
@@ -229,13 +194,13 @@ int main (int argc, char *argv[]){
 
 		delete[] forward;
 
-		if(!speed){
+		if(!os::global::speed){
 
 			uint16_t max;
 			pixel::generator<ppm::pixel_t> *painter_p, *painter_c;
-			const int mode = avoid_overflow ? pixel::AVOID_OVERFLOW : pixel::NORMAL;
-			if(prime_filter){
-				std::string file_name = options["--prime-filter"][0];
+			const int mode = os::global::avoid_overflow ? pixel::AVOID_OVERFLOW : pixel::NORMAL;
+			if(os::global::prime_filter){
+				std::string file_name = os::global::options["--prime-filter"][0];
 				MPI_File file;
 				MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_RDONLY, MPI_INFO_NULL, &file);
 				MPI_Status status;
@@ -255,19 +220,19 @@ int main (int argc, char *argv[]){
 			else{
 				max = 1;
 				ppm::pixel_t pixel;
-				if(prime_color){
+				if(os::global::prime_color){
 					pixel = ppm::pixel_t(
-						std::stoi(options["--prime-color"][0]),
-						std::stoi(options["--prime-color"][1]),
-						std::stoi(options["--prime-color"][2])
+						std::stoi(os::global::options["--prime-color"][0]),
+						std::stoi(os::global::options["--prime-color"][1]),
+						std::stoi(os::global::options["--prime-color"][2])
 					);
 					max = 255;
 				}
 				else pixel = ppm::pixel_t(1, 1, 1);
 				painter_p = new pixel::unique_generator<ppm::pixel_t>(pixel);
 			}
-			if(composite_filter){
-				std::string file_name = options["--composite-filter"][0];
+			if(os::global::composite_filter){
+				std::string file_name = os::global::options["--composite-filter"][0];
 				MPI_File file;
 				MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_RDONLY, MPI_INFO_NULL, &file);
 				MPI_Status status;
@@ -285,16 +250,16 @@ int main (int argc, char *argv[]){
 			}
 			else{
 				ppm::pixel_t pixel;
-				if(composite_color) pixel = ppm::pixel_t(
-					std::stoi(options["--composite-color"][0]),
-					std::stoi(options["--composite-color"][1]),
-					std::stoi(options["--composite-color"][2])
+				if(os::global::composite_color) pixel = ppm::pixel_t(
+					std::stoi(os::global::options["--composite-color"][0]),
+					std::stoi(os::global::options["--composite-color"][1]),
+					std::stoi(os::global::options["--composite-color"][2])
 				);
 				else pixel = ppm::pixel_t(0, 0, 0);
 				painter_c = new pixel::unique_generator<ppm::pixel_t>(pixel);
 			}
 
-			const std::string prefix = params[1];
+			const std::string prefix = os::global::params[1];
 			const size_t pixels = size * size;
 
 			std::string file_name = prefix + std::to_string(size) + ".ppm";
@@ -305,7 +270,7 @@ int main (int argc, char *argv[]){
 			size_t offset = ppm::write_header(file, '6', size, size, max, status);
 			// std::cout << offset << ',' << count << std::endl;
 
-			if(ssd){
+			if(os::global::ssd){
 
 				if(mpi_rank == 0){
 					MPI_File_set_size(file, offset + size * size * 3);
@@ -463,9 +428,9 @@ int main (int argc, char *argv[]){
 		}
 
 
-		double stop = MPI_Wtime();
+		os::global::stop = MPI_Wtime();
 
-		std::cout << "Process " << mpi_rank << " : " << (stop - start) << " sec" << std::endl;
+		std::cout << "Process " << mpi_rank << " : " << (os::global::stop - os::global::start) << " sec" << std::endl;
 
 
 		MPI_Finalize();
@@ -482,8 +447,8 @@ int main (int argc, char *argv[]){
 
 
 
-void show_help(){
-
+void help(){
+	std::cout << "helping you" << std::endl;
 }
 
 inline size_t compute_local_count(size_t mpi_rank, size_t r, size_t count, size_t& o){
@@ -522,6 +487,19 @@ inline size_t compute_local_count(size_t mpi_rank, size_t r, size_t count, size_
 	}
 
 	return count;
+}
+
+inline size_t compute_total_count(const size_t last){
+	size_t tmp = last / 6;
+	if(last % 6 <= 4) return 2 * tmp + 1;
+	else return 2 * tmp + 2;
+}
+inline size_t compute_size(const size_t nth){
+	size_t tmp = prime::upper_bound(nth);
+	return (tmp == 0) ? 0 : std::sqrt(tmp - 1) + 1;
+}
+inline size_t compute_last(const size_t size){
+	return size * size;
 }
 
 template<typename A>
