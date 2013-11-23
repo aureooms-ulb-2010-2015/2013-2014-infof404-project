@@ -60,11 +60,12 @@ namespace pixel{
 	private:
 		const A array;
 		const size_t n;
+		const size_t mw;
 		size_t ol, oc;
 		int mode;
 
 	public:
-		square_generator(const A& array, const size_t mh, const size_t mw, const int mode) : array(array), n(std::min(mh, mw)), mode(mode){
+		square_generator(const A& array, const size_t mh, const size_t mw, const int mode) : array(array), n(std::min(mh, mw)), mw(mw), mode(mode){
 			if(n == mw){
 				oc = 0;
 				ol = (mh - n) / 2;
@@ -96,7 +97,7 @@ namespace pixel{
 				l += oc;
 				i = l, j = c;
 			}
-			return (*array)[i * n + j];
+			return (*array)[i * mw + j];
 		};
 	};
 
