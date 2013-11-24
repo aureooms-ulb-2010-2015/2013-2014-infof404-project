@@ -9,5 +9,5 @@ echo "Running job on $HOST - " ‘date‘
 cd ~/infof404/2
 module load openmpi/1.4.3/gcc/4.6.1
 make O=3 nocolor=true
-mpirun run/test-mpi 100000000
+mpirun run/ulamSpiralGenerator 100000000 --speed
 echo "Done"
