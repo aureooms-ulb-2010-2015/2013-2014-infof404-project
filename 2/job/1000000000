@@ -3,11 +3,11 @@
 #PBS -l walltime=48:00:00
 #PBS -l pmem=10000000kb
 #PBS -j oe
-#PBS -N Prime_10000000000
-#PBS -o log/10000000000
+#PBS -N Prime_1000000000
+#PBS -o log/1000000000
 echo "Running job on $HOST - " ‘date‘
 cd ~/infof404/2
 module load openmpi/1.4.3/gcc/4.6.1
 make O=3 nocolor=true
-mpirun run/ulamSpiralGenerator 10000000000 --speed
+mpirun run/ulamSpiralGenerator 1000000000 --speed
 echo "Done"
