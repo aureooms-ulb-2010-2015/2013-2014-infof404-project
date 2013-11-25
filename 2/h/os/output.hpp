@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 #include <string>
 #include <mpi.h>
+#include <memory>
 
 namespace os{
 	namespace output{

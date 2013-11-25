@@ -92,9 +92,9 @@ namespace pixel{
 				l *= n;
 				l /= h;
 				l += ol;
-				l *= n;
-				l /= w;
-				l += oc;
+				c *= n;
+				c /= w;
+				c += oc;
 				i = l, j = c;
 			}
 			return (*array)[i * mw + j];
