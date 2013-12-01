@@ -141,6 +141,15 @@ When all processors are finished the pixels are written one by one. One pixel is
 
 
 \newpage\cleardoublepage\phantomsection
+\section{Time analysis}
+
+The final time showed on terminal is timed like so:
+
+$if(mpi_rank == mpi_size - 1) std::cout << \"Total : \" << os::global::duration.count() << \" sec\" << std::endl;$
+
+because the last processor assigned will always be the last to finish.
+
+\newpage\cleardoublepage\phantomsection
 \section{Analysis}
 
 uoyegnrfonexubxfeulhxfleh
