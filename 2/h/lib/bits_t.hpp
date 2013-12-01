@@ -110,6 +110,13 @@ public:
 		data = new block_t[blocks];
 		std::fill(data, data + blocks, fill);
 	}
+
+	void clear() noexcept{
+		size = 0;
+		blocks = 0;
+		delete[] data;
+		data = nullptr;
+	}
 	
 	inline block_t& block_at_index(const size_t i) const noexcept{
 		return data[i / block_size];
@@ -128,7 +135,7 @@ public:
 	}
 
 	~bits_t(){
-		delete[] data;
+		clear();
 	}
 
 };

@@ -5,12 +5,18 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <chrono>
 
+
+typedef std::chrono::high_resolution_clock hrclock;
 
 namespace os{
 	namespace global{
 
-		double start = 0, stop = 0;
+		double start, stop, start_c, stop_c;
+		hrclock::time_point checkpoint, tmp;
+		hrclock::duration duration(0);
+
 		bool help, speed, ssd,
 		prime_filter, composite_filter,
 		prime_color, composite_color, avoid_overflow;

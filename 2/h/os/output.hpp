@@ -149,6 +149,8 @@ namespace os{
 				}
 			}
 
+			prime.clear();
+
 			return prime_n;
 		}
 
@@ -229,6 +231,7 @@ namespace os{
 			else if(nth > 2){
 				MPI_Send(&prime.blocks, 1, MPI_SIZE_T, 0, os::global::GATHER, MPI_COMM_WORLD);
 				MPI_Send(prime.data, prime.blocks, MPI_SIZE_T, 0, os::global::GATHER, MPI_COMM_WORLD);
+				prime.clear();
 			}
 			return prime_n;
 		}

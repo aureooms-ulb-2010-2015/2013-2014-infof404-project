@@ -2,8 +2,10 @@
 #include <mpi.h>
 
 #include <cmath>
+#include <cstdio>
 #include <string>
 #include <memory>
+#include <chrono>
 
 #include "os/global.hpp"
 #include "os/config.hpp"
@@ -22,7 +24,6 @@
 #include "lib/exception.hpp"
 #include "lib/pixel_generator.hpp"
 
-
 int main (int argc, char *argv[]){
 
 	MPI_Init(&argc, &argv);
@@ -30,6 +31,7 @@ int main (int argc, char *argv[]){
 	MPI_Comm_rank(MPI_COMM_WORLD, &tmp_rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &tmp_size);
 
+	os::global::start = MPI_Wtime();
 
 	size_t mpi_rank = tmp_rank, mpi_size = tmp_size;
 
@@ -58,6 +60,9 @@ int main (int argc, char *argv[]){
 		bits_t<size_t> prime;
 
 
+		if(mpi_rank == mpi_size - 1) os::global::start_c = MPI_Wtime();
+
+
 		if(nth == 0) last = 0, count = 0, size = 0;
 		else if(nth == 1) last = 4, count = 0, size = 2;
 		else if(nth == 2) last = 4, count = 0, size = 2;
@@ -74,16 +79,23 @@ int main (int argc, char *argv[]){
 
 			prime.resize(count, true);
 
-			os::global::start = MPI_Wtime();
+			os::global::checkpoint = hrclock::now();
 			os::alg::parallel_eratosthene_23(mpi_rank, mpi_size, forward, prime, count, last, o);
-			os::global::stop = MPI_Wtime();
+			os::global::duration += hrclock::now() - os::global::checkpoint;
 
 			delete[] forward;
 		}
 
-		std::cout << "Process " << mpi_rank << " : " << (os::global::stop - os::global::start) << " sec" << std::endl;
+		std::cout << "Process " << mpi_rank << " : " << os::global::duration.count() << " ns" << std::endl;
+
+		if(mpi_rank == mpi_size - 1){
+			os::global::stop_c = MPI_Wtime();
+			std::cout << "Computation time : " << (os::global::stop_c - os::global::start_c) << " sec" << std::endl;
+		}
 
 		if(!os::global::speed){
+
+			if(mpi_rank == 0) std::cout << "Begin writing to file" << std::endl;
 
 			uint16_t max;
 			pixel::generator<ppm::pixel_t> *painter_p, *painter_c;
@@ -92,9 +104,9 @@ int main (int argc, char *argv[]){
 			const std::string prefix = os::global::params[1];
 			const size_t pixels = size * size;
 
-			std::string file_name = prefix + std::to_string(size) + ".ppm";
+			std::string tmp_file_name = prefix + std::to_string(size) + ".tmp";
 			MPI_File file;
-			MPI_File_open(MPI_COMM_WORLD, (char *) file_name.c_str(), MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &file);
+			MPI_File_open(MPI_COMM_WORLD, (char *) tmp_file_name.c_str(), MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &file);
 			MPI_Status status;
 
 			size_t offset = ppm::write_header(file, '6', size, size, max, status), prime_n;
@@ -105,16 +117,27 @@ int main (int argc, char *argv[]){
 			}
 
 			else{
-				prime_n = os::output::apply_write_strategy_sequential(mpi_rank, mpi_size, file, status, offset, nth, base_count, o, r, size, pixels, painter_p, painter_c, prime, file_name);
+				prime_n = os::output::apply_write_strategy_sequential(mpi_rank, mpi_size, file, status, offset, nth, base_count, o, r, size, pixels, painter_p, painter_c, prime, tmp_file_name);
 			}
 
 			MPI_File_close(&file);
+
+			if(mpi_rank == 0){
+				std::string file_name = prefix + std::to_string(prime_n) + ".ppm";
+				std::rename(tmp_file_name.c_str(), file_name.c_str());
+			}
 
 			delete painter_p;
 			delete painter_c;
 
 			if(mpi_rank == 0) os::stat::print(last, prime_n);
 		}
+
+		MPI_Barrier(MPI_COMM_WORLD);
+
+		os::global::stop = MPI_Wtime();
+
+		if(mpi_rank == 0) std::cout << "Total time : " << (os::global::stop - os::global::start) << " sec" << std::endl;
 
 		MPI_Finalize();
 

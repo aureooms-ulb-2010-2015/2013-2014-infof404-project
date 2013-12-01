@@ -3,6 +3,8 @@
 
 
 #include <mpi.h>
+#include <chrono>
+
 #include "os/global.hpp"
 #include "os/mpi_size_t.hpp"
 #include "lib/eratosthene.hpp"
@@ -17,6 +19,7 @@ namespace os{
 			bool which;
 			size_t current = 0, tmp = 0;
 			if(mpi_rank > current){
+				os::global::duration += hrclock::now() - os::global::checkpoint;
 				do{
 					MPI_Bcast(&tmp, 1, MPI_SIZE_T, 0, forward[current]);
 					if(tmp > current){
@@ -29,6 +32,8 @@ namespace os{
 					MPI_Bcast(&k, 1, MPI_SIZE_T, 0, forward[current]);
 					MPI_Bcast(&l, 1, MPI_SIZE_T, 0, forward[current]);
 					MPI_Bcast(&which, 1, MPI_BYTE, 0, forward[current]);
+
+					os::global::checkpoint = hrclock::now();
 
 
 					size_t j;
@@ -52,12 +57,17 @@ namespace os{
 
 					eratosthene::go_through(i, 2 * k, count, prime);
 					eratosthene::go_through(j, 2 * k, count, prime);
+
+
+					os::global::duration += hrclock::now() - os::global::checkpoint;
 				}
 				while(mpi_rank > current);
 
 
 				MPI_Recv(&k, 1, MPI_SIZE_T, 0, os::global::SETUP, forward[current - 1], MPI_STATUS_IGNORE);
 				MPI_Recv(&l, 1, MPI_SIZE_T, 0, os::global::SETUP, forward[current - 1], MPI_STATUS_IGNORE);
+
+				os::global::checkpoint = hrclock::now();
 			}
 			else{
 				k = 5, l = 2;
@@ -93,7 +103,6 @@ namespace os{
 
 				k += 4;
 			}
-
 
 			if(mpi_rank + 1 < mpi_size){
 				++current;
