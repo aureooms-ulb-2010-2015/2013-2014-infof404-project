@@ -1,0 +1,30 @@
+\newpage\cleardoublepage\phantomsection
+\section{A multiprocessor system}
+
+
+We have used the Message Passing Interface to generate prime numbers with several processors. \\ Each processor is assigned a range of number for which he has to find the primes. A processor can be in two \"states\":
+\begin{itemize}
+	\item{finding primes: }
+	Only one processor at the time can be finding primes. This processor go through his range of numbers and identifies the primes. When a prime is found it sends a message to processors taking care of ranges higher than his. The message sent contains required information to discard numbers in higher ranges. 
+	\item{receiving primes: }
+	Those processors are waiting for messages. When they receive one they go through their range of numbers and discard the non-prime numbers. 
+
+\end{itemize}
+
+
+A message is sent like in \ref{code:prime:1} with:
+
+\begin{itemize}
+	\item{$mpi\_rank$ :}
+	Value used to determine the sending processor's state
+	
+	\item{$i,l, left|right$ :}
+	Value used to compute the index of a number in the receiver's processor range
+	\item{$k$:} 
+	The prime found for which multiple need to be discarded.
+
+\end{itemize}
+
+\myinputminted[firstline=93,lastline=97]{c++}{../h/os/alg.hpp}{sending prime information}{code:prime:1}{1}
+
+Two main difficulties have occured while designing the multiprocessor architechture.

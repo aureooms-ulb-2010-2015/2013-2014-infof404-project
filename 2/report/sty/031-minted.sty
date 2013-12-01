@@ -1,0 +1,122 @@
+\usepackage{minted}
+\usemintedstyle{monokai}
+\usepackage{tcolorbox}
+\usepackage{etoolbox}
+\usepackage{pgfkeys}
+
+
+\usepackage{lineno}
+\def\gobble#1{}
+\renewcommand\DeleteFile[1]{}
+\usepackage{xparse}
+\ExplSyntaxOn
+\box_new:N \l_fvrb_box
+\tl_new:N \l_fvrb_tl
+
+\RenewDocumentCommand \FancyVerbFormatLine { m }
+ {
+   \hbox_set:Nn \l_fvrb_box { #1 }
+    \dim_compare:nNnTF { \box_wd:N \l_fvrb_box }>{ \linewidth }
+      {%box to big 
+       \tl_set:Nn \l_fvrb_tl { #1 }
+       \fvrb_use_tl:N \l_fvrb_tl
+      } 
+      {%box fits
+       \box_use:N \l_fvrb_box
+      }
+ }
+
+\cs_new:Npn \fvrb_use_tl:N  #1
+ {
+  \group_begin:
+   \null\hfill\vbox_set:Nn \l_fvrb_box
+     {\hsize=\linewidth
+      \renewcommand\thelinenumber
+           {
+             \ifnum\value{linenumber}=1\relax\else\relax
+                  %$\rightarrow$
+             \fi
+           }
+      \begin{internallinenumbers}
+        \advance\hsize by -2em
+        \hspace*{-2em}\tl_use:N #1
+      \end{internallinenumbers}
+     }
+   \box_use:N \l_fvrb_box
+  \group_end:
+}
+
+\ExplSyntaxOff
+
+
+
+%\newtcolorbox[auto counter,number within=section]{codebox}[2][]{%
+%colback=\color{monokai_background_color},colframe=\color{HTML}{303030},fonttitle=\bfseries,
+%title=Examp.~\thetcbcounter: #2,#1}
+
+\renewcommand{\theFancyVerbLine}{\sffamily
+\textcolor[rgb]{0.5,0.5,1.0}{\scriptsize
+\oldstylenums{\arabic{FancyVerbLine}}}}
+
+%\let\oldinputminted\inputminted
+
+\pgfkeys{
+	/myinputminted/.is family, /myinputminted,
+	% Here are the options that a user can pass
+	default/.style = {firstline = 1, lastline = 0, mathescape=false, linenos=false, tabsize=4, numbersep=5pt, gobble=1},
+	firstline/.estore in = \myinputmintedfirstline,
+	lastline/.estore in = \myinputmintedlastline,
+  mathescape/.estore in = \myinputmintedmathescape,
+  linenos/.estore in = \myinputmintedlinenos,
+  tabsize/.estore in = \myinputmintedtabsize,
+  numbersep/.estore in = \myinputmintednumbersep,
+  gobble/.estore in = \myinputmintedgobble
+}
+
+\DeclareCaptionType[within=none]{mintedobject}
+\DeclareCaptionFormat{mintedobjectformat}{}
+\captionsetup[mintedobject]{format=mintedobjectformat, labelformat=empty}
+
+\addto\captionsenglish{
+  \renewcommand{\listmintedobjectname}{List of Source Code}
+  \renewcommand{\mintedobjectname}{Source Code}
+}
+\addto\captionsfrench{
+  \renewcommand{\listmintedobjectname}{Table des codes source}
+  \renewcommand{\mintedobjectname}{Code source}
+}
+
+\numberwithin{mintedobject}{section}
+
+\newcommand\makeminted[0]{
+  \newpage\cleardoublepage\phantomsection
+  \addcontentsline{toc}{section}{\listmintedobjectname}
+  \listofmintedobjects
+}
+
+\newcommand\myinputminted[6][]{
+  \begin{mintedobject}
+  \caption{#4}
+  \label{#5}
+	\pgfkeys{/myinputminted, default, #1}%
+	\begin{tcolorbox}[
+	colback=monokaibg,
+	colframe=monokaifr,
+	coltitle=monokaitxt,
+	fonttitle=\sffamily,
+	title=\mintedobjectname~\themintedobject : #4,
+	arc=0mm
+	]
+	\inputminted[
+	fontsize=\footnotesize,
+	firstline=\myinputmintedfirstline,
+	lastline=\myinputmintedlastline,
+	mathescape=\myinputmintedmathescape,
+  tabsize=\myinputmintedtabsize,
+  linenos=\myinputmintedlinenos,
+  numbersep=\myinputmintednumbersep,
+  gobble=#6
+	]{#2}{#3}
+	\end{tcolorbox}
+  \end{mintedobject}
+}

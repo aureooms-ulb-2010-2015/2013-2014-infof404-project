@@ -1,0 +1,56 @@
+% subsubsubsections + paragraph style %
+
+\usepackage{titlesec}
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}}
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\def\subsubsubsectionautorefname{Subsubsubsection}
+
+
+\titleformat{\paragraph}
+  {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\titleformat{\subparagraph}
+  {\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}
+\titlespacing*{\subparagraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@subparagraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+% section no num %
+\newcommand\sectionnonum[1]{
+	\newpage\cleardoublepage\phantomsection
+	\addcontentsline{toc}{section}{#1}
+	\section*{#1}
+	\sectionmark{#1}
+}
+
+% dedication %
+
+\newcommand\dedication[3]{
+	\newpage\cleardoublepage\phantomsection
+	\thispagestyle{empty}
+	\begin{flushright}
+	\null\vspace{\stretch{#1}}
+	\textit{\color[HTML]{b0b0b0} #3}
+	\vspace{\stretch{#2}}\null
+	\end{flushright}
+}

@@ -1,0 +1,10 @@
+% indexing %
+\usepackage{makeidx}
+%\usepackage{showidx} %to show idx for proofreading
+\makeindex
+
+\newcommand\makeind[0]{
+	\newpage\cleardoublepage\phantomsection
+	\addcontentsline{toc}{section}{Index}
+	\printindex
+}

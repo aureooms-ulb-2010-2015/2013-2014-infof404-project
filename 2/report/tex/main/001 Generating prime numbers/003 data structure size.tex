@@ -1,0 +1,19 @@
+\subsection{Data structures sizes}
+To avoid having to resize arrays dinamicaly we needed some sort of formula that would ensure an upper bound on the $n-th$ prime. With $n$ beeing a lower bound on the number of primes, chosen by the user. Knowing \textit{n}, three values need to be calculated: $total\_count$, $size$ and $last$.
+\begin{itemize}
+	\item{$total\_count$} 
+	: The number of bits needed to represent all numbers.\\ This upper bound is computed with the method shown in \ref{code:sizes:1}.\\ These formula were found in \\Olivier Ramaré. 2013. Olivier Ramaré. [ONLINE] Available at: http://math.univ-lille1.fr/~ramare/TME-EMT/Articles/Art01.html. [Accessed 01 December 2013]. \\They garantee bounds on the \textit{n-th} prime.
+	\item{$size$} 
+	: The size of square containing the ulam spiral.\\
+	This value is easy to get, it is simply $\sqrt{total\_count}$. To make sure the integer part of this value is big enough we calculate it like so.
+	$$return (total\_count == 0) ? 0 : std::sqrt(total\_count - 1) + 1;$$
+
+	\item{$last$}
+	: Number of pixels composing the final picture\\
+	straightforward : ${last}^{2}$
+	
+	
+\end{itemize}
+
+\myinputminted[firstline=44,lastline=55]{c++}{../h/lib/prime.hpp}{computing $total\_count$ upper bound }{code:sizes:1}{1}
+

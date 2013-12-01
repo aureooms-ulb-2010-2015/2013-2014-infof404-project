@@ -1,0 +1,13 @@
+\SetAlgoLined
+\KwData{n, primes[$total_count$]}
+
+
+\For{$i\leftarrow 2 \KwTo \sqrt{n}$}{
+	\If{prime($i$)}{
+		\For{$j\leftarrow {i}^{2} \KwTo n$ }{
+			primes[$j$]=false\;
+		}
+	}
+}
+
+	

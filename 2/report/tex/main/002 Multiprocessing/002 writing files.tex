@@ -1,0 +1,8 @@
+\subsection{Writing the files}
+When the processors finish the last step is to write in the .ppm file. This could be done by two differents strategies.
+
+\subsubsection{Random strategy}
+When a processor finishes he directly writes in the ppm file. This method is not very efficient because it takes a whole disk block, flips one bit and writes it all back on the disck.
+
+\subsubsection{Sequencial strategy}
+When all processors are finished the pixels are written one by one. One pixel is the size of three disk block.

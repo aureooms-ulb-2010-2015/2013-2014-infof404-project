@@ -1,0 +1,23 @@
+\subsection{Ameliorations}
+
+To improve Eratosthene's sieve implementation we have designed some little ameliorations to the base algorithm and the data structure used to store prime numbers.
+
+\subsubsection{Reducing memory usage}
+The larger the Ulam spiral is the easier it is to see it's structure, therefore it is very likely that our software will have to find prime number up to a large bound.\\In java a boolean is hard coded on 32 bits. An array of booleans that big can quickly become very memory consuming. For the primes up to 100.000 the array would have a size of 390 Ko. To reduce the size of this array we made sure one boolean was coded on one bit which brings the size down to 97Ko
+
+\subsubsection{Removing multiple of two and three }
+It is obvious that all multiple of two and three are not prime. Knowing that we simply decided no to consider their existance in the array. This means that all index are shifted to the left.\\ Here is an example representing the six firsts numbers in our sieve.
+
+\begin{center}
+   \begin{tabular}{ |*{6}{c|} }
+     \hline
+     5 & 7 & 11 & 13 & 17 & 19 \\ \hline
+     
+   \end{tabular}
+\end{center}  
+
+ We noticed that the difference between a number and the next one is always either 2 or 4, depending on this the functions to find a number's index and what number we will find at a given index can be either: $$index = ((n + 1) / 3) - 2;$$ $$number = 6 * ((i / 2) + 1) - 1;$$ \\or $$index = ((n - 1) / 3) - 1;$$ $$number = 6 * ((i / 2) + 1) + 1;$$
+
+Using this trick is not only convenient to reduce memory usage by one third but it also means that there are less candidate for primarity and less boolean to toggle. 
+
+

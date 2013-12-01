@@ -1,0 +1,72 @@
+% maths %
+
+\addto\captionsfrench{
+	\renewcommand\listtheoremname{Table des théorèmes}
+}
+
+\newcommand{\theoremname}{Theorem}
+\newcommand{\lemmaname}{Lemma}
+\newcommand{\conjecturename}{Conjecture}
+
+\addto\captionsfrench{
+	\renewcommand{\theoremname}{Théorème}
+	\renewcommand{\lemmaname}{Lemme}
+	\renewcommand{\conjecturename}{Conjecture}
+}
+
+\newtheorem{theorem}{\theoremname}[section]
+\newtheorem{lemma}[theorem]{\lemmaname}
+\newtheorem{conjecture}[theorem]{\conjecturename}
+
+\newcommand\makethm[0]{
+	\newpage\cleardoublepage\phantomsection
+	\addcontentsline{toc}{section}{\listtheoremname}
+	\listoftheorems
+}
+
+\renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
+
+
+\numberwithin{equation}{section}
+
+% we use this for our refernces as well
+\AtBeginDocument{\renewcommand{\ref}[1]{\mbox{\autoref{#1}}}}
+
+% redefinition of \equation for convenience
+\let\oldequation = \equation
+\let\endoldequation = \endequation
+\AtBeginDocument{\let\oldlabel = \label}% \AtBeginDocument because hyperref redefines \label
+\newcommand{\mynewlabel}[1]{%
+  \StrBehind{#1}{eq:}[\Str]% remove "eq:" from labels
+  \equations{\Str}\oldlabel{#1}}
+
+\renewenvironment{equation}{%
+  \oldequation
+  \let\label\mynewlabel
+}{\endoldequation}
+
+\newcommand{\listequationsname}{List of Equations}
+
+\addto\captionsfrench{
+  \renewcommand{\listequationsname}{Table des équations}
+}
+
+
+\newlistof{equations}{equ}{\listequationsname}
+\newcommand{\equations}[1]{%
+      \addcontentsline{equ}{equations}{\protect\numberline{\theequation}#1}}
+
+
+\newcommand\makeequ[0]{
+	\newpage\cleardoublepage\phantomsection
+	\addcontentsline{toc}{section}{\listequationsname}
+	\listofequations
+}
+
+
+\usepackage{array,tabularx}
+
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent
+   \tabularx{\columnwidth}{>{$}l<{$} @{${}={}$} >{\raggedright\arraybackslash}X}}
+  {\endtabularx\par\vspace{\belowdisplayskip}}
