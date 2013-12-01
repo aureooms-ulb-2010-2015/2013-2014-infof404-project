@@ -85,7 +85,7 @@ int main(int argc, char const *argv[])
     int q,x;
     for (int g = pr.at(k+1); g < pr.at(k+1)+M-1; g+=W[g%M])
     {
-    	for (int f = 0; f < (int)floor(n/pr.at(k+1)); f+=M)
+    	for (int f = g; f < (int)floor(n/pr.at(k+1)); f+=M)
 
     	{
     		q=pr.at(k+1);
