@@ -18,15 +18,7 @@ OK_STRING=$(OK_COLOR)✔
 ERROR_STRING=$(ERROR_COLOR)✖
 WARN_STRING=$(WARN_COLOR)⚑
 
-ifneq ($(nocolor),true)
-	NO_COLOR=\033[0m
-	OK_COLOR=\033[92m
-	ERROR_COLOR=\033[91m
-	WARN_COLOR=\033[93m
-	ACTION_COLOR=\033[95m
-endif
-
-FLAGS = -Wall -W
+FLAGS = -w
 
 ifeq ($(prof),true)
 	ROOT := $(ROOT)prof/
@@ -38,15 +30,8 @@ ifeq ($(dbg),true)
 	FLAGS += -g
 endif
 
-ifeq ($(O),1)
-	FLAGS += -O1
-endif
-ifeq ($(O),2)
-	FLAGS += -O2
-endif
-ifeq ($(O),3)
-	FLAGS += -O3
-endif
+
+FLAGS += -O3
 
 AR = ar -rcs
 CXX = mpic++ -std=c++0x $(INCLUDE_PATH) $(FLAGS)
@@ -122,7 +107,7 @@ $(ROOT)$(TYPE)/%: $(ROOT)$(OUTPUTDIR)/%.o
 	$(TOOL) $@ $^ $(TOOL_OPT)
 
 $(ROOT)$(OUTPUTDIR)/%.o: $(ROOT)$(DEPENDENCYDIR)/%.d $(SRC)/%.cpp
-	$(PRINT_PROGRESS) $(CXX) -c $(word 2,$^) -o $@" "
+	$(PRINT_PROGRESS) compiling $(word 2,$^)" "
 	$(CXX) -c $(word 2,$^) -o $@ 2> temp.log || touch temp.errors
 	if [ -e temp.errors ]; then echo "$(ERROR_STRING)" && cat temp.log && echo -n "$(NO_COLOR)"; elif [ -s temp.log ]; then echo "$(WARN_STRING)" && cat temp.log && echo -n "$(NO_COLOR)"; else echo "$(OK_STRING)$(NO_COLOR)"; fi;
 	if [ -e temp.errors ]; then rm -f temp.errors temp.log && false; else rm -f temp.errors temp.log; fi;
