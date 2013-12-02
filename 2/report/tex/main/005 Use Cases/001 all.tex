@@ -1,0 +1,41 @@
+\subsection{Compile}
+
+\shellcmd{make}
+
+
+\subsection{Help}
+
+\shellcmd{mpirun -np <np> run/ulamSpiralGenerator -{}-help}
+
+
+\subsection{Regular use}
+
+\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> <prefix>}
+
+\subsection{-{}-peed flag}
+Only does the computation, no file output, for testing purposes.
+
+\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> --speed}
+
+
+\subsection{-{}-ssd flag}
+Uses a writing algorithm that would be faster if the file system allowed random 8 bit blocks writing.
+
+\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> <prefix> --ssd}
+
+
+\subsection{Color options}
+Prime and composite color options can be used together or alone or mixed with the filter option.
+
+\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> <prefix> -{}-prime-color <r> <g> <b>}
+
+\subsection{PPM filter options}
+Prime and composite filter options can be used together or alone or mixed with the color option.
+
+\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> <prefix> -{}-prime-filter <ppm src>}
+
+\subsection{-{}-avoid-overflow flag}
+When working with ppm filters and big <nth>, one should pass this argument to avoid overflow problems, this option is not the default since it causes problems with steganography information extraction.
+
+\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> <prefix> -{}-prime-filter <ppm src> -{}-avoid-overflow}
+
