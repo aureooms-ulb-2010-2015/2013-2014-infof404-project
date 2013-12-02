@@ -12,16 +12,16 @@
 
 \shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> <prefix>}
 
-\subsection{-{}-peed flag}
+\subsection{-{}-speed flag}
 Only does the computation, no file output, for testing purposes.
 
-\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> --speed}
+\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> -{}-speed}
 
 
 \subsection{-{}-ssd flag}
 Uses a writing algorithm that would be faster if the file system allowed random 8 bit blocks writing.
 
-\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> <prefix> --ssd}
+\shellcmd{mpirun -np <np> run/ulamSpiralGenerator <nth> <prefix> -{}-ssd}
 
 
 \subsection{Color options}
