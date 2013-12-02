@@ -1,13 +1,25 @@
-\subsection{Filters}
- The prime numbers are highlighted by applying filters on them.
+\subsection{Colors}
+You can highlight the prime and composite numbers in any color you want using the options
 
- \subsection{Colors}
- You can highlight the prime and composite numbers in any color you want using the options
-
- \begin{itemize}
-	\item{$--prime-color r g b$}
-	\item{$--composite-color r g b$}
+\begin{itemize}
+	\item{-{}-prime-color r g b}
+	\item{-{}-composite-color r g b}
 \end{itemize}
 
-\subsection{Images}
-An image can be set as color filter for the prime numbers.  
+\subsection{PPM filters}
+The prime numbers are highlighted by applying ppm filters on them.
+
+\begin{itemize}
+	\item{-{}-prime-filter <ppm src>}
+	\item{-{}-composite-filter <ppm src>}
+\end{itemize}
+
+The pixels used will be a centered square of the image with side computed as $min(height, width)$.
+
+This parameter allows to apply any color transformation on the pixels since the source image could be anything.
+
+
+\subsection{Steganography}
+Using the PPM filters one can manage to hide a picture inside an other one. This is not very obscure (best when -{}-composite-filter is noise), but the algorithm allows to only retrieve the pixels that are \emph{prime} retrieving the information that was hidden due to the low density of primes.
+
+
