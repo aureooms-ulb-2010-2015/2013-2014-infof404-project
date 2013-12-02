@@ -2,7 +2,7 @@
 \section{A multiprocessor system}
 
 
-We have used the Message Passing Interface to generate prime numbers with several processors. \\ Each processor is assigned a range of number for which he has to find the primes. A processor can be in two \"states\":
+We have used the Message Passing Interface to generate prime numbers with several processors.We can show that appart from the communication overhead, the work has been split equally between processes. \\ Each processor is assigned a range of number for which he has to find the primes. A processor can be in two \"states\":
 \begin{itemize}
 	\item{finding primes: }
 	Only one processor at the time can be finding primes. This processor go through his range of numbers and identifies the primes. When a prime is found it sends a message to processors taking care of ranges higher than his. The message sent contains required information to discard numbers in higher ranges. 
