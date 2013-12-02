@@ -86,7 +86,7 @@ int main (int argc, char *argv[]){
 			delete[] forward;
 		}
 
-		std::cout << "Process " << mpi_rank << " : " << os::global::duration.count() << " ns" << std::endl;
+		std::cout << "Process " << mpi_rank << " : " << ( double(os::global::duration.count()) / hrclock::period::den * hrclock::period::num ) << " sec" << std::endl;
 
 		if(mpi_rank == mpi_size - 1){
 			os::global::stop_c = MPI_Wtime();
@@ -144,7 +144,7 @@ int main (int argc, char *argv[]){
 	}
 	catch(const std::exception& e){
 		MPI_Finalize();
-		std::cout << "error -> " << e.what() << std::endl;
+		std::cout << '[' << mpi_rank << ']' << " error -> " << e.what() << std::endl;
 		return 1;
 	}
 
