@@ -2,7 +2,7 @@
 When the processors finish the last step is to write in the .ppm file. We implemented two differents strategies.
 
 \subsubsection{Random strategy}
-When a processor finishes he directly writes in the ppm file. This method is not very efficient because it takes a whole disk block, flips one bit and writes it all back on the disk. This method uses $$MPI_Reduce(\&tmp, \&prime_n, 1, MPI_SIZE_T, MPI_SUM, 0, MPI_COMM_WORLD);$$  
+When a processor finishes he directly writes in the ppm file. This method is not very efficient because it takes a whole disk block, flips one bit and writes it all back on the disk. This method uses $$MPI\_Reduce(\&tmp, \&prime\_n, 1, MPI\_SIZE\_T, MPI\_SUM, 0, MPI\_COMM\_WORLD);$$  
 
 \begin{itemize}
 
