@@ -5,7 +5,8 @@ To improve Eratosthene's sieve implementation we have designed some little ameli
 \subsubsection{Reducing memory usage}
 The larger the Ulam spiral is the easier it is to see it's structure, therefore it is very likely that our software will have to find prime number up to a large bound.\\In \CXX~a boolean is hard coded on 8 bits. An array of booleans that big can quickly become very memory consuming. For the primes up to 100.000 the array would have a size of 1.3 Mo. To reduce the size of this array we made sure one boolean was coded on one bit which brings the size down to 160Ko.
 
-\subsubsection{Removing multiple of two and three }
+\subsubsection{Removing multiple of two and three}\label{ame:two}
+
 It is obvious that all multiple of two and three are not prime. Knowing that we simply decided no to consider their existance in the array. This means that all index are shifted to the left.\\ Here is an example representing the six firsts numbers in our sieve.
 
 \begin{center}
