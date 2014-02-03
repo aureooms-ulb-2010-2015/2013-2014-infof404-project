@@ -25,7 +25,7 @@ STY = sty
 BIB = bib
 TEXFILES = $(shell find $(TEX) -regex .*\\.tex | sed 's/ /\\ /g')
 STYFILES = $(shell find $(STY) -regex .*\\.sty | sed 's/ /\\ /g')
-BIBFILES = $(shell find $(BIB) -regex .*\\.bib | sed 's/ /\\ /g')
+BIBFILES = $(shell find $(BIB) -regex .*\\.bib 2>/dev/null | sed 's/ /\\ /g')
 
 RERUN = "(There were undefined references|Rerun to get (cross-references|the bars) right)"
 UNDEFINED = "((Reference|Citation).*undefined)|(Label.*multiply defined)"
