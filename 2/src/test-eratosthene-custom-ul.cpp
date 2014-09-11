@@ -1,7 +1,9 @@
 #include <iostream>
 #include <vector>
 
-typedef std::vector<uint8_t> array_t;
+#include "lib/bits_2_t.hpp"
+
+typedef bits_2_t<unsigned long> array_t;
 
 int main(int argc, char const *argv[]){
 	if(argc != 2){
@@ -18,10 +20,6 @@ int main(int argc, char const *argv[]){
 		if(prime[k]) for(size_t i = k * k; i < count; i += k) prime[i] = false;
 		++k;
 	}
-
-	// for(size_t i = 2; i < count; ++i){
-	// 	if(prime[i]) std::cout << i << std::endl;
-	// }
 
 	return 0;
 }

@@ -3,6 +3,8 @@
 
 #include "lib/eratosthene.hpp"
 
+typedef std::vector<bool> array_t;
+
 int main(int argc, char const *argv[]){
 	if(argc != 2){
 		std::cout << "#0 missing" << std::endl;
@@ -12,12 +14,12 @@ int main(int argc, char const *argv[]){
 	const size_t last = std::stoull(argv[1]);
 
 	if(last < 2) return 0;
-	std::cout << 2 << std::endl;
+	// std::cout << 2 << std::endl;
 	if(last == 2) return 0;
 
 	const size_t count = last / 2 + last % 2 - 1;
 
-	std::vector<bool> prime(count, true);
+	array_t prime(count, true);
 
 	size_t k = 3;
 	while(k * k < last){

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-typedef std::vector<uint8_t> array_t;
+typedef std::vector<bool> array_t;
 
 int main(int argc, char const *argv[]){
 	if(argc != 2){

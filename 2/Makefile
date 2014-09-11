@@ -31,7 +31,21 @@ ifeq ($(dbg),true)
 endif
 
 
-FLAGS += -O3
+ifeq ($(O),0)
+	FLAGS += -O0
+endif
+ifeq ($(O),1)
+	FLAGS += -O1
+endif
+ifeq ($(O),2)
+	FLAGS += -O2
+endif
+ifeq ($(O),3)
+	FLAGS += -O3
+endif
+ifeq ($(O),)
+	FLAGS += -O3
+endif
 
 AR = ar -rcs
 CXX = mpic++ -std=c++0x $(INCLUDE_PATH) $(FLAGS)
